@@ -1,0 +1,232 @@
+﻿@using GYM.Core.Helper
+@{
+    var currentUser = LoginHelper.GetCurrentAdmin();
+}
+<!doctype html>
+<html class="no-js fixed-layout">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <title>@ViewBag.Title</title>
+    <link href="/Areas/Admin/Content/css/amazeui.css" rel="stylesheet" />
+    <link href="/Areas/Admin/Scripts/tipso/css/tipso.min.css" rel="stylesheet" />
+    <link href="/Areas/Admin/Content/admin.css" rel="stylesheet" />
+    <link href="/Areas/Admin/Scripts/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" />
+    <link href="/Areas/Admin/Content/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+
+    <script src="/Areas/Admin/Scripts/jquery-2.2.3.min.js"></script>
+    <script src="/Areas/Admin/Scripts/jquery-validation/js/jquery.validate.js"></script>
+    <script src="/Areas/Admin/Scripts/jquery.form.js"></script>
+    <script src="/Areas/Admin/Scripts/amazeui.min.js"></script>
+    <script src="/Areas/Admin/Scripts/tipso/js/tipso.js"></script>
+    <script src="/Areas/Admin/Scripts/Nuoya/nuoya.core.js"></script>
+    <script src="/Areas/Admin/Scripts/Nuoya/nuoya.grid.js"></script>
+    <script src="/Areas/Admin/Scripts/Nuoya/nuoya.form.js"></script>
+    <script src="/Areas/Admin/Scripts/Nuoya/nuoya.other.js"></script>
+    <script src="/Areas/Admin/Scripts/My97DatePicker/WdatePicker.js"></script>
+    <script src="/Areas/Admin/Scripts/My97DatePicker/config.js"></script>
+    <script src="/Areas/Admin/Scripts/My97DatePicker/lang/zh-cn.js"></script>
+    <script src="/Areas/Admin/Scripts/file_upload_plug-in.js"></script>
+    <script src="/Areas/Admin/Scripts/jquery.ztree.all-3.5.min.js"></script>
+    <script src="/Areas/Admin/Scripts/ztree-select.js"></script>
+    @RenderSection("linkcss", required: false)
+
+    <script>
+        function changePassword(id) {
+
+            $.Nuoya.ajaxDialog({
+                closeViaDimmer: false,
+                width: "800px",
+                height: "280px",
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/User/ChangePassword.html",
+                title: "修改密码",
+                callback: function (e) {
+                    if (id) {
+                        $("[name='OldPassword']").parents(".am-g").remove();
+                    }
+                },
+                buttons: [{
+                    label: "保存",
+                    callback: function (e) {
+                        var oldPassword = $("[name='OldPassword']").val();
+                        var newPassword = $("[name='NewPassword']").val();
+                        var cfmPassword = $("[name='ConfirmPassword']").val();
+
+                        if (!id) {
+                            if (oldPassword != "") {
+                                if (newPassword != cfmPassword) {
+                                    $.Nuoya.alert("旧密码不能为空");
+                                    return false;
+                                }
+                            }
+                        }
+                        if (newPassword != "" && cfmPassword != "") {
+                            if (newPassword != cfmPassword) {
+                                $.Nuoya.alert("确认密码不一样");
+                                return false;
+                            }
+                        }
+                        else {
+                            $.Nuoya.alert("密码不能为空");
+                        }
+
+                        $.Nuoya.action("/admin/User/ChangePassword", { oldPassword: oldPassword, newPassword: newPassword, cfmPassword: cfmPassword,id: id?id:'@(currentUser?.ID)'}, function (data) {
+                            if (!data.ErrorDesc) {
+                                $.Nuoya.alert("修改密码成功");
+                                e.hide();
+                            }
+                            else {
+                                $.Nuoya.alert(data.ErrorDesc);
+                            }
+                       });
+                    }
+                }]
+            });
+        }
+
+        function clearCache()
+        {
+            $.ajax({
+                url: "/home/clearCache",
+                success: function () {
+                }
+            })
+        }
+
+        
+        //加载是否框
+        function LoadYesOrNoSelectItem(obj, key) {
+            if (key == 0) {
+                $(obj).append("<option value='0' selected>否</option>");
+                $(obj).append("<option value='1' >是</option>");
+            }
+            else {
+                $(obj).append("<option value='0'>否</option>");
+                $(obj).append("<option value='1' selected>是</option>");
+            }
+        }
+
+
+        //返回上一页
+        function BackUrl() {
+            history.go(-1);
+        }
+        function showUserHead(item)
+        {
+            return "<img src='" + item.User.HeadImgUrl + "' style='width:30px;height:40px;'/>"
+        }
+
+    </script>
+
+
+</head>
+
+<body>
+    <header class="am-topbar am-topbar-inverse admin-header">
+        <div class="am-topbar-brand">
+            <a href="/admin/home/index"><strong>平台---@ViewBag.Title</strong></a>
+        </div>
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+        <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+            <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+                <li><a href="javascript:;"><span class="am-icon-user">@(currentUser?.Account)</span></a></li>
+
+                <li><a href="javascript:changePassword()"><span class="am-icon-download">修改密码</span></a></li>
+                <li><a href="javascript:clearCache()"><span class="am-icon-question"></span> <span>清除缓存</span></a></li>
+                <li><a href="/login/Quit" class="admin-quit"><span class="am-icon-sign-out"></span> <span>注销</span></a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="am-cf admin-main am-text-left">
+
+        <div id="imgDiv" style="opacity:1;background-color:black;width:100%;height:100%;z-index:9000; display:none; position:absolute;">
+            <div style="width:500px; margin:0 auto; z-index:9001;margin-top:10%">
+                <img src="" style="width:100%;" />
+            </div>
+        </div>
+
+        <div id="loadingDiv" style="opacity:0.7;background-color:black;width:100%;height:100%;z-index:9000; display:none; position:absolute;">
+            <div style="width:500px; margin:0 auto; z-index:9001;margin-top:20%">
+                <img src="~/Areas/Admin/Images/loading.jpg" />
+            </div>
+        </div>
+        <!-- sidebar start -->
+        <div class="admin-sidebar">
+            <ul class="am-list admin-sidebar-list">
+                <li class="admin-parent">
+                    <a data-am-collapse="{target: '#会议管理'}" class="am-cf">
+                        <span class="am-icon-calculator"></span> 会议管理
+                        <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                    </a>
+                    <ul class="am-list admin-sidebar-sub am-collapse am-in" id="会议管理">
+                        <li>
+                            <a data-am-collapse="{target: '#会议管理'}" class="am-cf am-collapsed" href="/Admin/Meet/Index">
+                                <span class="am-icon-user"></span> 会议管理
+                            </a>
+                        </li>
+                        <li>
+                            <a data-am-collapse="{target: '#计划管理'}" class="am-cf am-collapsed" href="/Admin/Plan/Index">
+                                <span class="am-icon-user"></span> 计划管理
+                            </a>
+                        </li>
+                        <li>
+                            <a data-am-collapse="{target: '#话题管理'}" class="am-cf am-collapsed" href="/Admin/Topic/Index">
+                                <span class="am-icon-user"></span> 话题管理
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="admin-parent">
+                    <a data-am-collapse="{target: '#设置管理'}" class="am-cf">
+                        <span class="am-icon-calculator"></span> 设置管理
+                        <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                    </a>
+                    <ul class="am-list admin-sidebar-sub am-collapse am-in" id="设置管理">
+                        <li>
+                            <a data-am-collapse="{target: '#会议厅管理'}" class="am-cf am-collapsed" href="/Admin/Room/Index">
+                                <span class="am-icon-user"></span> 会议厅管理
+                            </a>
+                        </li>
+                        <li>
+                            <a data-am-collapse="{target: '#演讲者管理'}" class="am-cf am-collapsed" href="/Admin/Speaker/Index">
+                                <span class="am-icon-user"></span> 演讲者管理
+                            </a>
+                        </li>
+
+                            <li>
+                                <a data-am-collapse="{target: '#管理者管理'}" class="am-cf am-collapsed" href="/Admin/User/Index">
+                                    <span class="am-icon-user"></span> 管理者管理
+                                </a>
+                            </li>
+                    </ul>
+                </li>
+
+
+            </ul>
+        </div>
+        <!-- sidebar end -->
+        <!-- content start -->
+        <div class="admin-content">
+            <div>
+                @RenderBody()
+            </div>
+
+        </div>
+        <!-- content end -->
+    </div>
+    <a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+
+
+
+    @RenderSection("scripts", false)
+</body>
+</html>
+
+
+

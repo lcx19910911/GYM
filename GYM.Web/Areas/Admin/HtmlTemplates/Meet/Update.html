@@ -1,0 +1,148 @@
+﻿<div class="admin-content-body">
+    <form id="form" class="am-form  am-form-inline">
+        <input type="hidden" name="ID" />
+        <div class="am-tabs am-margin" data-am-tabs="">
+            <ul class="am-tabs-nav am-nav am-nav-tabs" id="selectTabUl">
+                <li class="am-active"><a href="#tab1">基本信息</a></li>
+                <li class=""><a href="#tab2">活动设置</a></li>
+            </ul>
+            <div class="am-tabs-bd" style="touch-action: pan-y; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);overflow-x:hidden">
+                <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            会议名称
+                        </div>
+                        <div class="am-u-md-5">
+                            <input type="text" name="Name" class="am-input-sm" maxlength="64">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填，不能超过64个字</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            会议地址
+                        </div>
+                        <div class="am-u-md-5">
+                            <input type="text" name="Address" class="am-input-sm" maxlength="64">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填，不能超过512个字</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            活动时间
+                        </div>
+                        <div class="am-u-md-5">
+                            <input id="d4311" type="text" name="OngoingTime" style="width:254px;float:left;" readonly onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss', maxDate: '#F{$dp.$D(\'d4312\')}' })" datatype="jsondate" />
+                            <label class="am-u-md-1 am-text-left">-</label>
+                            <input  id="d4312" type="text" name="OverTime" style="width:254px;float:left;" readonly onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss', minDate: '#F{$dp.$D(\'d4311\')}' })" datatype="jsondate" />
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填</div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            人数限制
+                        </div>
+                        <div class="am-u-md-5">
+                            <input type="number" name="MaxLimit" class="am-input-sm" min="0" value="0">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>0为不限制</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            是否需要审核
+                        </div>
+                        <div class="am-u-md-2 am-u-end">
+                            <select name="IsJoinAudit" data-am-selected="{btnSize: 'sm'}">
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            是否动态签到
+                        </div>
+                        <div class="am-u-md-2">
+                            <select name="IsChangeQrcode" data-am-selected="{btnSize: 'sm'}">
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left">动态签到的签到二维码会变动，防止代签</div>
+                    </div>
+                    <!--<div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            座位是否自动分配
+                        </div>
+                        <div class="am-u-md-2 am-u-end">
+                            <select name="IsAutoAllot" data-am-selected="{btnSize: 'sm'}">
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+                    </div>-->
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            会议厅
+                        </div>
+                        <div class="am-u-md-5">
+                            <input type="hidden" name="RoomIDs" />
+                            <input type="text" name="RoomIDsSelect" style="width:254px;float:left;" readonly/>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            会议内容
+                        </div>
+                        <div class="am-u-md-9 am-text-left">
+                            <input type="hidden" name="Content" />
+                            <script class="txtContent" type="text/plain" style="height:300px;">
+                            </script>
+                        </div>
+                    </div>
+                    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+
+                    <div class="am-g am-margin-top am-panel am-panel-default" style="height:306px;">
+                        <div class="am-u-md-5">
+                            <div class="am-g am-margin-top">
+                                <div class="am-u-md-12 am-text-left">
+                                    <label for="user-name" class="am-form-label">座位图（建议上传大小：不超过2M）</label>
+                                    <a class="am-form-label" id="imageFile">&nbsp;&nbsp;上传图片</a>
+                                    <input type="hidden" name="PlaceImage" value="" />
+                                </div>
+                            </div>
+                            <div class="am-g am-margin-top">
+                                <div class="am-u-md-12 am-text-left" id="div_meetImageShow">
+                                    <img class="am-img-circle am-img-thumbnail" style="max-width:350px;max-height:150px;" src="" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-u-md-7">
+                            <div class="am-g am-margin-top">
+                                <div class="am-u-md-12 am-text-left">
+                                    <label for="user-name" class="am-form-label">会议文件</label>
+                                    <a id="infoFile" class="am-form-label">&nbsp;&nbsp;上传文件（建议上传大小：不超过2M）</a>
+                                </div>
+                            </div>
+                            <div id="infoFileDiv">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="am-tab-panel am-fade" id="tab2">
+                    <button type="button" class="am-btn am-btn-success am-btn-xl" onclick="LoadPlan(this)" id="loadMeetPlanBtn">加载会议计划</button>
+                    <div id="roomDiv">
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

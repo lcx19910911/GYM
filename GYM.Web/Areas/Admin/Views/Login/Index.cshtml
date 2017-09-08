@@ -1,0 +1,106 @@
+﻿@using GYM.Core.Helper;
+@{
+    Layout = null;
+    var webSiteName = CustomHelper.GetValue("Website-Titlte") + "后台";
+}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>@webSiteName -登录</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link href="/Areas/Admin/Content/css/amazeui.css" rel="stylesheet" />
+    <style>
+        .header {
+            text-align: center;
+        }
+
+            .header h1 {
+                font-size: 200%;
+                color: #333;
+                margin-top: 30px;
+            }
+
+            .header p {
+                font-size: 14px;
+            }
+    </style>
+    <script>
+        function ShowLoading() {
+            $("#loadingDiv").show();
+        }
+        function CloseLoading() {
+            $("#loadingDiv").hide();
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="am-g">
+            <h1>@webSiteName  - 登录</h1>
+        </div>
+        <hr />
+    </div>
+    <div class="am-g">
+        <div class="am-u-lg-3 am-u-md-8 am-u-sm-centered">
+            <form method="post" class="am-form" id="form">
+                <input type="text" id="account" value="" placeholder="请输入账号">
+                <br>
+                <input type="password" id="password" value="" placeholder="请输入密码">
+                <br>
+                <label for="password"></label>
+                <input type="password" id="code" value="" placeholder="请输入验证码" style="width:60%;float:left;">
+                <img id="img_code" style="width:40%;height:3rem;float:left;" alt="" title="点击重新获取" src="/admin/login/validatecode" onclick="javascript: $(this).attr('src', '/admin/account/validatecode?r=' + Math.random());" />
+                <br><br>
+                <div class="am-cf">
+                    <input type="button" id="btnSubmit" name="" value="登 录" class="am-btn am-btn-primary  am-btn-block" onclick="Login()">
+
+                </div>
+            </form>
+            <hr>
+            <p>版权信息</p>
+        </div>
+    </div>
+
+    <script src="/Areas/Admin/Scripts/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript">
+
+        function Login() {
+
+            var account = $("#account").val();
+            var password = $("#password").val();
+            var code = $("#code").val();
+            if (account == "") {
+                alert("请输入账号");
+                return false;
+            }
+            if (password == "") {
+                alert("请输入密码");
+                return false;
+            }
+            if (code == "") {
+                alert("请输入验证码");
+                return false;
+            }
+            $.ajax({
+                type: 'post',
+                url: "/Admin/Login/Submit",
+                data: { account: account, password: password, code: code },
+                success: function (data) {
+                    if (data.Code == 0&&data.Result!=null) {
+                        window.location.href = "@(string.IsNullOrEmpty(Request["redirecturl"])?"/admin/home/index": Request["redirecturl"])";
+                    }
+                    else {
+                        alert(data.Append);
+                        $("#img_code").attr("src", "/admin/account/validatecode?r=" + Math.random());
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

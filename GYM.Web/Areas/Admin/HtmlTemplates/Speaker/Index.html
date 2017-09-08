@@ -1,0 +1,48 @@
+﻿<div class="am-cf am-padding">
+    <div class="am-fl am-cf"><small>选择演讲者</small></div>
+</div>
+<div id="searchSpeakerDomain">
+
+    <div class="am-g">
+        <div class="am-u-lg-12">
+            <div class="am-input-group am-input-group-sm">
+                <span class="am-input-group-label">名称</span>
+                <input type="text" class="am-form-field" placeholder="按名称搜索" name="name" ;>
+                <span class="am-input-group-label  am-margin-left-sm">活动日期</span>
+                <input type="text" class="am-form-field" placeholder="请选择日期" name="createdTimeStart" readonly style="width:auto;">
+                <span class="am-input-group-label"> - </span>
+                <input type="text" class="am-form-field" placeholder="请选择日期" name="createdTimeEnd" readonly style="width:auto;">
+                <span class="am-input-group-btn am-margin-left-sm">
+                    <button class="am-btn am-btn-default" id="btnSpeakerSearch" type="button">搜索</button>
+                    <button class="am-btn am-btn-default" onclick="ClearSpeakerFilter()" type="button">清除</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-lg-4">
+            <div class="am-btn-toolbar">
+                <div class="am-btn-group am-btn-group-sm">
+                    <button onclick="addSpeaker()" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="grid_container">
+    <table id="speakerDataTable" class="am-table am-table-striped am-table-hover table-main">
+        <thead>
+            <tr>
+                <th dataname="ID" type="checkbox"></th>
+                <th dataname="Name">演讲者名称</th>
+                <th dataname="ShortKey">首字母缩写</th>
+                <th dataname="Phone">手机号</th>
+                <th dataname="Position">职位介绍</th>
+                <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
+                <th type="eventlist"></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
