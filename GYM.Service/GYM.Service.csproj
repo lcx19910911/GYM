@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="AdminService.cs" />
     <Compile Include="UEditorService.cs" />
+    <Compile Include="DataDictionaryService.cs" />
+    <Compile Include="StoreService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

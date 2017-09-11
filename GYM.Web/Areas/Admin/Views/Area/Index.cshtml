@@ -1,52 +1,51 @@
-﻿
-@{
-    ViewBag.Title = "演讲者管理";
+﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "地区管理";
 }
 
 <div class="am-cf am-padding">
-    <div class="am-fl am-cf"><a href="/"><strong class="am-text-primary am-text-lg">首页</strong></a> /<small>演讲者管理</small></div>
+    <div class="am-fl am-cf"><a href="#" onclick="BackUrl()"><strong class="am-text-primary am-text-lg">返回</strong></a>/<small>地区管理</small></div>
 </div>
 <div id="searchDomain">
 
-    <div class="am-g">
-        <div class="am-u-lg-12">
+    <div class="am-g">   
+        <div class="am-u-lg-6 am-u-end">
+            <input type="hidden" name="parentkey" value="@Request["parentkey"]"/>
             <div class="am-input-group am-input-group-sm">
-                <span class="am-input-group-label">名称</span>
-                <input type="text" class="am-form-field" placeholder="按名称搜索" name="name" ;>
-                <span class="am-input-group-label  am-margin-left-sm">活动日期</span>
-                <input type="text" class="am-form-field" placeholder="请选择日期" name="createdTimeStart" readonly style="width:auto;">
-                <span class="am-input-group-label"> - </span>
-                <input type="text" class="am-form-field" placeholder="请选择日期" name="createdTimeEnd" readonly style="width:auto;">
+                <span class="am-input-group-label">名称：</span>
+                <input type="text" class="am-form-field" placeholder="按地区名称搜索" style="width:100px;" name="value" ;>
                 <span class="am-input-group-btn am-margin-left-sm">
                     <button class="am-btn am-btn-default" id="btnSearch" type="button">搜索</button>
                     <button class="am-btn am-btn-default" onclick="ClearFilter()" type="button">清除</button>
                 </span>
             </div>
         </div>
+
+
     </div>
     <div class="am-g am-margin-top-sm">
-        <div class="am-u-lg-4">
+        <div class="am-u-lg-6">
             <div class="am-btn-toolbar">
-                <div class="am-btn-group am-btn-group-sm">
+                <div class="am-btn-group am-btn-group-xs">
                     <button onclick="add()" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
-                    <button onclick="batchDelete()" type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>
                 </div>
             </div>
         </div>
 
     </div>
+
 </div>
 <div class="grid_container">
-    <table id="dataTable" class="am-table am-table-striped am-table-hover table-main">
+    <table id="dataTable" class="am-table am-table-compact am-table-hover table-main">
         <thead>
             <tr>
                 <th dataname="ID" type="checkbox"></th>
-                <th dataname="Name">演讲者名称</th>
-                <th dataname="ShortKey">首字母缩写</th>
-                <th dataname="Phone">手机号</th>
-                <th dataname="Position">职位介绍</th>
-                <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
+                <th dataname="Value">地区名称</th>
+                <th dataname="Key">编码</th>
+                @if(!string.IsNullOrEmpty(Request["parentkey"]))
+                {
+                    <th dataname="ParentName">所属地区</th>
+                }
                 <th type="eventlist"></th>
             </tr>
         </thead>
@@ -56,55 +55,54 @@
 @section scripts
 {
     <script type="text/javascript">
-        $('[name=createdTimeStart]').datepicker({ format: 'yyyy-mm-dd' });
-        $('[name=createdTimeEnd]').datepicker({ format: 'yyyy-mm-dd' });
+
+        var parentKey = '@Request["parentkey"]';
 
         function ClearFilter() {
             $("#searchDomain input").val("");
         }
-
-
         //批量删除
         function batchDelete() {
-            grid.del({
-                ajaxUrl: "/Admin/Speaker/Delete",
-                callback: function (json) {
-                    grid.reload();
-                }
+            $.Nuoya.confirm("确认删除？", function () {
+                grid.del({
+                    ajaxUrl: "/Admin/Area/Delete",
+                    callback: function (json) {
+                        grid.reload();
+                    }
+                });
             });
         }
-
-
         function formInit(dataitem) {
             //添加表单验证
-            $.Nuoya.form("speakerForm").validate({
+            $.Nuoya.form("form").validate({
                 rules: {
-                    Name: {
+                    Key: {
                         required: true,
-                        maxlength: 50
+                        maxlength: 32
                     },
-                    ShortKey: {
+                    Value: {
                         required: true,
-                        maxlength: 512
+                        maxlength: 32
                     },
-                    Position: {
-                        maxlength:32
-                    },
-                    Phone: {
-                        mobile: true
+                    Sort: {
+                        digits: true,
+                        max: 2147483647,
+                        min: -2147483647
                     }
                 },
                 messages: {
-                    Name: {
+                    Key: {
                         required: "不允许为空",
                         maxlength: "最多{0}个字符"
                     },
-                    ShortKey: {
+                    Value: {
                         required: "不允许为空",
                         maxlength: "最多{0}个字符"
                     },
-                    Position: {
-                        maxlength: "最多{0}个字符"
+                    Sort: {
+                        digits: "请输入数字",
+                        max: "必须小于{0}",
+                        min: "必须大于{0}"
                     }
                 }
             });
@@ -114,20 +112,22 @@
         function add() {
             $.Nuoya.ajaxDialog({
                 closeViaDimmer: false,
-                ajaxUrl: "/Areas/Admin/HtmlTemplates/Speaker/Update.html",
-                title: "添加演讲者",
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/Area/Update.html",
+                title: "添加地区",
+                width: "1000px",
+                height: "340px",
                 callback: function (e) {
-                    formInit();//表单初始化
+                    formInit();//表单初始化              
                 },
                 buttons: [{
                     label: "保存",
                     callback: function (e) {
-
-                        $.Nuoya.form("speakerForm").ajaxSubmit({
-                            ajaxUrl: "/Admin/Speaker/Add",
+                        $("#form [name='ParentKey']").val(parentKey);
+                        $("#form [name='GroupCode']").val(1);
+                        $.Nuoya.form("form").ajaxSubmit({
+                            ajaxUrl: "/Admin/Area/Add",
                             callback: function (data) {
-                                if (data.Result) {
-                                    $.Nuoya.alert("保存成功");
+                                if (!data.ErrorDesc) {
                                     e.hide();
                                     grid.reload();
                                 }
@@ -146,9 +146,9 @@
                 domainId: "searchDomain",
                 subId: "btnSearch"
             },
-            ajaxUrl: "/Admin/Speaker/GetPageList",
+            ajaxUrl: "/Admin/Area/GetPageList",
             //数据请求地址
-            pageSize: 10,
+            
             events: [
                 {
                     className: "am-text-secondary",
@@ -157,12 +157,14 @@
                     click: function (item) {
                         $.Nuoya.ajaxDialog({
                             closeViaDimmer: false,
-                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Speaker/Update.html",
-                            title: "编辑演讲者",
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Area/Update.html",
+                            title: "编辑地区",
+                            width: "1000px",
+                            height: "340px",
                             callback: function (e) {
-                                $.Nuoya.action("/Admin/Speaker/Find", { id: item.ID }, function (model) {
+                                $.Nuoya.action("/Admin/Area/Find", { id: item.ID }, function (model) {
                                     //载入数据
-                                    $.Nuoya.form("speakerForm").dataLoad({
+                                    $.Nuoya.form("form").dataLoad({
                                         data: model
                                     });
                                     formInit(model);//表单初始化
@@ -171,15 +173,15 @@
                             buttons: [{
                                 label: "保存",
                                 callback: function (e) {
-
-                                    $.Nuoya.form("speakerForm").ajaxSubmit({
-                                        ajaxUrl: "/Admin/Speaker/Update",
+                                    $("#form [name='ParentKey']").val(parentKey);
+                                    $("#form [name='GroupCode']").val(1);
+                                    $.Nuoya.form("form").ajaxSubmit({
+                                        ajaxUrl: "/Admin/Area/Update",
                                         params: {
                                             ID: item.ID
                                         },
                                         callback: function (data) {
-                                            if (data.Result) {
-                                                $.Nuoya.alert("保存成功");
+                                            if (!data.ErrorDesc) {
                                                 e.hide();
                                                 grid.reload();
                                             }
@@ -192,20 +194,31 @@
                         })
                     }
                 },
+                //{
+                //    className: "am-text-danger",
+                //    icon: "icon-pencil-square-o",
+                //    name: "管理下级地区",
+                //    click: function (item) {
+                //        window.location.href = "/Area/index?parentkey=" + item.Key;
+                //    }
+                //},
                 {
                     className: "am-text-danger",
                     icon: "icon-trash-o",
                     name: "删除",
                     click: function (item) {
-                        $.Nuoya.deleteAction("/Admin/Speaker/Delete", {
-                            ids: item.ID
-                        },
-                        function () {
-                            grid.reload();
+                        $.Nuoya.confirm("确认删除？", function () {
+                            $.Nuoya.deleteAction("/Admin/Area/Delete", {
+                                ID: item.ID
+                            },
+                            function () {
+                                grid.reload();
+                            });
                         });
                     }
                 }
             ]
         });
+
     </script>
 }

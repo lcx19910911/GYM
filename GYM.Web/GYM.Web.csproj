@@ -250,6 +250,8 @@
     <Content Include="Areas\Admin\Content\zTreeStyle\img\zTreeStandard.gif" />
     <Content Include="Areas\Admin\Content\zTreeStyle\img\zTreeStandard.png" />
     <Content Include="Areas\Admin\Content\zTreeStyle\zTreeStyle.css" />
+    <Content Include="Areas\Admin\HtmlTemplates\Area\Update.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Store\Update.html" />
     <Content Include="Areas\Admin\Images\404Pic.png" />
     <Content Include="Areas\Admin\Images\favicon.ico" />
     <Content Include="Areas\Admin\Images\loading.jpg" />
@@ -569,6 +571,8 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\StoreController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AreaController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\UEditorController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
@@ -603,6 +607,8 @@
     <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Areas\Admin\Content\fonts\fontawesome-webfont.woff2" />
     <Content Include="Areas\Admin\Content\fonts\FontAwesome.otf" />
+    <Content Include="Areas\Admin\Views\Area\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Store\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -612,17 +618,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\HtmlTemplates\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Scripts\UEditor\third-party\snapscreen\" />
-    <Folder Include="Areas\Admin\Views\Default\" />
-    <Folder Include="Areas\Admin\Views\PlanUserJoin\" />
-    <Folder Include="Areas\Admin\Views\Plan\" />
-    <Folder Include="Areas\Admin\Views\Room\" />
-    <Folder Include="Areas\Admin\Views\Speaker\" />
-    <Folder Include="Areas\Admin\Views\TopicUserJoin\" />
-    <Folder Include="Areas\Admin\Views\Topic\" />
-    <Folder Include="Areas\Admin\Views\UserJoin\" />
     <Folder Include="Areas\Admin\Views\User\" />
     <Folder Include="Models\" />
   </ItemGroup>

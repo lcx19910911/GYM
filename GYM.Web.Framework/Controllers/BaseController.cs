@@ -83,6 +83,16 @@ namespace GYM.Web.Framework
             }, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 返回异常编号附带自定义消息
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="appendMsg"></param>
+        /// <returns></returns>
+        protected internal JsonResult DataErorrJResult(string appendMsg="")
+        {
+            return JResult(ErrorCode.sys_param_format_error, appendMsg);
+        }
 
         protected internal JsonResult JResult<T>(T model)
         {
@@ -106,6 +116,14 @@ namespace GYM.Web.Framework
             }, JsonRequestBehavior.AllowGet);
         }
 
+        protected internal JsonResult ParamsErrorJResult(ModelStateDictionary type)
+        {
+            return Json(new
+            {
+                Code = ErrorCode.sys_param_format_error,
+                ErrorDesc = type.Where(x => x.Value.Errors.Count != 0).FirstOrDefault().Value.Errors.FirstOrDefault()?.ErrorMessage
+            }, JsonRequestBehavior.AllowGet);
+        }
 
 
         #endregion

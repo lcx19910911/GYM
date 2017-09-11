@@ -33,13 +33,13 @@ namespace GYM.Web
                 var objectContext = ((IObjectContextAdapter)dbcontext).ObjectContext;
                 var mappingCollection = (StorageMappingItemCollection)objectContext.MetadataWorkspace.GetItemCollection(DataSpace.CSSpace);
                 mappingCollection.GenerateViews(new List<EdmSchemaError>());
-                if (!dbcontext.Admin.Where(x => x.Type == Model.AdminType.SuperAdmin).Any())
+                if (!dbcontext.Admin.Where(x => x.Type == Model.AdminCode.SuperAdmin).Any())
                 {
                     dbcontext.Admin.Add(new Model.Admin()
                     {
                         CreatedTime = DateTime.Now,
                         Account = "admin",
-                        Type = Model.AdminType.SuperAdmin,
+                        Type = Model.AdminCode.SuperAdmin,
                         Password = CryptoHelper.MD5_Encrypt("123456"),
                         RealName = "超级管理员",
                         NickName = "超级管理员",

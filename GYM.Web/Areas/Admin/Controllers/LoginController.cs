@@ -13,6 +13,7 @@ using GYM.Core.Web;
 using GYM.Core;
 using GYM.Core.Model;
 using GYM.Core.Code;
+using GYM.Core.Helper;
 
 namespace GYM.Web.Areas.Admin.Controllers
 {

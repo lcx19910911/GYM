@@ -34,6 +34,7 @@
     <script src="/Areas/Admin/Scripts/file_upload_plug-in.js"></script>
     <script src="/Areas/Admin/Scripts/jquery.ztree.all-3.5.min.js"></script>
     <script src="/Areas/Admin/Scripts/ztree-select.js"></script>
+    <script src="~/Areas/Admin/Scripts/utility.js"></script>
     @RenderSection("linkcss", required: false)
 
     <script>
@@ -159,50 +160,29 @@
         <div class="admin-sidebar">
             <ul class="am-list admin-sidebar-list">
                 <li class="admin-parent">
-                    <a data-am-collapse="{target: '#会议管理'}" class="am-cf">
-                        <span class="am-icon-calculator"></span> 会议管理
+                    <a data-am-collapse="{target: '#参数设置'}" class="am-cf">
+                        <span class="am-icon-calculator"></span> 参数设置
                         <span class="am-icon-angle-right am-fr am-margin-right"></span>
                     </a>
-                    <ul class="am-list admin-sidebar-sub am-collapse am-in" id="会议管理">
+                    <ul class="am-list admin-sidebar-sub am-collapse am-in" id="参数设置">
                         <li>
-                            <a data-am-collapse="{target: '#会议管理'}" class="am-cf am-collapsed" href="/Admin/Meet/Index">
-                                <span class="am-icon-user"></span> 会议管理
-                            </a>
-                        </li>
-                        <li>
-                            <a data-am-collapse="{target: '#计划管理'}" class="am-cf am-collapsed" href="/Admin/Plan/Index">
-                                <span class="am-icon-user"></span> 计划管理
-                            </a>
-                        </li>
-                        <li>
-                            <a data-am-collapse="{target: '#话题管理'}" class="am-cf am-collapsed" href="/Admin/Topic/Index">
-                                <span class="am-icon-user"></span> 话题管理
+                            <a data-am-collapse="{target: '#地区管理'}" class="am-cf am-collapsed" href="/Admin/Area/Index">
+                                <span class="am-icon-user"></span> 地区管理
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="admin-parent">
-                    <a data-am-collapse="{target: '#设置管理'}" class="am-cf">
-                        <span class="am-icon-calculator"></span> 设置管理
+                    <a data-am-collapse="{target: '#门店管理'}" class="am-cf">
+                        <span class="am-icon-calculator"></span> 门店管理
                         <span class="am-icon-angle-right am-fr am-margin-right"></span>
                     </a>
-                    <ul class="am-list admin-sidebar-sub am-collapse am-in" id="设置管理">
+                    <ul class="am-list admin-sidebar-sub am-collapse am-in" id="门店管理">
                         <li>
-                            <a data-am-collapse="{target: '#会议厅管理'}" class="am-cf am-collapsed" href="/Admin/Room/Index">
-                                <span class="am-icon-user"></span> 会议厅管理
+                            <a data-am-collapse="{target: '#门店管理'}" class="am-cf am-collapsed" href="/Admin/Store/Index">
+                                <span class="am-icon-user"></span> 门店管理
                             </a>
                         </li>
-                        <li>
-                            <a data-am-collapse="{target: '#演讲者管理'}" class="am-cf am-collapsed" href="/Admin/Speaker/Index">
-                                <span class="am-icon-user"></span> 演讲者管理
-                            </a>
-                        </li>
-
-                            <li>
-                                <a data-am-collapse="{target: '#管理者管理'}" class="am-cf am-collapsed" href="/Admin/User/Index">
-                                    <span class="am-icon-user"></span> 管理者管理
-                                </a>
-                            </li>
                     </ul>
                 </li>
 

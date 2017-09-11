@@ -43,5 +43,8 @@ namespace GYM.Core
         /// 平台地址
         /// </summary>
         public static readonly string WeixinAppId = CustomHelper.GetValue("Weixin_AppId");
+
+        public static readonly string Cache_Prefix_Key = "gym_";
+        
     }
 }

@@ -1,0 +1,297 @@
+﻿@using GYM.Core.Model
+@model List<SelectItem>
+@{
+    ViewBag.Title = "门店管理";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="am-cf am-padding">
+    <div class="am-fl am-cf"><a href="/"><strong class="am-text-primary am-text-lg">首页</strong></a> /<small>门店管理</small></div>
+</div>
+<div id="searchDomain">
+
+    <div class="am-g">
+        <div class="am-u-lg-12">
+            <div class="am-input-group am-input-group-sm">
+                <span class="am-input-group-label">门店名称</span>
+                <input type="text" class="am-form-field" placeholder="按门店名称搜索" name="name" ;>
+                <span class="am-input-group-label am-margin-left-sm">地区</span>
+                <select data-am-selected="{btnWidth: '120px',btnSize: 'sm'}" style="width:120px;" name="areaCode" >
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                           <option value="@item.Value">@item.Text</option>
+                        }
+                    }
+                </select>
+                <span class="am-input-group-btn am-margin-left-sm">
+                    <button class="am-btn am-btn-default" id="btnSearch" type="button">搜索</button>
+                    <button class="am-btn am-btn-default" onclick="ClearFilter()" type="button">清除</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-lg-4">
+            <div class="am-btn-toolbar">
+                <div class="am-btn-group am-btn-group-sm">
+                    <button onclick="add()" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+                    <button onclick="batchDelete()" type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="grid_container">
+    <table id="dataTable" class="am-table am-table-striped am-table-hover table-main">
+        <thead>
+            <tr>
+                <th dataname="ID" type="checkbox"></th>
+                <th dataname="Name">门店名称</th>
+                <th dataname="Address">地址</th>
+                <th dataname="CityName">城市</th>
+                <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
+                <th type="eventlist"></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+@section scripts
+{
+<script src="~/Areas/Admin/Scripts/UEditor/ueditor.config.js"></script>
+<script src="~/Areas/Admin/Scripts/UEditor/ueditor.all.js"></script>
+<script src="~/Areas/Admin/Scripts/UEditor/ueditor.parse.js"></script>
+<script src="~/Areas/Admin/Scripts/UEditor/lang/zh-cn/zh-cn.js"></script>
+
+    <script type="text/javascript">
+        function ClearFilter() {
+            $("#searchDomain input").val("");
+        }
+
+        //批量删除
+        function batchDelete() {
+            grid.del({
+                ajaxUrl: "/Admin/Store/Delete",
+                callback: function (json) {
+                    grid.reload();
+                }
+            });
+        }
+
+        var introduceUE;
+        var noticeUE;
+        function formInit(dataitem) {
+            //添加表单验证
+            $.Nuoya.form("form").validate({
+                rules: {
+                    Name: {
+                        required: true,
+                        maxlength: 32
+                    },
+                    Address: {
+                        required: true,
+                        maxlength: 128
+                    },
+                    CityCode: {
+                        required: true,
+                    },
+                    Latitude: {
+                        required: true,
+                    },
+                    Longitude: {
+                        required: true,
+                    },
+                    Introduce: {
+                        required: true,
+                        maxlength: 512
+                    },
+                    Notice: {
+                        required: true,
+                        maxlength: 256
+                    },
+                    Pictures: {
+                        required: true,
+                        maxlength: 1024
+                    },
+                },
+                messages: {
+                    Name: {
+                        required: "门店名称不能为空",
+                        maxlength: "最多{0}个字符"
+                    },
+                    Address: {
+                        required: "地址不允许为空",
+                        maxlength: "最多{0}个字符"
+                    },
+                    CityCode: {
+                        required: "市不允许为空"
+                    },
+                    Latitude: {
+                        required: "经度不允许为空"
+                    },
+                    Longitude: {
+                        required: "经度不允许为空"
+                    },
+                    Introduce: {
+                        required: "介绍不允许为空",
+                        maxlength: "最多{0}个字符"
+                    },
+                    Notice: {
+                        required: "注意事项不允许为空",
+                        maxlength: "最多{0}个字符"
+                    },
+                    Pictures: {
+                        required: "图片不允许为空",
+                        maxlength: "最多{0}个字符"
+                    },
+                }
+            });
+
+            var txtIntroduceId = $.AMUI.utils.generateGUID("txtIntroduce");
+            $(".txtIntroduce").attr("id", txtIntroduceId)
+            introduceUE = UE.getEditor(txtIntroduceId);
+
+            var txtNoticeId = $.AMUI.utils.generateGUID("txtNotice");
+            $(".txtNotice").attr("id", txtNoticeId)
+            noticeUE = UE.getEditor(txtNoticeId);
+            if (dataitem != null) {
+                if (dataitem.Pictures != null) {
+                    $("#div_meetImageShow").find("img").attr("src", dataitem.Meet.PlaceImage);
+                }
+                if (dataitem.Notice != null) {
+                    noticeUE.addListener("ready", function () {
+                        noticeUE.setContent(dataitem.Notice);
+                    });
+                }
+                if (dataitem.Introduce != null) {
+                    introduceUE.addListener("ready", function () {
+                        introduceUE.setContent(dataitem.Introduce);
+                    });
+                }
+            }
+            $.Nuoya.action("/Admin/Area/GetSelectItem", {}, function (json) {
+                $(json).each(function () {
+                    $("#form select[name='CityCode']").append("<option  value='" + this.Value + "' " + (dataitem!=null&&dataitem.CityCode == this.Value ? "selected" : "") + " >" + this.Text + "</option>");
+                });
+            });
+        }
+
+        //新增
+        function add() {
+            $.Nuoya.ajaxDialog({
+                closeViaDimmer: false,
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/Store/Update.html",
+                title: "添加门店",
+                width: ($(window).width() - 100) + "px",
+                height: ($(window).height() - 100) + "px",
+                callback: function (e) {
+                    formInit();//表单初始化
+                },
+                buttons: [{
+                    label: "保存",
+                    callback: function (e) {
+                        var result = $.Nuoya.form("form").valid({
+                        }); 
+                        if (result) {
+                            $.Nuoya.form("form").ajaxSubmit({
+                                ajaxUrl: "/Admin/Store/Add",
+                                callback: function (data) {
+                                    if (data.Result) {
+                                        $.Nuoya.alert("保存成功");
+                                        e.hide();
+                                        grid.reload();
+                                    }
+                                    else
+                                        $.Nuoya.alert(data.ErrorDesc);
+                                }
+                            });
+                        }
+                        else {
+                            $("#tab1,#tab2").removeClass("am-in").removeClass("am-active");
+                            $("#selectTabUl li").removeClass("am-active");
+                            if ($("#tab1 .tipso_content").length != 0) {
+                                $("#selectTabUl li").eq(0).addClass("am-active");
+                                $("#tab1").addClass("am-in").addClass("am-active");
+                            }
+                            else {
+                                $("#selectTabUl li").eq(1).addClass("am-active");
+                                $("#tab2").addClass("am-in").addClass("am-active");
+                            }
+                        }
+                    }
+                }]
+            })
+        }
+        var grid = $.Nuoya.grid({
+            tableId: "dataTable",
+            //表格id
+            search: {
+                domainId: "searchDomain",
+                subId: "btnSearch"
+            },
+            ajaxUrl: "/Admin/Store/GetPageList",
+            //数据请求地址
+            pageSize: 10,
+            events: [
+                {
+                    className: "am-text-secondary",
+                    icon: "icon-pencil-square-o",
+                    name: "编辑",
+                    click: function (item) {
+                        $.Nuoya.ajaxDialog({
+                            closeViaDimmer: false,
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Store/Update.html",
+                            title: "编辑门店",
+                            callback: function (e) {
+                                $.Nuoya.action("/Admin/Store/Find", { id: item.ID }, function (model) {
+                                    //载入数据
+                                    $.Nuoya.form("form").dataLoad({
+                                        data: model
+                                    });
+                                    formInit(model);//表单初始化
+                                });
+                            },
+                            buttons: [{
+                                label: "保存",
+                                callback: function (e) {
+
+                                    $.Nuoya.form("form").ajaxSubmit({
+                                        ajaxUrl: "/Admin/Store/Update",
+                                        params: {
+                                            ID: item.ID
+                                        },
+                                        callback: function (data) {
+                                            if (data.Result) {
+                                                $.Nuoya.alert("保存成功");
+                                                e.hide();
+                                                grid.reload();
+                                            }
+                                            else
+                                                $.Nuoya.alert(data.Result);
+                                        }
+                                    });
+                                }
+                            }]
+                        })
+                    }
+                },
+                {
+                    className: "am-text-danger",
+                    icon: "icon-trash-o",
+                    name: "删除",
+                    click: function (item) {
+                        $.Nuoya.deleteAction("/Admin/Store/Delete", {
+                            ids: item.ID
+                        },
+                        function () {
+                            grid.reload();
+                        });
+                    }
+                }
+            ]
+        });
+    </script>
+}

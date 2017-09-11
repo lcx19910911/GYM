@@ -1,0 +1,88 @@
+﻿<div class="admin-content-body">
+    <form id="form" class="am-form  am-form-inline">
+        <input type="hidden" name="ID" />
+        <div class="am-tabs am-margin" data-am-tabs="">
+            <ul class="am-tabs-nav am-nav am-nav-tabs" id="selectTabUl">
+                <li class="am-active"><a href="#tab1">基本信息</a></li>
+                <li class=""><a href="#tab2">更多设置</a></li>
+            </ul>
+            <div class="am-tabs-bd" style="touch-action: pan-y; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);overflow-x:hidden">
+                <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            门店名称
+                        </div>
+                        <div class="am-u-md-5">
+                            <input type="text" name="Name" class="am-input-sm" maxlength="32">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填，不能超过32个字</div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            市
+                        </div>
+                        <div class="am-u-md-2 am-u-end">
+                            <select name="CityCode" data-am-selected="{btnSize: 'sm'}"></select>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            注意事项
+                        </div>
+                        <div class="am-u-md-9 am-text-left">
+                            <input type="hidden" name="Notice" />
+                            <script class="txtNotice" type="text/plain" style="height:300px;">
+                            </script>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            介绍
+                        </div>
+                        <div class="am-u-md-9 am-text-left">
+                            <input type="hidden" name="Introduce" />
+                            <script class="txtIntroduce" type="text/plain" style="height:300px;">
+                            </script>
+                        </div>
+                    </div>
+                    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+
+                    <div class="am-g am-margin-top am-panel am-panel-default" style="height:306px;">
+                        <div class="am-u-md-5">
+                            <div class="am-g am-margin-top">
+                                <div class="am-u-md-12 am-text-left">
+                                    <label for="user-name" class="am-form-label">座位图（建议上传大小：不超过2M）</label>
+                                    <a class="am-form-label" id="imageFile">&nbsp;&nbsp;上传图片</a>
+                                    <input type="hidden" name="PlaceImage" value="" />
+                                </div>
+                            </div>
+                            <div class="am-g am-margin-top">
+                                <div class="am-u-md-12 am-text-left" id="div_meetImageShow">
+                                    <img class="am-img-circle am-img-thumbnail" style="max-width:350px;max-height:150px;" src="" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="am-tab-panel am-fade" id="tab2">
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            会议地址
+                        </div>
+                        <div class="am-u-md-5">
+                            <input type="text" name="Address" class="am-input-sm" maxlength="128">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填，不能超过128个字</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

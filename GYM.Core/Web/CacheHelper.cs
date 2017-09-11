@@ -8,11 +8,11 @@ using System.Text;
 using System.IO;
 using GYM.Core.Extensions;
 
-namespace GYM.Core.Web
+namespace GYM.Core.Helper
 {
-	/// <summary>
-	/// CacheHelper Web缓存帮助类 添加,移除,读取缓存
-	/// </summary>
+    /// <summary>
+    /// CacheHelper Web缓存帮助类 添加,移除,读取缓存
+    /// </summary>
     public partial class CacheHelper
     {
         /// <summary>
@@ -113,6 +113,17 @@ namespace GYM.Core.Web
         }
 
         /// <summary>
+        /// 添加缓存，缓存存在时，覆盖  默认时间12小时
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public static void Insert<T>(string key, T value)
+        {
+            HttpRuntime.Cache.Insert(key, value, null, DateTime.Now.AddMilliseconds(TimeSpan.TicksPerHour * 12), TimeSpan.Zero, CacheItemPriority.NotRemovable, null);
+        }
+
+        /// <summary>
         /// 添加缓存，缓存存在时，覆盖
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -175,29 +186,8 @@ namespace GYM.Core.Web
             {
                 return Cache.NoAbsoluteExpiration;
             }
-            if (CacheTimeOption == CacheTimeOption.TenSecond)
-            {
-                return DateTime.Now.AddSeconds((int)CacheTimeOption);
-            }
-            else
+
             return DateTime.Now.AddMinutes((int)CacheTimeOption);
-        }
-
-        /// <summary>
-        /// 获取绝对日期时间
-        /// </summary>
-        /// <param name="CacheTimeOption">缓存的时间长短</param>
-        /// <param name="CacheExpirationOption"></param>
-        /// <returns></returns>
-        public static DateTime GetAbsoluteExpirationTimeSecond(CacheTimeOption CacheTimeOption, CacheExpirationOption CacheExpirationOption)
-        {
-            if (CacheExpirationOption == CacheExpirationOption.SlidingExpiration
-                || CacheTimeOption == CacheTimeOption.NotRemovable)
-            {
-                return Cache.NoAbsoluteExpiration;
-            }
-
-            return DateTime.Now.AddSeconds((int)CacheTimeOption);
         }
 
         /// <summary>
@@ -213,12 +203,8 @@ namespace GYM.Core.Web
             {
                 return Cache.NoSlidingExpiration;
             }
-            if (CacheTimeOption == CacheTimeOption.TenSecond)
-            {
-                return TimeSpan.FromSeconds((int)CacheTimeOption);
-            }
-            else
-                return TimeSpan.FromMinutes((int)CacheTimeOption);
+
+            return TimeSpan.FromMinutes((int)CacheTimeOption);
         }
 
 
@@ -257,7 +243,7 @@ namespace GYM.Core.Web
         /// <param name="CacheExpirationOption"></param>
         /// <param name="dependencies">缓存依赖项</param>
         /// <param name="cacheItemPriority">优先级</param>
-        public static void Set<T>(string key, T value, CacheTimeOption CacheTimeOption, CacheExpirationOption CacheExpirationOption, 
+        public static void Set<T>(string key, T value, CacheTimeOption CacheTimeOption, CacheExpirationOption CacheExpirationOption,
             CacheDependency dependencies, CacheItemPriority cacheItemPriority)
         {
             Set(key, value, CacheTimeOption, CacheExpirationOption, dependencies, cacheItemPriority, null);
@@ -272,7 +258,7 @@ namespace GYM.Core.Web
         /// <param name="CacheTimeOption">缓存时间</param>
         /// <param name="CacheExpirationOption">缓存过期时间类别（绝对/弹性）</param>
         /// <param name="dependencies">缓存依赖项</param>
-        public static void Set<T>(string key, T value, CacheTimeOption CacheTimeOption, CacheExpirationOption CacheExpirationOption, 
+        public static void Set<T>(string key, T value, CacheTimeOption CacheTimeOption, CacheExpirationOption CacheExpirationOption,
             CacheDependency dependencies)
         {
             Set(key, value, CacheTimeOption, CacheExpirationOption, dependencies, CacheItemPriority.NotRemovable, null);
@@ -400,7 +386,7 @@ namespace GYM.Core.Web
         /// <param name="callback">数据源委托</param>
         /// <param name="removedCallback">缓存失效时的回调函数</param>
         /// <returns></returns>
-        public static T Get<T>(string key, CacheTimeOption cacheTime, RefreshCacheDataHandler<T> callback, 
+        public static T Get<T>(string key, CacheTimeOption cacheTime, RefreshCacheDataHandler<T> callback,
             CacheItemRemovedCallback removedCallback) where T : class
         {
             // 不缓存时，直接返回
@@ -438,6 +424,25 @@ namespace GYM.Core.Web
             Set(key, content, cacheTime);
             return content;
         }
+
+        /// <summary>
+        /// 获取指定key缓存数据，如果该缓存不存在，则自动调用数据源委托生成缓存 默认半天12小时
+        /// </summary>
+        /// <typeparam name="T">缓存数据的类型</typeparam>
+        /// <param name="key">缓存key</param>
+        /// <param name="callback">数据源委托</param>
+        /// <returns></returns>
+        public static T Get<T>(string key, RefreshCacheDataHandler<T> callback)
+        {
+            if (Contains(key))
+            {
+                return Get<T>(key);
+            }
+            T content = callback();
+            Set(key, content, CacheTimeOption.HalfDay);
+            return content;
+        }
+
         /// <summary>
         /// 获取指定key缓存数据，如果该缓存不存在，则自动调用数据源委托生成缓存
         /// </summary>
@@ -448,14 +453,14 @@ namespace GYM.Core.Web
         /// <param name="cacheTime">缓存时间</param>
         /// <param name="callback">数据源委托</param>
         /// <returns></returns>
-        public static T Get<T>(string key, string recordCountKey, ref int recordCount, CacheTimeOption cacheTime, 
+        public static T Get<T>(string key, string recordCountKey, ref int recordCount, CacheTimeOption cacheTime,
             RefreshCacheDataWithRefParamHandler<T> callback) where T : class
         {
             // 不缓存时，直接返回
             if (cacheTime == CacheTimeOption.None)
                 return callback(ref recordCount);
 
-            
+
             if (Contains(recordCountKey))
             {
                 recordCount = Get<int>(recordCountKey);
@@ -519,7 +524,7 @@ namespace GYM.Core.Web
         /// <param name="cacheTime">缓存时间</param>
         /// <param name="callback">数据源委托</param>
         /// <returns></returns>
-        public static T Get<T>(string key, string recordCountKey, out int recordCount, CacheTimeOption cacheTime, 
+        public static T Get<T>(string key, string recordCountKey, out int recordCount, CacheTimeOption cacheTime,
             RefreshCacheDataWithOutParamHandler<T> callback) where T : class
         {
             // 不缓存时，直接返回
@@ -553,7 +558,7 @@ namespace GYM.Core.Web
             // 不缓存时，直接返回
             if (cacheTime == CacheTimeOption.None)
                 return callback();
-            
+
             if (Contains(key))
             {
                 return Get<T>(key);
@@ -582,7 +587,7 @@ namespace GYM.Core.Web
         /// <param name="cacheTime">缓存时间</param>
         /// <param name="callback">数据源委托</param>
         /// <returns></returns>
-        public static T GetWithLock<T>(string key, string recordCountKey, ref int recordCount, CacheTimeOption cacheTime, 
+        public static T GetWithLock<T>(string key, string recordCountKey, ref int recordCount, CacheTimeOption cacheTime,
             RefreshCacheDataWithRefParamHandler<T> callback) where T : class
         {
             // 不缓存时，直接返回
@@ -626,7 +631,7 @@ namespace GYM.Core.Web
         /// <param name="cacheTime">缓存时间</param>
         /// <param name="callback">数据源委托</param>
         /// <returns></returns>
-        public static T GetWithLock<T>(string key, string recordCountKey, out int recordCount, CacheTimeOption cacheTime, 
+        public static T GetWithLock<T>(string key, string recordCountKey, out int recordCount, CacheTimeOption cacheTime,
             RefreshCacheDataWithOutParamHandler<T> callback) where T : class
         {
             // 不缓存时，直接返回
@@ -764,9 +769,6 @@ namespace GYM.Core.Web
         /// 不缓存
         /// </summary>
         None = 0,
-
-        TenSecond=20,
-
         /// <summary>
         /// 短时间 3分钟
         /// </summary>
@@ -809,10 +811,6 @@ namespace GYM.Core.Web
         /// 一小时
         /// </summary>
         OneHour = 60,
-        /// <summary>
-        /// 二小时
-        /// </summary>
-        TwoHour = 120,
         /// <summary>
         /// 半天(12小时)
         /// </summary>
