@@ -37,6 +37,10 @@ namespace GYM.Web.Areas.Admin.Controllers
             ModelState.Remove("IsDelete");
             if (ModelState.IsValid)
             {
+                if (IStoreService.IsExits(x => x.Name == entity.Name && x.CityCode == entity.CityCode))
+                {
+                    return JResult(Core.Code.ErrorCode.store_city__namealready_exist, "");
+                }
                 entity.CreatedTime = entity.UpdatedTime = DateTime.Now;
                 var result = IStoreService.Add(entity);
                 return JResult(result);
@@ -64,6 +68,12 @@ namespace GYM.Web.Areas.Admin.Controllers
                 {
                     return DataErorrJResult();
                 }
+                
+                if (IStoreService.IsExits(x => x.Name == entity.Name && x.CityCode == entity.CityCode&&x.ID!=entity.ID))
+                {
+                    return JResult(Core.Code.ErrorCode.store_city__namealready_exist, "");
+                }
+
                 model.Name = entity.Name;
                 model.CityCode = entity.CityCode;
                 model.Address = entity.Address;

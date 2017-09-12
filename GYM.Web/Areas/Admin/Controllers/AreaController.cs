@@ -35,6 +35,10 @@ namespace GYM.Web.Areas.Admin.Controllers
             ModelState.Remove("IsDelete");
             if (ModelState.IsValid)
             {
+                if (IDataDictionaryService.IsExits(x => x.Key == entity.Key))
+                {
+                    return JResult(Core.Code.ErrorCode.system_key_already_exist, "");
+                }
                 entity.CreatedTime = entity.UpdatedTime = DateTime.Now;
                 var result = IDataDictionaryService.Add(entity);
                 return JResult(result);
@@ -61,6 +65,10 @@ namespace GYM.Web.Areas.Admin.Controllers
                 if (model == null || (model != null && model.IsDelete))
                 {
                     return DataErorrJResult();
+                }
+                if (IDataDictionaryService.IsExits(x => x.Key == entity.Key && x.ID != entity.ID))
+                {
+                    return JResult(Core.Code.ErrorCode.system_key_already_exist, "");
                 }
                 model.Key = entity.Key;
                 model.Value = entity.Value;

@@ -100,7 +100,14 @@ namespace GYM.Core.Code
         /// </summary>
         [Description("名称已存在.")]
         system_name_already_exist = 202,
-    
+        /// </summary>
+        [Description("编码已存在.")]
+        system_key_already_exist = 203,
+
+        /// </summary>
+        [Description("该城市已有该店名的门店.")]
+        store_city__namealready_exist = 204,
+
         #endregion
 
 

@@ -42,8 +42,7 @@ namespace GYM.Model
         /// 性别
         /// </summary>
         [Display(Name = "性别")]
-        [Column("Sex", TypeName = "int")]
-        public int Sex { get; set; }
+        public SexCode Sex { get; set; }
         /// <summary>
         /// 手机号码
         /// </summary>

@@ -58,7 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseEntity.cs" />
+    <Compile Include="Coach.cs" />
     <Compile Include="DataDictionary.cs" />
+    <Compile Include="CourseCategory.cs" />
+    <Compile Include="Course.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
