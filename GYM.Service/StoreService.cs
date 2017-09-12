@@ -21,9 +21,11 @@ namespace GYM.Service
     /// </summary>
     public class StoreService : BaseService<Store>, IStoreService
     {
-        public StoreService()
+        IDataDictionaryService IDataDictionaryService;
+        public StoreService(IDataDictionaryService _IDataDictionaryService)
         {
             base.ContextCurrent = HttpContext.Current;
+            this.IDataDictionaryService = _IDataDictionaryService;
         }
         
 
@@ -44,14 +46,19 @@ namespace GYM.Service
                 {
                     query = query.Where(x => x.Name.Contains(name));
                 }
-                if (areaCode.IsNotNullOrEmpty())
+                if (areaCode.IsNotNullOrEmpty()&&areaCode!="-1")
                 {
                     query = query.Where(x => x.CityCode.Contains(areaCode));
                 }
                 var count = query.Count();
                 var list = query.OrderByDescending(x => x.CreatedTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                var areaDic = IDataDictionaryService.CacheDic()[GroupCode.Area];
                 list.ForEach(x =>
                 {
+                    if (x.CityCode.IsNotNullOrEmpty() && areaDic.ContainsKey(x.CityCode))
+                    {
+                        x.CityName = areaDic[x.CityCode].Value;
+                    }
                 });
 
                 return CreatePageList(list, pageIndex, pageSize, count);

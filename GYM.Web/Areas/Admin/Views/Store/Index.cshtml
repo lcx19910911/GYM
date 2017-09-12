@@ -4,7 +4,17 @@
     ViewBag.Title = "门店管理";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    
+.map-div {
+    float: left;
+    width: 100%;
+    height: 320px;
+    margin-top: 40px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,.15);
+}
+</style>
 <div class="am-cf am-padding">
     <div class="am-fl am-cf"><a href="/"><strong class="am-text-primary am-text-lg">首页</strong></a> /<small>门店管理</small></div>
 </div>
@@ -15,7 +25,7 @@
             <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-label">门店名称</span>
                 <input type="text" class="am-form-field" placeholder="按门店名称搜索" name="name" ;>
-                <span class="am-input-group-label am-margin-left-sm">地区</span>
+                <span class="am-input-group-label am-margin-left-sm">城市</span>
                 <select data-am-selected="{btnWidth: '120px',btnSize: 'sm'}" style="width:120px;" name="areaCode" >
                     @if (Model != null && Model.Count > 0)
                     {
@@ -65,6 +75,7 @@
 <script src="~/Areas/Admin/Scripts/UEditor/ueditor.all.js"></script>
 <script src="~/Areas/Admin/Scripts/UEditor/ueditor.parse.js"></script>
 <script src="~/Areas/Admin/Scripts/UEditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.0&key=f2631e1e85f6ef266ecf3e5d69dada33&plugin=AMap.Geocoder"></script>
 
     <script type="text/javascript">
         function ClearFilter() {
@@ -98,18 +109,10 @@
                     CityCode: {
                         required: true,
                     },
-                    Latitude: {
-                        required: true,
-                    },
-                    Longitude: {
-                        required: true,
-                    },
                     Introduce: {
-                        required: true,
                         maxlength: 512
                     },
                     Notice: {
-                        required: true,
                         maxlength: 256
                     },
                     Pictures: {
@@ -129,18 +132,10 @@
                     CityCode: {
                         required: "市不允许为空"
                     },
-                    Latitude: {
-                        required: "经度不允许为空"
-                    },
-                    Longitude: {
-                        required: "经度不允许为空"
-                    },
                     Introduce: {
-                        required: "介绍不允许为空",
                         maxlength: "最多{0}个字符"
                     },
                     Notice: {
-                        required: "注意事项不允许为空",
                         maxlength: "最多{0}个字符"
                     },
                     Pictures: {
@@ -149,17 +144,22 @@
                     },
                 }
             });
-
+            //介绍的富文本
             var txtIntroduceId = $.AMUI.utils.generateGUID("txtIntroduce");
             $(".txtIntroduce").attr("id", txtIntroduceId)
             introduceUE = UE.getEditor(txtIntroduceId);
 
+            //提示的富文本
             var txtNoticeId = $.AMUI.utils.generateGUID("txtNotice");
             $(".txtNotice").attr("id", txtNoticeId)
             noticeUE = UE.getEditor(txtNoticeId);
+
             if (dataitem != null) {
+                //拼接的门店图片集合
                 if (dataitem.Pictures != null) {
-                    $("#div_meetImageShow").find("img").attr("src", dataitem.Meet.PlaceImage);
+                    $.each(dataitem.Pictures.split(','), function (index,item) {
+                        $("#divImageShow").append('<img class="am-img-circle am-img-thumbnail am-margin-left" style="max-width:300px;max-height:200px;" src="' + item + '" alt="">');
+                    });
                 }
                 if (dataitem.Notice != null) {
                     noticeUE.addListener("ready", function () {
@@ -171,12 +171,125 @@
                         introduceUE.setContent(dataitem.Introduce);
                     });
                 }
+
+                if (dataitem.Address != null) {
+                    mapShow(dataitem.Address);
+                }
             }
             $.Nuoya.action("/Admin/Area/GetSelectItem", {}, function (json) {
                 $(json).each(function () {
                     $("#form select[name='CityCode']").append("<option  value='" + this.Value + "' " + (dataitem!=null&&dataitem.CityCode == this.Value ? "selected" : "") + " >" + this.Text + "</option>");
                 });
             });
+            UploadImg();
+            $("#form [name='Address']").change(function () {
+                mapShow($(this).val(), 'all');
+            });
+            $(document).on("dblclick", "#form img", function () {
+                $(this).remove();
+            });
+        }
+
+
+        //项目位置
+        function mapShow(ctxt, selectName) {
+            map = new AMap.Map('mapDiv', {
+                resizeEnable: true
+            });
+            map.setCity(selectName);
+
+            function regeocoder(lnglatXY) {  //逆地理编码
+                var geocoder = new AMap.Geocoder({
+
+                });
+                geocoder.getAddress(lnglatXY, function (status, result) {
+                    if (status === 'complete' && result.info === 'OK') {
+                        geocoder_CallBack(result, lnglatXY);
+                    }
+                });
+            }
+            function geocoder_CallBack(data, lnglatXY) {
+                var address = data.regeocode.formattedAddress;
+                // 地址
+                console.log(address);
+                $("#form [name='Address']").val(address); 
+                var code = data.regeocode.addressComponent.adcode;
+                //定位
+                mapShow(data.regeocode.formattedAddress, data.regeocode.addressComponent.district)
+            }
+            map.on('click', function (e) {
+                var lnglatXY = [e.lnglat.getLng(), e.lnglat.getLat()];
+                // 坐标
+                console.log(lnglatXY);
+                regeocoder(lnglatXY);
+            })
+
+            geocoder();
+            function geocoder() {
+                var geocoder = new AMap.Geocoder({
+                    city: "all", //城市，默认：“全国”
+                    radius: 1000, //范围，默认：500
+                    extensions: "all"
+                });
+                //地理编码,返回地理编码结果
+                geocoder.getLocation(ctxt, function (status, result) {
+                    if (status === 'complete' && result.info === 'OK') {
+                        select_geocoder_CallBack(result);
+                    }
+                });
+            }
+
+            function addMarker(i, d) {
+                var marker = new AMap.Marker({
+                    map: map,
+                    position: [d.location.getLng(), d.location.getLat()]
+                });
+                var infoWindow = new AMap.InfoWindow({
+                    content: d.formattedAddress,
+                    offset: { x: 0, y: -30 }
+                });
+                infoWindow.open(map, marker.getPosition());
+                console.log(d.location.getLng() + '+' + d.location.getLat());
+                marker.on("mouseover", function (e) {
+                    infoWindow.open(map, marker.getPosition());
+                });
+            }
+            //地理编码返回结果展示
+            function select_geocoder_CallBack(data) {
+                var resultStr = "";
+                //地理编码结果数组
+                var geocode = data.geocodes;
+                for (var i = 0; i < geocode.length; i++) {
+                    addMarker(i, geocode[i]);
+                }
+                map.setFitView();
+            }
+        }
+        function UploadImg() {
+            var headimgbtn = $("#imageFile").uploadFile({
+                url: '/admin/upload/uploadimage?mark=store',
+                fileSuffixs: ["jpg", "png", "gif"],
+                maximumFilesUpload: 1,//最大文件上传数
+                onComplete: function (data) {
+                    if (data) {
+                        $("#divImageShow").append('<img class="am-img-circle am-img-thumbnail am-margin-left" style="max-width:300px;max-height:200px;" src="' + data + '" alt="">');
+                    }
+                    else {
+                        $.Nuoya.alert("上传错误");
+                    }
+
+                },
+                onChosen: function (file, obj, fileSize, errorText) {
+                    if (errorText) {
+                        $.Nuoya.alert(errorText);
+                        return false;
+                    }
+                    //Loading("图片正在上传中...", "请稍等");
+                    uploadheadimg.submitUpload();
+                    return true;//返回false将取消当前选择的文件
+                },
+            });
+            var uploadheadimg = headimgbtn.data("uploadFileData");
         }
 
         //新增
@@ -193,6 +306,22 @@
                 buttons: [{
                     label: "保存",
                     callback: function (e) {
+                        var pictureAry = new Array();
+                        $("#divImageShow img").each(function () {
+                            pictureAry.push($(this).attr("src"));
+                        });
+                        if (pictureAry.length == 0)
+                        {
+                            $.Nuoya.alert("请上传门店图片");
+                            return false;
+                        }
+                        if ($("#form [name='CityCode']").val() == "-1") {
+                            $.Nuoya.alert("请选择城市");
+                            return false;
+                        }
+                        $("#form [name='Notice']").val(noticeUE.getContent());
+                        $("#form [name='Introduce']").val(introduceUE.getContent());
+                        $("#form [name='Pictures']").val(pictureAry.join(","));
                         var result = $.Nuoya.form("form").valid({
                         }); 
                         if (result) {
@@ -245,6 +374,8 @@
                             closeViaDimmer: false,
                             ajaxUrl: "/Areas/Admin/HtmlTemplates/Store/Update.html",
                             title: "编辑门店",
+                            width: ($(window).width() - 100) + "px",
+                            height: ($(window).height() - 100) + "px",
                             callback: function (e) {
                                 $.Nuoya.action("/Admin/Store/Find", { id: item.ID }, function (model) {
                                     //载入数据
@@ -257,22 +388,52 @@
                             buttons: [{
                                 label: "保存",
                                 callback: function (e) {
-
-                                    $.Nuoya.form("form").ajaxSubmit({
-                                        ajaxUrl: "/Admin/Store/Update",
-                                        params: {
-                                            ID: item.ID
-                                        },
-                                        callback: function (data) {
-                                            if (data.Result) {
-                                                $.Nuoya.alert("保存成功");
-                                                e.hide();
-                                                grid.reload();
-                                            }
-                                            else
-                                                $.Nuoya.alert(data.Result);
-                                        }
+                                    var pictureAry = new Array();
+                                    $("#divImageShow img").each(function () {
+                                        pictureAry.push($(this).attr("src"));
                                     });
+                                    if (pictureAry.length == 0) {
+                                        $.Nuoya.alert("请上传门店图片");
+                                        return false;
+                                    }
+                                    if ($("#form [name='CityCode']").val() == "-1") {
+                                        $.Nuoya.alert("请选择城市");
+                                        return false;
+                                    }
+                                    $("#form [name='Notice']").val(noticeUE.getContent());
+                                    $("#form [name='Introduce']").val(introduceUE.getContent());
+                                    $("#form [name='Pictures']").val(pictureAry.join(","));
+                                    var result = $.Nuoya.form("form").valid({
+                                    }); 
+                                    if (result) {
+                                        $.Nuoya.form("form").ajaxSubmit({
+                                            ajaxUrl: "/Admin/Store/Update",
+                                            params: {
+                                                ID: item.ID
+                                            },
+                                            callback: function (data) {
+                                                if (data.Result) {
+                                                    $.Nuoya.alert("保存成功");
+                                                    e.hide();
+                                                    grid.reload();
+                                                }
+                                                else
+                                                    $.Nuoya.alert(data.Result);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        $("#tab1,#tab2").removeClass("am-in").removeClass("am-active");
+                                        $("#selectTabUl li").removeClass("am-active");
+                                        if ($("#tab1 .tipso_content").length != 0) {
+                                            $("#selectTabUl li").eq(0).addClass("am-active");
+                                            $("#tab1").addClass("am-in").addClass("am-active");
+                                        }
+                                        else {
+                                            $("#selectTabUl li").eq(1).addClass("am-active");
+                                            $("#tab2").addClass("am-in").addClass("am-active");
+                                        }
+                                    }
                                 }
                             }]
                         })

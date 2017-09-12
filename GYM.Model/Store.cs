@@ -42,21 +42,7 @@ namespace GYM.Model
         [MaxLength(128)]
         [Display(Name = "地址")]
         public string Address { get; set; }
-
-        /// <summary>
-        /// 经度
-        /// </summary>
-        [MaxLength(128)]
-        [Display(Name = "经度")]
-        public string Longitude { get; set; }
-
-        /// <summary>
-        /// 经度
-        /// </summary>
-        [MaxLength(128)]
-        [Display(Name = "经度")]
-        public string Latitude { get; set; }
-
+        
 
         /// <summary>
         /// 介绍

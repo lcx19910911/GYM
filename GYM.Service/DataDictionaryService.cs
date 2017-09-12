@@ -29,7 +29,7 @@ namespace GYM.Service
         string dictionaryKey = CacheHelper.RenderKey(Params.Cache_Prefix_Key, "DataDictionary");
 
 
-        public Dictionary<GroupCode, Dictionary<string, DataDictionary>> Cache_Get_DataDictionary()
+        public Dictionary<GroupCode, Dictionary<string, DataDictionary>> CacheDic()
         {
 
             return CacheHelper.Get<Dictionary<GroupCode, Dictionary<string, DataDictionary>>>(dictionaryKey, () =>
@@ -102,7 +102,7 @@ namespace GYM.Service
         /// <returns></returns>
         public List<SelectItem> GetSelectList(GroupCode code,string value)
         {
-            var areas = Cache_Get_DataDictionary()[code].Values.OrderByDescending(x => x.Sort).ToList().AsQueryable();
+            var areas = CacheDic()[code].Values.OrderByDescending(x => x.Sort).ToList().AsQueryable();
             if (!string.IsNullOrEmpty(value) && !value.Equals("-1"))
                 areas = areas.Where(x => !string.IsNullOrEmpty(x.ParentKey) && x.ParentKey.Trim().Equals(value));
             else

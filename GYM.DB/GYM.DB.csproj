@@ -58,6 +58,10 @@
     <Compile Include="Migrations\201709110911296_store_area.Designer.cs">
       <DependentUpon>201709110911296_store_area.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709120807264_3.cs" />
+    <Compile Include="Migrations\201709120807264_3.Designer.cs">
+      <DependentUpon>201709120807264_3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -81,6 +85,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709110911296_store_area.resx">
       <DependentUpon>201709110911296_store_area.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709120807264_3.resx">
+      <DependentUpon>201709120807264_3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

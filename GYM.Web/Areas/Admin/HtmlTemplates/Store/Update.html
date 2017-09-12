@@ -20,11 +20,12 @@
 
                     <div class="am-g am-margin-top">
                         <div class="am-u-md-3 am-text-right">
-                            市
+                            城市
                         </div>
-                        <div class="am-u-md-2 am-u-end">
+                        <div class="am-u-md-2 ">
                             <select name="CityCode" data-am-selected="{btnSize: 'sm'}"></select>
                         </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong></div>
                     </div>
 
                     <div class="am-g am-margin-top">
@@ -51,17 +52,16 @@
                     <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
 
                     <div class="am-g am-margin-top am-panel am-panel-default" style="height:306px;">
-                        <div class="am-u-md-5">
+                        <div class="am-u-md-12">
                             <div class="am-g am-margin-top">
                                 <div class="am-u-md-12 am-text-left">
-                                    <label for="user-name" class="am-form-label">座位图（建议上传大小：不超过2M）</label>
+                                    <input type="hidden" name="Pictures"/>
+                                    <label for="user-name" class="am-form-label">门店图片（建议上传大小：不超过2M,双击图片删除）<strong class="am-text-danger am-text-sm">*</strong></label>
                                     <a class="am-form-label" id="imageFile">&nbsp;&nbsp;上传图片</a>
-                                    <input type="hidden" name="PlaceImage" value="" />
                                 </div>
                             </div>
                             <div class="am-g am-margin-top">
-                                <div class="am-u-md-12 am-text-left" id="div_meetImageShow">
-                                    <img class="am-img-circle am-img-thumbnail" style="max-width:350px;max-height:150px;" src="" alt="">
+                                <div class="am-u-md-12 am-text-left" id="divImageShow">
                                 </div>
                             </div>
                         </div>
@@ -81,6 +81,17 @@
                         </div>
                         <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填，不能超过128个字</div>
                     </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            选择地点
+                        </div>
+                        <div class="am-u-md-9">
+                            <div class="map-div" id="mapDiv">
+
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

@@ -67,8 +67,6 @@ namespace GYM.Web.Areas.Admin.Controllers
                 model.Name = entity.Name;
                 model.CityCode = entity.CityCode;
                 model.Address = entity.Address;
-                model.Latitude = entity.Latitude;
-                model.Longitude = entity.Longitude;
                 model.Introduce = entity.Introduce;
                 model.Notice = entity.Notice;
                 model.Pictures = entity.Pictures;

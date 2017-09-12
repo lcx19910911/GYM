@@ -14,5 +14,7 @@ namespace GYM.IService
     {
         PageList<DataDictionary> GetPageList(int pageIndex, int pageSize, string parentKey, GroupCode code, string name, string value);
         List<SelectItem> GetSelectList(GroupCode code, string value);
+
+        Dictionary<GroupCode, Dictionary<string, DataDictionary>> CacheDic();
     }
 }
