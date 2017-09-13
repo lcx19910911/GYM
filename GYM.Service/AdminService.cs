@@ -91,7 +91,7 @@ namespace GYM.Service
         /// <param name="pageSize">分页大小</param>
         /// <param name="title">标题 - 搜索项</param>
         /// <returns></returns>
-        public PageList<Admin> GetPageList(int pageIndex, int pageSize, string account)
+        public PageList<Admin> GetPageList(int pageIndex, int pageSize, string account, string phone)
         {
             using (DbRepository db = new DbRepository())
             {
@@ -100,13 +100,15 @@ namespace GYM.Service
                 {
                     query = query.Where(x => x.Account.Contains(account));
                 }
+                if (phone.IsNotNullOrEmpty())
+                {
+                    query = query.Where(x => x.Mobile.Contains(phone));
+                }
                 var count = query.Count();
                 var list = query.OrderByDescending(x => x.CreatedTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                 list.ForEach(x =>
                 {
-                    if (x != null)
-                    {
-                    }
+                    x.TypeStr = x.Type.GetDescription();
                 });
 
                 return CreatePageList(list, pageIndex, pageSize, count);

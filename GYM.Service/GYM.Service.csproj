@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminService.cs" />
+    <Compile Include="CoachService.cs" />
     <Compile Include="UEditorService.cs" />
     <Compile Include="DataDictionaryService.cs" />
     <Compile Include="StoreService.cs" />

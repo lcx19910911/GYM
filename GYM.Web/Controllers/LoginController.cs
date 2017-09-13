@@ -72,7 +72,7 @@ namespace GYM.Web.Controllers
                                     ID = Guid.NewGuid().ToString("N"),
                                     NickName = obj3["nickname"].ToString(),
                                     OpenId = obj3["openid"].ToString(),
-                                    Sex = obj3["sex"].GetInt(),
+                                    Sex = (Model.SexCode)obj3["sex"].GetInt(),
                                     Province = obj3["province"].ToString(),
                                     City = obj3["city"].ToString(),
                                     Country = obj3["country"].ToString(),

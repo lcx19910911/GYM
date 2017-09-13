@@ -107,6 +107,9 @@ namespace GYM.Core.Code
         /// </summary>
         [Description("该城市已有该店名的门店.")]
         store_city__namealready_exist = 204,
+        /// </summary>
+        [Description("手机号码已存在.")]
+        system_phone_already_exist = 205,
 
         #endregion
 
@@ -123,9 +126,9 @@ namespace GYM.Core.Code
         user_login_error = 700,
 
         /// <summary>
-        /// 用户已存在
+        /// 账号已存在
         /// </summary>
-        [Description("用户名已存在.")]
+        [Description("账号已存在.")]
         user_account_already_exist = 701,
 
 

@@ -1,0 +1,123 @@
+﻿<div class="admin-content-body">
+    <form id="form" class="am-form  am-form-inline">
+        <div class="am-tabs am-margin" data-am-tabs="">
+            <ul class="am-tabs-nav am-nav am-nav-tabs" id="selectTabUl">
+                <li class="am-active"><a href="#tab1">教练员信息</a></li>
+            </ul>
+            <div class="am-tabs-bd" style="touch-action: pan-y; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);overflow-x:hidden">
+                <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-12 am-text-left">
+                            <label for="user-name" class="am-form-label">个人信息：</label>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-2 am-text-right">
+                            姓名<strong class="am-text-danger am-text-sm am-text-left">*</strong>：
+                        </div>
+                        <div class="am-u-md-3 am-text-left">
+                            <input type="text" name="Name" class="am-input-sm" maxlength="32" style="width:160px;">
+                        </div>
+                        <div class="am-u-md-1"></div>
+                        <div class="am-u-md-2 am-text-right">
+                            身份证号码<strong class="am-text-danger am-text-sm am-text-left">*</strong>：
+                        </div>
+                        <div class="am-u-md-4 am-text-left  am-u-end">
+                            <input type="text" name="IDCard" class="am-input-sm" maxlength="20" onkeyup="isCardID(this, $('[name=\'GenderCode\']'))">
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-2 am-text-right">
+                            手机<strong class="am-text-danger am-text-sm am-text-left">*</strong>：
+                        </div>
+                        <div class="am-u-md-3 am-text-left">
+                            <input type="text" name="Mobile" class="am-input-sm" maxlength="11" style="width:160px;">
+                        </div>
+                        <div class="am-u-md-1"></div>
+                        <div class="am-u-md-2 am-text-right">
+                            性别<strong class="am-text-danger am-text-sm am-text-left">*</strong>：
+                        </div>
+                        <div class="am-u-md-2 am-text-left  am-u-end">
+                            <select name="Sex" data-am-selected="{btnWidth: '120px',btnSize: 'sm'}" style="width:120px;" disabled>
+                                <option value="-1">未知</option>
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-2 am-text-right">
+                            身份证地址：
+                        </div>
+                        <div class="am-u-md-7 am-text-left  am-u-end">
+                            <input type="text" name="Address" class="am-input-sm" maxlength="512">
+                        </div>
+                    </div>
+
+                    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-12 am-text-left">
+                            <label for="user-name" class="am-form-label">教练信息：</label>
+                        </div>
+                    </div>
+                
+
+                    <div class="am-g am-margin-top">
+                      
+                        <div class="am-u-md-2 am-text-right">
+                            驾龄：
+                        </div>
+                        <div class="am-u-md-2  am-u-end">
+                            <input type="number" name="DrivingYears" class="am-input-sm">
+                        </div>
+                        <div class="am-u-md-1"></div>
+                    </div>
+
+                    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-12 am-text-left">
+                            <label for="user-name" class="am-form-label">入职信息：</label>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-2 am-text-right">
+                            报道时间<strong class="am-text-danger am-text-sm">*</strong>：
+                        </div>
+                        <div class="am-u-md-2">
+                            <input type="text" name="EntryDate" class="am-input-sm" style="width:190px;" placeholder="请选择时间" readonly onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss', autoPickDate: true, maxDate: '%y-%M-%d 00:00:00' })" datatype="jsondate" />
+                        </div>
+                        <div class="am-u-md-2 am-text-right">
+                            底薪<strong class="am-text-danger am-text-sm">*</strong>：
+                        </div>
+                        <div class="am-u-md-2 am-u-end">
+                            <input type="number" name="BasicSalary" class="am-input-sm" style="width:190px;" min="0" />
+                        </div>
+                    </div>
+
+
+                    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-12 am-text-left">
+                            <label for="user-name" class="am-form-label">执教记录：</label>
+                        </div>
+                    </div>
+
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-2 am-text-right">
+                            所属门店 :
+                        </div>
+                        <div class="am-u-md-2  am-u-end ">
+                            <select name="StoreID" data-am-selected="{btnWidth: '120px',btnSize: 'sm'}"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

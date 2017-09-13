@@ -21,8 +21,14 @@ namespace GYM.Model
         /// </summary>
         [Required(ErrorMessage = "教练员姓名不能为空")]
         [MaxLength(32)]
-        [Column("Name", TypeName = "varchar")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// 头像
+        /// </summary>
+        [Display(Name = "头像"), MaxLength(128)]
+        [Required(ErrorMessage = "头像不能为空")]
+        public string HeadImgUrl { get; set; }
 
         /// <summary>
         /// 身份证号码
@@ -30,16 +36,14 @@ namespace GYM.Model
         [Display(Name = "身份证号码")]
         [MaxLength(32)]
         [Required(ErrorMessage = "身份证号码不能为空")]
-        [Column("IDCard", TypeName = "varchar")]
         [RegularExpression(@"(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$)", ErrorMessage = "身份证号码格式不正确")]
         public string IDCard { get; set; }
 
         /// <summary>
         /// 身份证地址
         /// </summary>
-        [MaxLength(512)]
+        [MaxLength(256)]
         [Display(Name = "地址")]
-        [Column("Address", TypeName = "varchar")]
         public string Address { get; set; }
 
 
@@ -60,7 +64,7 @@ namespace GYM.Model
         /// <summary>
         /// 底薪
         /// </summary>
-        public decimal BasicSalary { get; set; }
+        public decimal? BasicSalary { get; set; }
       
 
         /// <summary>

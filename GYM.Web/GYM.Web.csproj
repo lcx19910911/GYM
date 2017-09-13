@@ -251,6 +251,7 @@
     <Content Include="Areas\Admin\Content\zTreeStyle\img\zTreeStandard.png" />
     <Content Include="Areas\Admin\Content\zTreeStyle\zTreeStyle.css" />
     <Content Include="Areas\Admin\HtmlTemplates\Area\Update.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Coach\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Store\Update.html" />
     <Content Include="Areas\Admin\Images\404Pic.png" />
     <Content Include="Areas\Admin\Images\favicon.ico" />
@@ -571,12 +572,14 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\CoachController.cs" />
     <Compile Include="Areas\Admin\Controllers\StoreController.cs" />
     <Compile Include="Areas\Admin\Controllers\AreaController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\UEditorController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\UploadController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Global.asax.cs">
@@ -610,6 +613,7 @@
     <Content Include="Areas\Admin\Content\fonts\FontAwesome.otf" />
     <Content Include="Areas\Admin\Views\Area\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Store\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Coach\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

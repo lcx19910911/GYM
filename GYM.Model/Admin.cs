@@ -23,11 +23,9 @@ namespace GYM.Model
         /// </summary>
         public AdminCode Type { get; set; } = AdminCode.Coach;
 
-        /// <summary>
-        /// 昵称
-        /// </summary>
-        [Display(Name = "昵称"), MaxLength(32)]
-        public string NickName { get; set; }
+        [NotMapped]
+        public string TypeStr { get; set; }
+
         /// <summary>
         /// 头像
         /// </summary>
@@ -38,19 +36,30 @@ namespace GYM.Model
         /// 性别
         /// </summary>
         [Display(Name = "性别")]
-        public int Sex { get; set; }
+        public SexCode Sex { get; set; }
         /// <summary>
         /// 手机号码
         /// </summary>
         [Display(Name = "手机号码"),MaxLength(32)]
-        public string MobilePhone { get; set; }
+        public string Mobile { get; set; }
 
         /// <summary>
         /// 真实姓名
         /// </summary>
         [Display(Name = "真实姓名"), MaxLength(32)]
         public string RealName { get; set; }
-        
+
+
+        /// <summary>
+        /// 教练id
+        /// </summary>
+        [MaxLength(32)]
+        public string CoachID { get; set; }
+
+        /// <summary>
+        /// 折扣
+        /// </summary>
+        public float Discount { get; set; } = 1;
     }
 
 }

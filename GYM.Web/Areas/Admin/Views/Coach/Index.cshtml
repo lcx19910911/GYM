@@ -1,0 +1,276 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "教练信息";
+}
+
+<div class="am-cf am-padding">
+    <div class="am-fl am-cf"><a href="/"><strong class="am-text-primary am-text-lg">首页</strong></a> /<small>教练信息</small></div>
+</div>
+<div id="searchDomain">
+
+    <div class="am-g">   
+        <div class="am-u-lg-8 am-u-end">
+            <div class="am-input-group am-input-group-sm">
+                <span class="am-input-group-label">名称：</span>
+                <input type="text" class="am-form-field" placeholder="按教练名称搜索" style="width:100px;" name="name" ;>
+                <span class="am-input-group-label am-margin-left-sm">手机号：</span>
+                <input type="text" class="am-form-field" placeholder="按手机号搜索" style="width:100px;" name="phone" ;>
+                <span class="am-input-group-label am-margin-left-sm">身份证：</span>
+                <input type="text" class="am-form-field" placeholder="按身份证搜索" style="width:100px;" name="idCard" ;>
+                <span class="am-input-group-btn am-margin-left-sm">
+                    <button class="am-btn am-btn-default" id="btnSearch" type="button">搜索</button>
+                    <button class="am-btn am-btn-default" onclick="ClearFilter()" type="button">清除</button>
+                </span>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-lg-6">
+            <div class="am-btn-toolbar">
+                <div class="am-btn-group am-btn-group-xs">
+                    <button onclick="add()" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+                    <button onclick="batchDelete()" type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="grid_container">
+    <table id="dataTable" class="am-table am-table-compact am-table-hover table-main">
+        <thead>
+            <tr>
+                <th dataname="ID" type="checkbox"></th>
+                <th dataname="Name">教练名称</th>
+                <th dataname="StoreName">门店</th>                
+                <th dataname="IDCard">身份证</th>
+                <th dataname="ShowSex">性别</th>
+                <th dataname="Mobile">手机</th>
+                <th dataname="BasicSalary">底薪</th>
+                <th dataname="EntryDate" datatype="jsondate">入职日期</th>
+                <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
+                <th type="eventlist"></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+@section scripts
+{
+    <script type="text/javascript"> 
+
+        function ClearFilter() {
+            $("#searchDomain input").val("");
+        }
+        //批量删除
+        function batchDelete() {
+            $.Nuoya.confirm("确认删除？", function () {
+                grid.del({
+                    ajaxUrl: "/Admin/Coach/Delete",
+                    callback: function (json) {
+                        grid.reload();
+                    }
+                });
+            });
+        }
+
+        function formInit(dataitem) {
+
+            if (dataitem != null) {
+                isCardID(dataitem.IDCard);
+            }
+
+            $.Nuoya.action("/Admin/Store/GetSelectItem", {  }, function (json) {
+                $(json).each(function () {
+                    $("#form select[name='StoreID']").append("<option " + (dataitem != null && dataitem.StoreID == this.Value ? "selected" : "") + " value='" + this.Value + "'>" + this.Text + "</option>");
+                });
+            }); 
+
+            //添加表单验证
+            $.Nuoya.form("form").validate({
+                rules: {
+                    Name: {
+                        required: true,
+                        maxlength: 64
+                    },
+                    IDCard: {
+                        required: true,
+                        maxlength: 32
+                    },
+                    HeadImgUrl: {
+                        required: true,
+                        maxlength: 64
+                    },
+                    Sex: {
+                        required: true
+                    },
+                    Mobile: {
+                        required: true,
+                        maxlength: 11
+                    },
+                    Address: {
+                        maxlength: 256
+                    },
+                    Introduce: {
+                        maxlength: 512
+                    },
+                    Pictures: {
+                        maxlength: 1024
+                    },
+                    StoreID: {
+                        required: true
+                    },
+                    BasicSalary: {
+                        required: true,
+                        digits: true,
+                        min: 0
+                    },
+                },
+                messages: {
+                    Name: {
+                        required: "名称不允许为空",
+                        maxlength: "最多{0}个字符"
+                    },
+                    IDCard: {
+                        required: "身份证不允许为空",
+                        maxlength: "最多{0}个字符"
+                    },
+                    HeadImgUrl: {
+                        required: "头像不允许为空",
+                        maxlength: "最多{0}个字符"
+                    },
+                    Sex: {
+                        required: "请选择性别"
+                    },
+                    Mobile: {
+                        required: "手机号不允许为空",
+                        maxlength: "最多{0}个字符"
+                    },
+                    Address: {
+                        maxlength: "最多{0}个字符"
+                    },
+                    Introduce: {
+                        maxlength: "最多{0}个字符"
+                    },
+                    Pictures: {
+                        maxlength: "最多{0}个字符"
+                    },
+                    StoreID: {
+                        required: "请选择门店",
+                    },
+                    BasicSalary: {
+                        required: "不允许为空",
+                        digits: "请输入数字",
+                        min: "必须大于{0}"
+                    },
+                }
+            });
+        }
+
+        //新增
+        function add() {
+            $.Nuoya.ajaxDialog({
+                closeViaDimmer: false,
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/Coach/Update.html",
+                title: "添加教练",
+                width: "1300px",
+                height: "740px",
+                callback: function (e) {
+                    formInit();//表单初始化
+                },
+                buttons: [{
+                    label: "保存",
+                    callback: function (e) {
+                        $.Nuoya.form("form").ajaxSubmit({
+                            ajaxUrl: "/Admin/Coach/Add",
+                            callback: function (data) {
+                                if (!data.ErrorDesc) {
+                                    e.hide();
+                                    grid.reload();
+                                }
+                                else
+                                    $.Nuoya.alert(data.ErrorDesc);
+                            }
+                        });
+                    }
+                }]
+            })
+        }
+
+        var grid = $.Nuoya.grid({
+            tableId: "dataTable",
+            //表格id
+            search: {
+                domainId: "searchDomain",
+                subId: "btnSearch"
+            },
+            ajaxUrl: "/Admin/Coach/GetPageList",
+            //数据请求地址
+            
+            events: [
+                {
+                    className: "am-text-secondary",
+                    icon: "icon-pencil-square-o",
+                    name: "编辑",
+                    click: function (item) {
+                        $.Nuoya.ajaxDialog({
+                            closeViaDimmer: false,
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Coach/Update.html",
+                            title: "编辑教练",
+                            width: "1300px",
+                            height: "740px",
+                            callback: function (e) {
+                                $.Nuoya.action("/Admin/Coach/Find", { id: item.ID }, function (model) {
+                                    //载入数据
+                                    $.Nuoya.form("form").dataLoad({
+                                        data: model
+                                    });
+                                    formInit(model);//表单初始化
+                                });
+                            },
+                            buttons: [{
+                                label: "保存",
+                                callback: function (e) {
+
+                                    $.Nuoya.form("form").ajaxSubmit({
+                                        ajaxUrl: "/Admin/Coach/Update",
+                                        params: {
+                                            ID: item.ID
+                                        },
+                                        callback: function (data) {
+                                            if (!data.ErrorDesc) {
+                                                e.hide();
+                                                grid.reload();
+                                            }
+                                            else
+                                                $.Nuoya.alert(data.ErrorDesc);
+                                        }
+                                    });
+                                }
+                            }]
+                        })
+                    }
+                },
+                {
+                    className: "am-text-danger",
+                    icon: "icon-trash-o",
+                    name: "删除",
+                    click: function (item) {
+                        $.Nuoya.confirm("确认删除？", function () {
+                            $.Nuoya.deleteAction("/Admin/Coach/Delete", {
+                                ids: item.ID
+                            },
+                            function () {
+                                grid.reload();
+                            });
+                        });
+                    }
+                }
+            ]
+        });
+
+    </script>
+}

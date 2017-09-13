@@ -10,7 +10,10 @@ using GYM.Model;
 
 namespace GYM.IService
 {
-    public interface IAdminService : IBaseService<Admin>
+    /// <summary>
+    /// 教练
+    /// </summary>
+    public interface ICoachService : IBaseService<Coach>
     {
         /// <summary>
         /// 获取分页列表
@@ -19,13 +22,11 @@ namespace GYM.IService
         /// <param name="pageSize">分页大小</param>
         /// <param name="title">标题 - 搜索项</param>
         /// <returns></returns>
-        PageList<Admin> GetPageList(int pageIndex, int pageSize, string account,string phone);
+        PageList<Coach> GetPageList(int pageIndex, int pageSize, string name, string phone,string idCard);
 
-        WebResult<Admin> Login(string account, string password,string code);
+        List<SelectItem> GetSelectList();
 
-        WebResult<bool> Manager(Admin model);
-
-        WebResult<bool> ChangePassword(string oldPassword, string newPassword, string cfmPassword, string id);
-
+        WebResult<bool> AddCoach(Coach model);
+        WebResult<bool> UpdateCoach(Coach model);
     }
 }
