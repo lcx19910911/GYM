@@ -12,10 +12,13 @@ namespace GYM.Model
     /// </summary>
     public enum AdminCode
     {
+        [Description("教练")]
         Coach = 1,
 
+        [Description("管理员")]
         Admin = 2,
 
+        [Description("超级管理员")]
         SuperAdmin = 3
     }
 
@@ -24,10 +27,13 @@ namespace GYM.Model
     /// </summary>
     public enum SexCode
     {
+        [Description("未知")]
         UnKnow = 0,
 
+        [Description("男")]
         Man = 1,
 
+        [Description("女")]
         Women = 2
     }
 

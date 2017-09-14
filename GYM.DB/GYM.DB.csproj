@@ -66,6 +66,10 @@
     <Compile Include="Migrations\201709130352393_coach-update.Designer.cs">
       <DependentUpon>201709130352393_coach-update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709140533461_admin.cs" />
+    <Compile Include="Migrations\201709140533461_admin.Designer.cs">
+      <DependentUpon>201709140533461_admin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -95,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709130352393_coach-update.resx">
       <DependentUpon>201709130352393_coach-update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709140533461_admin.resx">
+      <DependentUpon>201709140533461_admin.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

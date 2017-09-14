@@ -27,7 +27,6 @@ namespace GYM.Core.Model
             this.ID = admin.ID;
             this.Account = admin.Account;
             this.IsAdmin = true;
-            this.HeadImgUrl = admin.HeadImgUrl;
         }
 
         public LoginUser()

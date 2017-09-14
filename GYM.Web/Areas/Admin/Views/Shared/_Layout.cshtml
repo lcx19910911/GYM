@@ -44,7 +44,7 @@
                 closeViaDimmer: false,
                 width: "800px",
                 height: "280px",
-                ajaxUrl: "/Areas/Admin/HtmlTemplates/User/ChangePassword.html",
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/Admin/ChangePassword.html",
                 title: "修改密码",
                 callback: function (e) {
                     if (id) {
@@ -76,7 +76,7 @@
                             $.Nuoya.alert("密码不能为空");
                         }
 
-                        $.Nuoya.action("/admin/User/ChangePassword", { oldPassword: oldPassword, newPassword: newPassword, cfmPassword: cfmPassword,id: id?id:'@(currentUser?.ID)'}, function (data) {
+                        $.Nuoya.action("/admin/Admin/ChangePassword", { oldPassword: oldPassword, newPassword: newPassword, cfmPassword: cfmPassword,id: id?id:'@(currentUser?.ID)'}, function (data) {
                             if (!data.ErrorDesc) {
                                 $.Nuoya.alert("修改密码成功");
                                 e.hide();
@@ -190,7 +190,19 @@
                         </li>
                     </ul>
                 </li>
-
+                <li class="admin-parent">
+                    <a data-am-collapse="{target: '#管理员管理'}" class="am-cf">
+                        <span class="am-icon-calculator"></span> 管理员管理
+                        <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                    </a>
+                    <ul class="am-list admin-sidebar-sub am-collapse am-in" id="管理员管理">
+                        <li>
+                            <a data-am-collapse="{target: '#管理员管理'}" class="am-cf am-collapsed" href="/Admin/Admin/Index">
+                                <span class="am-icon-user"></span> 管理员管理
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
             </ul>
         </div>

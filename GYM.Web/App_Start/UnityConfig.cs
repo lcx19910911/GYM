@@ -43,6 +43,7 @@ namespace GYM.Web.App_Start
             container.RegisterType<IAdminService, AdminService>();
             container.RegisterType<IDataDictionaryService, DataDictionaryService>();
             container.RegisterType<IStoreService, StoreService>();
+            container.RegisterType<ICoachService, CoachService>();
         }
     }
 }

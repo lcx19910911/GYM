@@ -1,4 +1,5 @@
-﻿using GYM.IService;
+﻿using GYM.Core.Helper;
+using GYM.IService;
 using GYM.Model;
 using GYM.Web.Framework;
 using System;
@@ -55,12 +56,15 @@ namespace GYM.Web.Areas.Admin.Controllers
             ModelState.Remove("UpdaterID");
             ModelState.Remove("UpdatedTime");
             ModelState.Remove("CreatedTime");
+            ModelState.Remove("Type");
             if (ModelState.IsValid)
             {
                 if (IAdminService.IsExits(x => x.Account == entity.Account))
                 {
                     return JResult(Core.Code.ErrorCode.user_account_already_exist);
                 }
+                entity.Password = CryptoHelper.MD5_Encrypt(entity.ConfirmPassword);
+                entity.Type = AdminCode.Admin;
                 entity.CreatedTime = entity.UpdatedTime = DateTime.Now;
                 var result = IAdminService.Add(entity);
                 return JResult(result);
@@ -75,7 +79,7 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// 增加
         /// </summary>
         /// <returns></returns>
-        public ActionResult Update(GYM.Model.Admin model)
+        public ActionResult Update(GYM.Model.Admin entity)
         {
             ModelState.Remove("UpdaterID");
             ModelState.Remove("UpdatedTime");
@@ -83,9 +87,25 @@ namespace GYM.Web.Areas.Admin.Controllers
             ModelState.Remove("NewPassword");
             ModelState.Remove("ConfirmPassword");
             ModelState.Remove("Password");
+            ModelState.Remove("Type");
             if (ModelState.IsValid)
             {
-                var result = WebService.Update_User(model);
+                var model = IAdminService.Find(entity.ID);
+                if (model == null || (model != null && model.IsDelete))
+                {
+                    return DataErorrJResult();
+                }
+
+                if (IAdminService.IsExits(x => x.Account == entity.Account  && x.ID != entity.ID))
+                {
+                    return JResult(Core.Code.ErrorCode.store_city__namealready_exist, "");
+                }
+
+                model.RealName = entity.RealName;
+                model.Mobile = entity.Mobile;
+                model.Discount = entity.Discount;
+                model.Sex = entity.Sex;
+                var result = IAdminService.Update(model);
                 return JResult(result);
             }
             else
@@ -94,41 +114,10 @@ namespace GYM.Web.Areas.Admin.Controllers
             }
         }
 
-        /// <summary>
-        /// 操作权限
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <param name="OperateFlag"></param>
-        /// <returns></returns>
-
-        public ActionResult UpdateOperate(string ID, long OperateFlag)
+        public ActionResult ChangePassword(string oldPassword, string newPassword, string cfmPassword, string id)
         {
-            return JResult(WebService.Update_UserOperate(ID, OperateFlag));
+            return JResult(IAdminService.ChangePassword(oldPassword, newPassword, cfmPassword, id));
         }
-
-        /// <summary>
-        /// 报名点权限
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <param name="enteredPointIDStr"></param>
-        /// <returns></returns>
-        public ActionResult UpdateEnteredPointIDStr(string ID, string enteredPointIDStr)
-        {
-            return JResult(WebService.Update_UserEnteredPointIDStr(ID, enteredPointIDStr));
-        }
-
-        /// <summary>
-        /// 菜单权限
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <param name="enteredPointIDStr"></param>
-        /// <returns></returns>
-        public ActionResult UpdateMenuIDStr(string ID, string menuIDStr)
-        {
-            return JResult(WebService.Update_MenuIDStr(ID, menuIDStr));
-        }
-        
-
 
 
         /// <summary>
@@ -137,7 +126,7 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Delete(string ids)
         {
-            return JResult(WebService.Delete_User(ids));
+            return JResult(IAdminService.Delete(ids));
         }
 
         /// <summary>
@@ -146,45 +135,7 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Find(string id)
         {
-            return JResult(WebService.Find_User(id));
-        }
-
-        /// <summary>
-        /// 启用
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Enable(string ids)
-        {
-            return JResult(WebService.Enable_User(ids));
-        }
-
-        /// <summary>
-        /// 启用
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Quit(string id,DateTime quitTime)
-        {
-            return JResult(WebService.User_Quit(id, quitTime));
-        }
-
-        
-
-        /// <summary>
-        /// 禁用
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Disable(string ids)
-        {
-            return JResult(WebService.Disable_User(ids));
-        }
-
-        /// <summary>
-        /// 获取用户选择项
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult GetSelectItem()
-        {
-            return JResult(WebService.Get_UserSelectItem());
+            return JResult(IAdminService.Find(id));
         }
     }
 }

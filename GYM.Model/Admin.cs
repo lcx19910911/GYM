@@ -18,6 +18,23 @@ namespace GYM.Model
         [Display(Name = "密码"), MaxLength(32)]
         public string Password { get; set; }
 
+
+        /// <summary>
+        /// 请输入密码
+        /// </summary>
+        [Display(Name = "请输入密码")]
+        [MaxLength(12), MinLength(6)]
+        [NotMapped]
+        public string NewPassword { get; set; }
+
+        /// <summary>
+        /// 再次输入密码
+        /// </summary>
+        [Display(Name = "再次输入密码")]
+        [MaxLength(12), MinLength(6), Compare("NewPassword", ErrorMessage = "两次密码输入不一致")]
+        [NotMapped]
+        public string ConfirmPassword { get; set; }
+
         /// <summary>
         /// 用户类型
         /// </summary>
@@ -25,13 +42,6 @@ namespace GYM.Model
 
         [NotMapped]
         public string TypeStr { get; set; }
-
-        /// <summary>
-        /// 头像
-        /// </summary>
-        [Display(Name = "头像"), MaxLength(512)]
-        public string HeadImgUrl { get; set; }
-      
         /// <summary>
         /// 性别
         /// </summary>

@@ -250,6 +250,8 @@
     <Content Include="Areas\Admin\Content\zTreeStyle\img\zTreeStandard.gif" />
     <Content Include="Areas\Admin\Content\zTreeStyle\img\zTreeStandard.png" />
     <Content Include="Areas\Admin\Content\zTreeStyle\zTreeStyle.css" />
+    <Content Include="Areas\Admin\HtmlTemplates\Admin\ChangePassword.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Admin\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Area\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Coach\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Store\Update.html" />
@@ -614,6 +616,7 @@
     <Content Include="Areas\Admin\Views\Area\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Store\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Coach\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -625,7 +628,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Scripts\UEditor\third-party\snapscreen\" />
-    <Folder Include="Areas\Admin\Views\User\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

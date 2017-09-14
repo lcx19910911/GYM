@@ -8,11 +8,13 @@
 <div id="searchDomain">
 
     <div class="am-g">
-        <div class="am-u-lg-3">
+        <div class="am-u-lg-7">
             <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-label">名称：</span>
                 <input type="text" class="am-form-field" placeholder="按管理员名称搜索" style="width:100px;" name="name" ;>
 
+                <span class="am-input-group-label am-margin-left-sm">手机号码：</span>
+                <input type="text" class="am-form-field" placeholder="按手机号码搜索" style="width:100px;" name="mobile" ;>
                 <span class="am-input-group-btn am-margin-left-sm">
                     <button class="am-btn am-btn-default" id="btnSearch" type="button">搜索</button>
                     <button class="am-btn am-btn-default" onclick="ClearFilter()" type="button">清除</button>
@@ -42,7 +44,11 @@
                 <th dataname="ID" type="checkbox"></th>
                 <th dataname="RealName">名称</th>
                 <th dataname="Account">账号</th>
-                <th dataname="MobilePhone">手机号</th>
+                <th dataname="TypeStr">管理员类型</th>
+                <th dataname="Mobile">手机号</th>
+                <th render="ShowSex">性别</th>
+                <th dataname="Discount">折扣</th>
+                <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
                 <th type="eventlist"></th>
             </tr>
         </thead>
@@ -59,7 +65,7 @@
         function batchDelete() {
             $.Nuoya.confirm("确认删除？", function () {
                 grid.del({
-                    ajaxUrl: "/admin/User/Delete",
+                    ajaxUrl: "/admin/Admin/Delete",
                     callback: function (json) {
                         grid.reload();
                     }
@@ -83,10 +89,19 @@
                         required: true,
                         maxlength: 12
                     },
-                    MobilePhone: {
+                    Sex: {
+                        required: true,
+                    },
+                    Mobile: {
                         required: true,
                         maxlength: 11
-                    }
+                    },
+                    Discount: {
+                        required: true,
+                        number: true,
+                        min: 0,
+                        max:1
+                    },
                 },
                 messages: {
                     RealName: {
@@ -101,10 +116,19 @@
                         required: "不允许为空",
                         maxlength: "最多{0}个字符"
                     },
-                    MobilePhone: {
+                    Sex: {
+                        required: "不允许为空",
+                    },
+                    Mobile: {
                         required: "不允许为空",
                         maxlength: "最多{0}个字符"
-                    }
+                    },
+                    Discount: {
+                        required: "不允许为空",
+                        number: "请输入数字",
+                        min: "必须大于{0}",
+                        max: "必须小于{0}",
+                    },
                 }
             });
         }
@@ -113,8 +137,10 @@
         function add() {
             $.Nuoya.ajaxDialog({
                 closeViaDimmer: false,
-                ajaxUrl: "/Areas/Admin/HtmlTemplates/User/Update.html",
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/Admin/Update.html",
                 title: "添加管理员",
+                width: ($(window).width() - 700) + "px",
+                height: ($(window).height() - 400) + "px",
                 callback: function (e) {
                     formInit();//表单初始化
                 },
@@ -122,7 +148,7 @@
                     label: "保存",
                     callback: function (e) {
                         $.Nuoya.form("form").ajaxSubmit({
-                            ajaxUrl: "/Admin/User/Add",
+                            ajaxUrl: "/Admin/Admin/Add",
                             callback: function (data) {
                                 if (!data.ErrorDesc) {
                                     e.hide();
@@ -144,10 +170,7 @@
                 domainId: "searchDomain",
                 subId: "btnSearch"
             },
-            ajaxUrl: "/Admin/User/GetPageList",
-            params: {
-                IsAdmin: true
-            },
+            ajaxUrl: "/Admin/Admin/GetPageList",
             //数据请求地址
 
             events: [
@@ -159,11 +182,13 @@
                     click: function (item) {
                         $.Nuoya.ajaxDialog({
                             closeViaDimmer: false,
-                            ajaxUrl: "/Areas/Admin/HtmlTemplates/User/Update.html",
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Admin/Update.html",
+                            width: ($(window).width() - 700) + "px",
+                            height: ($(window).height() - 500) + "px",
                             title: "编辑管理员",
                             callback: function (e) {
-                                $("#passwordDiv").remove();
-                                $.Nuoya.action("/Admin/User/Find", { id: item.ID }, function (model) {
+                                $("#form .password").remove();
+                                $.Nuoya.action("/Admin/Admin/Find", { id: item.ID }, function (model) {
                                     formInit(model);//表单初始化
                                     //载入数据
                                     $.Nuoya.form("form").dataLoad({
@@ -177,7 +202,7 @@
                                 callback: function (e) {
 
                                     $.Nuoya.form("form").ajaxSubmit({
-                                        ajaxUrl: "/Admin/User/Update",
+                                        ajaxUrl: "/Admin/Admin/Update",
                                         params: {
                                             ID: item.ID
                                         },
@@ -211,7 +236,7 @@
                     name: "删除",
                     click: function (item) {
                         $.Nuoya.confirm("确认删除？", function () {
-                            $.Nuoya.deleteAction("/Admin/User/Delete", {
+                            $.Nuoya.deleteAction("/Admin/Admin/Delete", {
                                 ids: item.ID
                             },
                             function () {

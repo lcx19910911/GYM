@@ -80,7 +80,7 @@ namespace GYM.Web.Areas.Admin.Controllers
                 model.Introduce = entity.Introduce;
                 model.Notice = entity.Notice;
                 model.Pictures = entity.Pictures;
-                var result = IStoreService.Update(entity);
+                var result = IStoreService.Update(model);
                 return JResult(result);
             }
             else

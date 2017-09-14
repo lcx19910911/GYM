@@ -79,7 +79,7 @@ namespace GYM.Service
                 foreach (var ID in IDArray)
                 {
                     DbSet<T> dbSet = db.Set<T>();
-                    var entity = dbSet.Find(ID.GetInt());
+                    var entity = dbSet.Find(ID);
                     if (entity != null)
                     {
                         entity.IsDelete = true;

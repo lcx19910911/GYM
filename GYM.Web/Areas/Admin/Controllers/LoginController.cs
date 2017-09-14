@@ -67,7 +67,16 @@ namespace GYM.Web.Areas.Admin.Controllers
                 if (result.Result == null)
                     return JResult(new WebResult<bool> { Code = ErrorCode.sys_fail, Result = false, Append = "账号密码错误" });
                 else
-                    this.LoginAdmin = new Core.Model.LoginUser(result.Result);
+                {
+                    if (result.Result.IsDelete)
+                    {
+                        return JResult(new WebResult<bool> { Code = ErrorCode.sys_fail, Result = false, Append = "该账户已被删除" });
+                    }
+                    else
+                    {
+                        this.LoginAdmin = new Core.Model.LoginUser(result.Result);
+                    }
+                }
                 
             }
             return JResult(result);

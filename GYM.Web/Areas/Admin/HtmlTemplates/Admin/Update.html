@@ -5,26 +5,6 @@
             <div class="am-margin">
                 <div class="am-g am-margin-top">
                     <div class="am-u-md-3 am-text-right">
-                        用户名称：
-                    </div>
-                    <div class="am-u-md-5">
-                        <input type="text" name="Name" class="am-input-sm" maxlength="32" placeholder="请输入用户名称">
-                    </div>
-                    <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm"><strong class="am-text-danger am-text-sm">*</strong></strong>必填，不能超过32个字符</div>
-                </div>
-
-                <div class="am-g am-margin-top">
-                    <div class="am-u-md-3 am-text-right">
-                        是否超级管理员：
-                    </div>
-                    <div class="am-u-md-5">
-                        <select name="IsSuperAdmin"></select>
-                    </div>
-                    <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong></div>
-                </div>
-              
-                <div class="am-g am-margin-top">
-                    <div class="am-u-md-3 am-text-right">
                         账号：
                     </div>
                     <div class="am-u-md-5">
@@ -33,7 +13,7 @@
                     <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填，不能超过12个字符</div>
                 </div>
 
-                <div class="am-g am-margin-top" name="password">
+                <div class="am-g am-margin-top password">
                     <div class="am-u-md-3 am-text-right">
                         密码：
                     </div>
@@ -42,14 +22,24 @@
                     </div>
                     <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm"><strong class="am-text-danger am-text-sm">*</strong></strong>必填，6-12个字符</div>
                 </div>
-                <div class="am-g am-margin-top" name="password">
+                <div class="am-g am-margin-top password">
                     <div class="am-u-md-3 am-text-right">
                         重新输入密码：
                     </div>
                     <div class="am-u-md-5">
                         <input type="password" name="ConfirmPassword" class="am-input-sm" maxlength="12" placeholder="请重新输入密码">
                     </div>
-                    <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm"><strong class="am-text-danger am-text-sm">*</strong></strong>必填，6-12个字符</div>
+                    <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填，6-12个字符</div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-md-3 am-text-right">
+                        真实姓名：
+                    </div>
+                    <div class="am-u-md-5">
+                        <input type="text" name="RealName" class="am-input-sm" maxlength="32" placeholder="请输入用户名称">
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填，不能超过32个字符</div>
                 </div>
 
                 <div class="am-g am-margin-top">
@@ -59,8 +49,35 @@
                     <div class="am-u-md-5">
                         <input type="text" name="Mobile" class="am-input-sm" maxlength="11" placeholder="请输入手机号" />
                     </div>
-                    <div class="am-hide-sm-only am-u-md-4 am-text-left"></div>
+                    <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填</div>
                 </div>
+
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-md-3 am-text-right">
+                        性别：
+                    </div>
+                    <div class="am-u-md-5">
+                        <select name="Sex" data-am-selected="{btnWidth: '120px',btnSize: 'sm'}" style="width:120px;" >
+                            <option value="-1">未知</option>
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                        </select>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必选</div>
+                </div>
+
+                <div class="am-g am-margin-top">
+                    <div class="am-u-md-3 am-text-right">
+                        折扣：
+                    </div>
+                    <div class="am-u-md-5">
+                        <input type="number" name="Discount" class="am-input-sm" maxlength="11" />
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填，0~1</div>
+                </div>
+
+
             </div>
         </div>
     </form>

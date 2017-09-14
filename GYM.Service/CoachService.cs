@@ -106,8 +106,7 @@ namespace GYM.Service
                     Type = AdminCode.Coach,
                     CoachID = model.ID,
                     Account = model.Mobile,
-                    MobilePhone = model.Mobile,
-                    HeadImgUrl = model.HeadImgUrl,
+                    Mobile = model.Mobile,
                     Sex = model.Sex,
                     Password = CryptoHelper.MD5_Encrypt("123456"),
                     RealName = model.Name,
@@ -167,7 +166,6 @@ namespace GYM.Service
 
                 admin.Account = model.Mobile;
                 admin.RealName = model.Name;
-                admin.HeadImgUrl = model.HeadImgUrl;
                 admin.Sex = model.Sex;
 
                 var result = db.SaveChanges();
