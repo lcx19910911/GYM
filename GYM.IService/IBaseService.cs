@@ -21,8 +21,6 @@ namespace GYM.IService
         /// <returns>影响条数</returns>
         int Add(T source);
 
-
-
         /// <summary>
         /// 删除
         /// </summary>

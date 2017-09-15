@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Coach.cs" />
+    <Compile Include="CoursePrice.cs" />
     <Compile Include="DataDictionary.cs" />
     <Compile Include="CourseCategory.cs" />
     <Compile Include="Course.cs" />

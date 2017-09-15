@@ -55,8 +55,10 @@ namespace GYM.DB
         public virtual DbSet<DataDictionary> DataDictionary { get; set; }
         public virtual DbSet<Store> Store { get; set; }
         public virtual DbSet<Coach> Coach { get; set; }
+        public virtual DbSet<CourseCategory> CourseCategory { get; set; }
+        public virtual DbSet<Course> Course { get; set; }
+        public virtual DbSet<CoursePrice> CoursePrice { get; set; }
 
-        
 
         public override int SaveChanges()
         {

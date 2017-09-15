@@ -111,6 +111,18 @@ namespace GYM.Core.Code
         [Description("手机号码已存在.")]
         system_phone_already_exist = 205,
 
+        /// </summary>
+        [Description("该教练已有同样名称的课程.")]
+        store_coach_cours_ralready_exist = 206,
+
+        /// </summary>
+        [Description("该课程没有价格.")]
+        course_no_had_price = 207,
+
+
+        /// </summary>
+        [Description("该课程价格项目重复.")]
+        courseprice_name_extis = 207,
         #endregion
 
 

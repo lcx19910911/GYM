@@ -60,9 +60,12 @@
   <ItemGroup>
     <Compile Include="AdminService.cs" />
     <Compile Include="CoachService.cs" />
+    <Compile Include="CoursePriceService.cs" />
+    <Compile Include="CourseService.cs" />
     <Compile Include="UEditorService.cs" />
     <Compile Include="DataDictionaryService.cs" />
     <Compile Include="StoreService.cs" />
+    <Compile Include="CourseCategoryService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

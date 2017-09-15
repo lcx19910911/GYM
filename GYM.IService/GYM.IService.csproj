@@ -59,9 +59,12 @@
   <ItemGroup>
     <Compile Include="IAdminService.cs" />
     <Compile Include="ICoachService.cs" />
+    <Compile Include="ICoursePriceService.cs" />
+    <Compile Include="ICourseService.cs" />
     <Compile Include="IUEditorService.cs" />
     <Compile Include="IDataDictionaryService.cs" />
     <Compile Include="IStoreService.cs" />
+    <Compile Include="ICourseCategoryService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="IBaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
