@@ -47,7 +47,7 @@
                 <th dataname="TypeStr">管理员类型</th>
                 <th dataname="Mobile">手机号</th>
                 <th render="ShowSex">性别</th>
-                <th dataname="Discount">折扣</th>
+                <th dataname="RoleName">角色</th>
                 <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
                 <th type="eventlist"></th>
             </tr>
@@ -96,11 +96,8 @@
                         required: true,
                         maxlength: 11
                     },
-                    Discount: {
+                    RoleID: {
                         required: true,
-                        number: true,
-                        min: 0,
-                        max:1
                     },
                 },
                 messages: {
@@ -123,14 +120,18 @@
                         required: "不允许为空",
                         maxlength: "最多{0}个字符"
                     },
-                    Discount: {
+                    RoleID: {
                         required: "不允许为空",
-                        number: "请输入数字",
-                        min: "必须大于{0}",
-                        max: "必须小于{0}",
                     },
                 }
             });
+
+            $.Nuoya.action("/Admin/Role/GetSelectItem", {}, function (json) {
+                $(json).each(function () {
+                    $("#form select[name='RoleID']").append("<option " + (dataitem != null && dataitem.RoleID == this.Value ? "selected" : "") + " value='" + this.Value + "'>" + this.Text + "</option>");
+                });
+            });
+
         }
 
         //新增
@@ -172,7 +173,6 @@
             },
             ajaxUrl: "/Admin/Admin/GetPageList",
             //数据请求地址
-
             events: [
 
                 {

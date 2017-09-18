@@ -3,6 +3,7 @@ using GYM.Core;
 using GYM.Core.Code;
 using GYM.Core.Extensions;
 using GYM.Core.Model;
+using GYM.Web.Framework.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace GYM.Web.Framework
 {
+    [ExceptionFilter]
     public class BaseController : Controller
     {
 

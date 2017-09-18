@@ -102,6 +102,9 @@
                         required: true,
                         maxlength: 32
                     },
+                    HeadImgUrl: {
+                        required: true,
+                    },
                     Address: {
                         required: true,
                         maxlength: 128
@@ -110,10 +113,10 @@
                         required: true,
                     },
                     Introduce: {
-                        maxlength: 512
+                        maxlength: 10240
                     },
                     Notice: {
-                        maxlength: 256
+                        maxlength: 10240
                     },
                     Pictures: {
                         required: true,
@@ -124,6 +127,9 @@
                     Name: {
                         required: "门店名称不能为空",
                         maxlength: "最多{0}个字符"
+                    },
+                    HeadImgUrl: {
+                        required: "头像不允许为空",
                     },
                     Address: {
                         required: "地址不允许为空",

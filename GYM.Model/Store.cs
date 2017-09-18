@@ -47,14 +47,12 @@ namespace GYM.Model
         /// <summary>
         /// 介绍
         /// </summary>
-        [MaxLength(512)]
         [Display(Name = "介绍")]
         public string Introduce { get; set; }
 
         /// <summary>
         /// 注意事项
         /// </summary>
-        [MaxLength(256)]
         [Display(Name = "注意事项")]
         public string Notice { get; set; }
 

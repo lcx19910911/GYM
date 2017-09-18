@@ -102,15 +102,22 @@ namespace GYM.Service
         /// <returns></returns>
         public List<SelectItem> GetSelectList(GroupCode code,string value)
         {
-            var areas = CacheDic()[code].Values.OrderByDescending(x => x.Sort).ToList().AsQueryable();
-            if (!string.IsNullOrEmpty(value) && !value.Equals("-1"))
-                areas = areas.Where(x => !string.IsNullOrEmpty(x.ParentKey) && x.ParentKey.Trim().Equals(value));
+            var cacheDic = CacheDic();
+            if (cacheDic.ContainsKey(code))
+            {
+                var areas = cacheDic[code].Values.OrderByDescending(x => x.Sort).ToList().AsQueryable();
+                if (!string.IsNullOrEmpty(value) && !value.Equals("-1"))
+                    areas = areas.Where(x => !string.IsNullOrEmpty(x.ParentKey) && x.ParentKey.Trim().Equals(value));
+                else
+                    areas = areas.Where(_ => string.IsNullOrEmpty(_.ParentKey));
+                var alist = areas.ToList();
+                var list = alist.Select(x => new SelectItem() { Value = x.Key, Text = x.Value }).ToList();
+                list.Insert(0, new SelectItem() { Value = "-1", Text = "点击选择..." });
+
+                return list;
+            }
             else
-                areas = areas.Where(_ => string.IsNullOrEmpty(_.ParentKey));
-            var alist = areas.ToList();
-            var list = alist.Select(x => new SelectItem() { Value = x.Key, Text = x.Value }).ToList();
-            list.Insert(0, new SelectItem() { Value = "-1", Text = "点击选择..." });
-            return list;
+                return null;
         }
     }
 }

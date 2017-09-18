@@ -106,9 +106,15 @@ namespace GYM.Service
                 }
                 var count = query.Count();
                 var list = query.OrderByDescending(x => x.CreatedTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                var roleIDList = list.Select(x => x.RoleID).ToList();
+                var roleDic = db.Role.Where(x => roleIDList.Contains(x.ID)).ToDictionary(x => x.ID);
                 list.ForEach(x =>
                 {
                     x.TypeStr = x.Type.GetDescription();
+                    if (x.RoleID.IsNotNullOrEmpty() && roleDic.ContainsKey(x.RoleID))
+                    {
+                        x.RoleName = roleDic[x.RoleID]?.Name;
+                    }
                 });
 
                 return CreatePageList(list, pageIndex, pageSize, count);

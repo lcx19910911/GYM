@@ -51,6 +51,7 @@ namespace GYM.DB
         }
 
         public virtual DbSet<Admin> Admin { get; set; }
+        public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<DataDictionary> DataDictionary { get; set; }
         public virtual DbSet<Store> Store { get; set; }

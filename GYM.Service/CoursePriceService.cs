@@ -42,7 +42,7 @@ namespace GYM.Service
                 var query = db.CoursePrice.Where(x => !x.IsDelete);
                 if (name.IsNotNullOrEmpty())
                 {
-                    query = query.Where(x => x.Name.Contains(name));
+                    query = query.Where(x => x.ThingName.Contains(name));
                 }
                 if (courseName.IsNotNullOrEmpty())
                 {
@@ -70,7 +70,7 @@ namespace GYM.Service
         {
             using (DbRepository db = new DbRepository())
             {
-                return db.CoursePrice.Where(x => !x.IsDelete&&x.CourseID==courseID).OrderByDescending(x=>x.Name).ToList(); ;
+                return db.CoursePrice.Where(x => !x.IsDelete&&x.CourseID==courseID).OrderByDescending(x=>x.ThingName).ToList(); ;
             }
         }
     }

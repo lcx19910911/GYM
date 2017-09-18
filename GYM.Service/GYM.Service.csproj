@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminService.cs" />
+    <Compile Include="RoleService.cs" />
     <Compile Include="CoachService.cs" />
     <Compile Include="CoursePriceService.cs" />
     <Compile Include="CourseService.cs" />

@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/CourseCategorys/Admin/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "课程分类管理";
 }
 
@@ -100,7 +100,7 @@
         function add() {
             $.Nuoya.ajaxDialog({
                 closeViaDimmer: false,
-                ajaxUrl: "/CourseCategorys/Admin/HtmlTemplates/CourseCategory/Update.html",
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/CourseCategory/Update.html",
                 title: "添加分类",
                 width: "1000px",
                 height: "340px",
@@ -143,7 +143,7 @@
                     click: function (item) {
                         $.Nuoya.ajaxDialog({
                             closeViaDimmer: false,
-                            ajaxUrl: "/CourseCategorys/Admin/HtmlTemplates/CourseCategory/Update.html",
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/CourseCategory/Update.html",
                             title: "编辑分类",
                             width: "1000px",
                             height: "340px",

@@ -23,9 +23,31 @@
                             身份证号码<strong class="am-text-danger am-text-sm am-text-left">*</strong>：
                         </div>
                         <div class="am-u-md-4 am-text-left  am-u-end">
-                            <input type="text" name="IDCard" class="am-input-sm" maxlength="20" onkeyup="isCardID(this, $('[name=\'GenderCode\']'))">
+                            <input type="text" name="IDCard" class="am-input-sm" maxlength="20" onkeyup="isCardID(this))">
                         </div>
                     </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-2 am-text-right">
+                            照片
+                        </div>
+                        <div class="am-u-md-2">
+                            <a id="imageFile">上传图片</a>
+                            <input type="hidden" name="HeadImgUrl" />
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-6 am-text-left am-u-end"><strong class="am-text-danger am-text-sm">*</strong>必须上传一张图片,参考尺寸：180*180</div>
+                    </div>
+
+                    <div class="am-g am-margin-top" id="imageDiv" style="display:none">
+                        <div class="am-u-md-2 am-text-right">
+                            <strong class="am-text-danger am-text-sm">*</strong>
+                        </div>
+                        <div class="am-u-md-3 am-text-left">
+                            <img style="width:180px;" />
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"></div>
+                    </div>  
+
                     <div class="am-g am-margin-top">
                         <div class="am-u-md-2 am-text-right">
                             手机<strong class="am-text-danger am-text-sm am-text-left">*</strong>：
@@ -38,7 +60,7 @@
                             性别<strong class="am-text-danger am-text-sm am-text-left">*</strong>：
                         </div>
                         <div class="am-u-md-2 am-text-left  am-u-end">
-                            <select name="Sex" data-am-selected="{btnWidth: '120px',btnSize: 'sm'}" style="width:120px;" disabled>
+                            <select name="Sex" data-am-selected="{btnWidth: '120px',btnSize: 'sm'}" style="width:120px;">
                                 <option value="-1">未知</option>
                                 <option value="1">男</option>
                                 <option value="2">女</option>
@@ -67,7 +89,7 @@
                     <div class="am-g am-margin-top">
                       
                         <div class="am-u-md-2 am-text-right">
-                            驾龄：
+                            教龄：
                         </div>
                         <div class="am-u-md-2  am-u-end">
                             <input type="number" name="DrivingYears" class="am-input-sm">
@@ -87,7 +109,7 @@
                             报道时间<strong class="am-text-danger am-text-sm">*</strong>：
                         </div>
                         <div class="am-u-md-2">
-                            <input type="text" name="EntryDate" class="am-input-sm" style="width:190px;" placeholder="请选择时间" readonly onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss', autoPickDate: true, maxDate: '%y-%M-%d 00:00:00' })" datatype="jsondate" />
+                            <input type="text" name="EntryDate" class="am-input-sm" style="width:190px;" placeholder="请选择时间" readonly onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd', autoPickDate: true})" datatype="jsondate" />
                         </div>
                         <div class="am-u-md-2 am-text-right">
                             底薪<strong class="am-text-danger am-text-sm">*</strong>：

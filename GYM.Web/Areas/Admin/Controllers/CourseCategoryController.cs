@@ -107,5 +107,14 @@ namespace GYM.Web.Areas.Admin.Controllers
         {
             return JResult(ICourseCategoryService.GetSelectList());
         }
+
+        /// <summary>
+        /// 获取下拉框 
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetZTreeChildren()
+        {
+            return JResult(ICourseCategoryService.GetZTreeChildren());
+        }
     }
 }

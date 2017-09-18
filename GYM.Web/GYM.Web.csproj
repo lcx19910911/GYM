@@ -252,6 +252,8 @@
     <Content Include="Areas\Admin\Content\zTreeStyle\zTreeStyle.css" />
     <Content Include="Areas\Admin\HtmlTemplates\Admin\ChangePassword.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Admin\Update.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Role\Update.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Course\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\CourseCategory\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Area\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Coach\Update.html" />
@@ -575,6 +577,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\CoachController.cs" />
     <Compile Include="Areas\Admin\Controllers\CourseCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\CourseController.cs" />
@@ -621,6 +624,8 @@
     <Content Include="Areas\Admin\Views\Coach\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CourseCategory\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Course\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

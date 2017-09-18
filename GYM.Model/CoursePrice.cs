@@ -33,20 +33,18 @@ namespace GYM.Model
         /// </summary>
         [Required(ErrorMessage = "单项名称不能为空")]
         [MaxLength(32)]
-        public string Name { get; set; }
+        public string ThingName { get; set; }
 
 
         /// <summary>
         /// 原价
         /// </summary>
-        [MaxLength(512)]
         public decimal Price { get; set; }
 
 
         /// <summary>
         /// 会员折扣价
         /// </summary>
-        [MaxLength(512)]
         public decimal DiscountPrice { get; set; }
 
     }

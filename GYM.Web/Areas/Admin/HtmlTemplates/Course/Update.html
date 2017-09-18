@@ -1,0 +1,156 @@
+﻿<div class="admin-content-body">
+    <form id="form" class="am-form  am-form-inline">
+        <input type="hidden" name="ID" />
+        <div class="am-tabs am-margin" data-am-tabs="">
+            <ul class="am-tabs-nav am-nav am-nav-tabs" id="selectTabUl">
+                <li class="am-active"><a href="#tab1">课程信息</a></li>
+                <li class=""><a href="#tab2">收费价格</a></li>
+            </ul>
+            <div class="am-tabs-bd" style="touch-action: pan-y; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);overflow-x:hidden">
+                <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            课程名称
+                        </div>
+                        <div class="am-u-md-5">
+                            <input type="text" name="Name" class="am-input-sm" maxlength="32">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong>必填，不能超过32个字</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            课程时间
+                        </div>
+                        <div class="am-u-md-6">
+                            <input type="text" id="startTime" name="StartTime" style="width:170px;float:left;" readonly onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm', minDate: '%y-%M-%d 7:00', maxDate: '#F{$dp.$D(\'endTime\')}' })" datatype="jsondate" />
+                            <label class="am-u-md-1 am-text-left">-</label>
+                            <input type="text" id="endTime" name="EndTime" style="width:170px;float:left;" readonly onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm', minDate: '#F{$dp.$D(\'startTime\')}' })" datatype="jsondate" />
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-3 am-text-left"><strong class="am-text-danger am-text-sm">*</strong></div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            分类
+                        </div>
+                        <div class="am-u-md-2 ">
+                            <input type="hidden" name="CourseCategoryIDS" />
+                            <input type="text" name="CourseCategorySelectIDS" readonly/>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            门店
+                        </div>
+                        <div class="am-u-md-2 ">
+                            <select name="StoreID" data-am-selected="{btnSize: 'sm'}"></select>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong></div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            教练员
+                        </div>
+                        <div class="am-u-md-2 ">
+                            <select name="CoachID" data-am-selected="{btnSize: 'sm'}"></select>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong></div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            训练结果
+                        </div>
+                        <div class="am-u-md-9 am-text-left">
+                            <input type="hidden" name="TrainResult" />
+                            <script class="txtTrainResult" type="text/plain" style="height:300px;">
+                            </script>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            适合人群
+                        </div>
+                        <div class="am-u-md-9 am-text-left">
+                            <input type="hidden" name="FitPeople" />
+                            <script class="txtFitPeople" type="text/plain" style="height:300px;">
+                            </script>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            问题和回答
+                        </div>
+                        <div class="am-u-md-9 am-text-left">
+                            <input type="hidden" name="FAQ" />
+                            <script class="txtFAQ" type="text/plain" style="height:300px;">
+                            </script>
+                        </div>
+                    </div>
+                    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+
+                    <div class="am-g am-margin-top am-panel am-panel-default" style="height:306px;">
+                        <div class="am-u-md-12">
+                            <div class="am-g am-margin-top">
+                                <div class="am-u-md-12 am-text-left">
+                                    <input type="hidden" name="Pictures" />
+                                    <label for="user-name" class="am-form-label">课程图片（建议上传大小：不超过2M,双击图片删除）<strong class="am-text-danger am-text-sm">*</strong></label>
+                                    <a class="am-form-label" id="imageFile">&nbsp;&nbsp;上传图片</a>
+                                </div>
+                            </div>
+                            <div class="am-g am-margin-top">
+                                <div class="am-u-md-12 am-text-left" id="divImageShow">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="am-tab-panel am-fade" id="tab2">
+                    <input type="hidden" name="priceList"/>
+                    <div class="am-g am-margin-top ">
+                        <div class="am-u-md-12">
+                            <div class="am-g am-margin-top">
+                                <div class="am-u-md-2 am-text-center">序号 </div>
+                                <div class="am-u-md-3 am-text-center">名称</div>
+                                <div class="am-u-md-3 am-text-center">价格</div>
+                                <div class="am-u-md-2 am-text-center">会员价</div>
+                                <div class="am-u-md-2 am-text-center am-u-end">操作</div>
+                            </div>
+                        </div>
+                        <div class="coursePrice">
+                            <div class="am-u-md-12 priceItem">
+                                <div class="am-g am-margin-top ">
+                                    <div class="am-u-md-2 am-text-center">+</div>
+                                    <div class="am-u-md-3 am-text-center">
+                                        <input type="text" name="ThingName" class="am-input-sm" maxlength="32">
+                                    </div>
+                                    <div class="am-u-md-3 am-text-center">
+                                        <input type="number" name="Price" class="am-input-sm" min="0.01">
+                                    </div>
+                                    <div class="am-u-md-2 am-text-center">
+                                        <input type="number" name="DiscountPrice" class="am-input-sm" min="0.01">
+                                    </div>
+                                    <div class="am-u-md-2 am-text-center am-u-end">
+                                        <button class="am-btn am-btn-danger am-btn-xs" onclick="javascript: if ($('.priceItem').length == 1) { return false; } $(this).parents('.priceItem').remove()">删除</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-u-md-12">
+                            <div class="am-g am-margin-top am-margin-bottom">
+                                <button type="button" class="am-btn am-btn-success" onclick="javascript: $('.coursePrice').append('<div class=\'am-u-md-12 priceItem\'>'+$('.priceItem:eq(0)').html()+'</div>')">新增价格</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

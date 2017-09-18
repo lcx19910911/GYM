@@ -1,4 +1,5 @@
-﻿using GYM.IService;
+﻿using GYM.Core.Helper;
+using GYM.IService;
 using GYM.Model;
 using GYM.Web.Framework;
 using System;
@@ -41,6 +42,10 @@ namespace GYM.Web.Areas.Admin.Controllers
                 }
                 entity.CreatedTime = entity.UpdatedTime = DateTime.Now;
                 var result = IDataDictionaryService.Add(entity);
+                if (result > 0)
+                {
+                    CacheHelper.Clear();
+                }
                 return JResult(result);
             }
             else
@@ -74,6 +79,10 @@ namespace GYM.Web.Areas.Admin.Controllers
                 model.Value = entity.Value;
                 model.Remark = entity.Remark;
                 var result = IDataDictionaryService.Update(entity);
+                if (result > 0)
+                {
+                    CacheHelper.Clear();
+                }
                 return JResult(result);
             }
             else
@@ -114,7 +123,12 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Delete(string ID)
         {
-            return JResult(IDataDictionaryService.Delete(ID));
+            var result = IDataDictionaryService.Delete(ID);
+            if (result > 0)
+            {
+                CacheHelper.Clear();
+            }
+            return JResult(result);
         }
 
 

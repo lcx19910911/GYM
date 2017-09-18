@@ -52,12 +52,13 @@ namespace GYM.Service
                 }
                 var count = query.Count();
                 var list = query.OrderByDescending(x => x.CreatedTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-                var areaDic = IDataDictionaryService.CacheDic()[GroupCode.Area];
+
+                var areaDic = IDataDictionaryService.CacheDic();
                 list.ForEach(x =>
                 {
-                    if (x.CityCode.IsNotNullOrEmpty() && areaDic.ContainsKey(x.CityCode))
+                    if (areaDic.ContainsKey(GroupCode.Area)&&x.CityCode.IsNotNullOrEmpty() && areaDic[GroupCode.Area].ContainsKey(x.CityCode))
                     {
-                        x.CityName = areaDic[x.CityCode].Value;
+                        x.CityName = areaDic[GroupCode.Area][x.CityCode].Value;
                     }
                 });
 

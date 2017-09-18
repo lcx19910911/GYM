@@ -67,9 +67,17 @@ namespace GYM.Model
         public string CoachID { get; set; }
 
         /// <summary>
-        /// 折扣
+        /// 角色
         /// </summary>
-        public float Discount { get; set; } = 1;
+        [Required(ErrorMessage = "角色不能为空")]
+        [MaxLength(32)]
+        public string RoleID { get; set; }
+
+        /// <summary>
+        /// 角色
+        /// </summary>
+        [NotMapped]
+        public string RoleName { get; set; }
     }
 
 }

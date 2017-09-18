@@ -29,6 +29,7 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
+        [ValidateInput(false)]
         public JsonResult Add(Store entity)
         {
             ModelState.Remove("ID");
@@ -56,6 +57,7 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
+        [ValidateInput(false)]
         public JsonResult Update(Store entity)
         {
             ModelState.Remove("CreatedTime");

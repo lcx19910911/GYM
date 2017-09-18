@@ -65,8 +65,33 @@ namespace GYM.Service
                 }
                 var count = query.Count();
                 var list = query.OrderByDescending(x => x.CreatedTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                var storeIdList = list.Select(x => x.StoreID).ToList();
+                var coachIdList = list.Select(x => x.CoachID).ToList();
+                var storeDic = db.Store.Where(x => storeIdList.Contains(x.ID)).ToDictionary(x=>x.ID);
+                var coachDic = db.Coach.Where(x => coachIdList.Contains(x.ID)).ToDictionary(x => x.ID);
+                var categoryIdsList = list.Select(x => x.CourseCategoryIDS).ToList();
+                var categoryIdList = new List<string>();
+                categoryIdsList.ForEach(x => categoryIdList.AddRange(x.Split(',')));
+                var categoryDic = db.CourseCategory.Where(x => categoryIdList.Contains(x.ID)).ToDictionary(x=>x.ID);
                 list.ForEach(x =>
                 {
+                    if (x.CoachID.IsNotNullOrEmpty() && coachDic.ContainsKey(x.CoachID))
+                    {
+                        x.CoachName = coachDic[x.CoachID]?.Name;
+                    }
+                    if (x.StoreID.IsNotNullOrEmpty() && storeDic.ContainsKey(x.StoreID))
+                    {
+                        x.StoreName = storeDic[x.StoreID]?.Name;
+                    }
+                    if (x.CourseCategoryIDS.IsNotNullOrEmpty())
+                    {
+                        x.CourseCategoryIDS.Split(',').ToList().ForEach(y=> {
+                            if (categoryDic.ContainsKey(y))
+                            {
+                                x.CourseCategoryNameS += categoryDic[y].Name+" ";
+                            }
+                        });
+                    }
                 });
 
                 return CreatePageList(list, pageIndex, pageSize, count);
@@ -130,7 +155,7 @@ namespace GYM.Service
                 {
                     return Result(false,Core.Code.ErrorCode.store_coach_cours_ralready_exist);
                 }
-                var countDic = priceList.GroupBy(x => x.Name).ToDictionary(x => x.Key, x => x.Count());
+                var countDic = priceList.GroupBy(x => x.ThingName).ToDictionary(x => x.Key, x => x.Count());
                 if (countDic.Values.Any(x => x > 1))
                 {
                     return Result(false, Core.Code.ErrorCode.courseprice_name_extis);
@@ -158,11 +183,11 @@ namespace GYM.Service
                 {
                     return Result(false, Core.Code.ErrorCode.course_no_had_price);
                 }
-                if (db.Course.Any(x => x.Name == model.Name && x.CoachID == x.CoachID&&x.ID!=model.ID))
+                if (db.Course.Any(x => x.Name == model.Name && x.CoachID == model.CoachID&&x.ID!=model.ID))
                 {
                     return Result(false, Core.Code.ErrorCode.store_coach_cours_ralready_exist);
                 }
-                var countDic = priceList.GroupBy(x => x.Name).ToDictionary(x => x.Key, x => x.Count());
+                var countDic = priceList.GroupBy(x => x.ThingName).ToDictionary(x => x.Key, x => x.Count());
                 if (countDic.Values.Any(x => x > 1))
                 {
                     return Result(false, Core.Code.ErrorCode.courseprice_name_extis);
@@ -186,6 +211,7 @@ namespace GYM.Service
                 oldModel.TrainResult = model.TrainResult;
 
                 var code = ErrorCode.sys_success;
+                var priceIDList = db.CoursePrice.Where(x => !x.IsDelete && x.CourseID == model.ID).Select(x => x.ID).ToList();
                 priceList.ForEach(x => {
                     if (x.ID.IsNotNullOrEmpty())
                     {
@@ -196,7 +222,7 @@ namespace GYM.Service
                         }
                         else
                         {
-                            oldPrice.Name = x.Name;
+                            oldPrice.ThingName = x.ThingName;
                             oldPrice.Price = x.Price;
                             oldPrice.DiscountPrice = x.DiscountPrice;
                         }
@@ -205,6 +231,15 @@ namespace GYM.Service
                     {
                         x.CourseID = model.ID;
                         db.CoursePrice.Add(x);
+                    }
+                });
+              
+                priceIDList.Where(x => !priceList.Select(y => y.ID).Contains(x)).ToList().ForEach(x =>
+                {
+                    var oldPrice = db.CoursePrice.Find(x);
+                    if (oldPrice != null)
+                    {
+                        oldPrice.IsDelete = true;
                     }
                 });
                 if (code != ErrorCode.sys_success)

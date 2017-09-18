@@ -61,7 +61,7 @@ namespace GYM.Service
         /// <param name="parentId">父级id</param>
         /// <param name="groups">分组数据</param>
         /// <returns></returns>
-        public List<ZTreeNode> Get_OperateZTreeFlagChildren()
+        public List<ZTreeNode> GetZTreeChildren()
         {
             List<ZTreeNode> ztreeNodes = new List<ZTreeNode>();
             using (DbRepository db = new DbRepository())

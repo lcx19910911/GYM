@@ -29,16 +29,18 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public JsonResult Add(Course entity,List<CoursePrice> priceList)
+        [ValidateInput(false)]
+        public JsonResult Add(Course entity)
         {
             ModelState.Remove("ID");
             ModelState.Remove("CreatedTime");
             ModelState.Remove("UpdatedTime");
             ModelState.Remove("IsDelete");
+            ModelState.Remove("CourseID");
             if (ModelState.IsValid)
             {             
                 entity.CreatedTime = entity.UpdatedTime = DateTime.Now;
-                return JResult(ICourseService.AddCourse(entity, priceList));
+                return JResult(ICourseService.AddCourse(entity, entity.PriceList));
             }
             else
             {
@@ -51,14 +53,15 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public JsonResult Update(Course entity, List<CoursePrice> priceList)
+        [ValidateInput(false)]
+        public JsonResult Update(Course entity)
         {
             ModelState.Remove("CreatedTime");
             ModelState.Remove("UpdatedTime");
             ModelState.Remove("IsDelete");
             if (ModelState.IsValid)
             { 
-                var result = ICourseService.UpdateCourse(entity, priceList);
+                var result = ICourseService.UpdateCourse(entity, entity.PriceList);
                 return JResult(result);
             }
             else
@@ -89,7 +92,12 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Find(string ID)
         {
-            return JResult(ICourseService.Find(ID));
+            var model = ICourseService.Find(ID);
+            if (model != null)
+            {
+                model.PriceList = ICoursePriceService.GetListByCourseID(ID);
+            }         
+            return JResult(model);
         }
 
         /// <summary>

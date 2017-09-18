@@ -103,7 +103,7 @@ namespace GYM.Web.Areas.Admin.Controllers
 
                 model.RealName = entity.RealName;
                 model.Mobile = entity.Mobile;
-                model.Discount = entity.Discount;
+                model.RoleID = entity.RoleID;
                 model.Sex = entity.Sex;
                 var result = IAdminService.Update(model);
                 return JResult(result);

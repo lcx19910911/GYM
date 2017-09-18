@@ -24,6 +24,6 @@ namespace GYM.IService
 
         List<SelectItem> GetSelectList();
 
-        List<ZTreeNode> Get_OperateZTreeFlagChildren();
+        List<ZTreeNode> GetZTreeChildren();
     }
 }

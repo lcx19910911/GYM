@@ -47,7 +47,7 @@
                 <th dataname="Name">教练名称</th>
                 <th dataname="StoreName">门店</th>                
                 <th dataname="IDCard">身份证</th>
-                <th dataname="ShowSex">性别</th>
+                <th render="ShowSex">性别</th>
                 <th dataname="Mobile">手机</th>
                 <th dataname="BasicSalary">底薪</th>
                 <th dataname="EntryDate" datatype="jsondate">入职日期</th>
@@ -168,6 +168,35 @@
                     },
                 }
             });
+
+            UploadImg();
+        }
+        function UploadImg() {
+            var headimgbtn = $("#imageFile").uploadFile({
+                url: '/admin/upload/uploadimage?mark=coach',
+                fileSuffixs: ["jpg", "png", "gif"],
+                maximumFilesUpload: 1,//最大文件上传数
+                onComplete: function (data) {
+                    if (data) {
+                        $("[name='HeadImgUrl']").val(data);
+                        $("#imageDiv").show().find("img").attr("src", data);
+                    }
+                    else {
+                        $.Nuoya.alert("上传错误");
+                    }
+
+                },
+                onChosen: function (file, obj, fileSize, errorText) {
+                    if (errorText) {
+                        $.Nuoya.alert(errorText);
+                        return false;
+                    }
+                    //Loading("图片正在上传中...", "请稍等");
+                    uploadheadimg.submitUpload();
+                    return true;//返回false将取消当前选择的文件
+                },
+            });
+            var uploadheadimg = headimgbtn.data("uploadFileData");
         }
 
         //新增

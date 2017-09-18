@@ -54,7 +54,7 @@
                 <br>
                 <label for="password"></label>
                 <input type="password" id="code" value="" placeholder="请输入验证码" style="width:60%;float:left;">
-                <img id="img_code" style="width:40%;height:3rem;float:left;" alt="" title="点击重新获取" src="/admin/login/validatecode" onclick="javascript: $(this).attr('src', '/admin/account/validatecode?r=' + Math.random());" />
+                <img id="img_code" style="width:40%;height:3rem;float:left;" alt="" title="点击重新获取" src="/admin/login/validatecode" onclick="javascript: $(this).attr('src', '/admin/login/validatecode?r=' + Math.random());" />
                 <br><br>
                 <div class="am-cf">
                     <input type="button" id="btnSubmit" name="" value="登 录" class="am-btn am-btn-primary  am-btn-block" onclick="Login()">
@@ -102,7 +102,7 @@
                     }
                     else {
                         alert(data.Append);
-                        $("#img_code").attr("src", "/admin/account/validatecode?r=" + Math.random());
+                        $("#img_code").attr("src", "/admin/login/validatecode?r=" + Math.random());
                     }
                 }
             });
