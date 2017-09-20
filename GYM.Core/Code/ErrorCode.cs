@@ -123,6 +123,12 @@ namespace GYM.Core.Code
         /// </summary>
         [Description("该课程价格项目重复.")]
         courseprice_name_extis = 207,
+
+
+
+        /// </summary>
+        [Description("邀请码已使用.")]
+        code_had_used = 208,
         #endregion
 
 

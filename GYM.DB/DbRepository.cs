@@ -51,6 +51,7 @@ namespace GYM.DB
         }
 
         public virtual DbSet<Admin> Admin { get; set; }
+        public virtual DbSet<AdminInvite> AdminInvite { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<DataDictionary> DataDictionary { get; set; }
@@ -60,6 +61,11 @@ namespace GYM.DB
         public virtual DbSet<Course> Course { get; set; }
         public virtual DbSet<CoursePrice> CoursePrice { get; set; }
 
+
+
+        public virtual DbSet<Recharge> Recharge { get; set; }
+        public virtual DbSet<RechargePlan> RechargePlan { get; set; }
+        
 
         public override int SaveChanges()
         {

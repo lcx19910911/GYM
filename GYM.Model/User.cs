@@ -54,6 +54,19 @@ namespace GYM.Model
         /// </summary>
         [Display(Name = "真实姓名"), MaxLength(32)]
         public string RealName { get; set; }
-        
+
+        /// <summary>
+        /// 是否是会员
+        /// </summary>
+        public bool IsMember { get; set; } = false;
+
+        /// <summary>
+        /// 账户余额
+        /// </summary>
+        public decimal Balance { get; set; } = 0;
+        /// <summary>
+        /// 总充值
+        /// </summary>
+        public decimal TotalRecharge { get; set; } = 0;
     }
 }

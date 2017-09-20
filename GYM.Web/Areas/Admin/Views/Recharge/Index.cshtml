@@ -1,0 +1,82 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "充值记录";
+}
+
+<div class="am-cf am-padding">
+    <div class="am-fl am-cf"><a href="#" onclick="BackUrl()"><strong class="am-text-primary am-text-lg">返回</strong></a>/<small>充值记录</small></div>
+</div>
+<div id="searchDomain">
+
+    <div class="am-g">   
+        <div class="am-u-lg-6 am-u-end">
+            <div class="am-input-group am-input-group-sm">
+                <span class="am-input-group-label">用户名称：</span>
+                <input type="text" class="am-form-field" placeholder="按用户名称搜索" style="width:100px;" name="userName" ;>
+                <span class="am-input-group-label  am-margin-left-sm">状态</span>
+                <select name="State" data-am-selected="{btnSize: 'sm'}">
+                    <option value="-1">不限</option>
+                    <option value="0">待支付</option>
+                    <option value="1">支付成功</option>
+                    <option value="2">支付失败</option>
+                </select>
+                <span class="am-input-group-label  am-margin-left-sm">充值日期</span>
+                <input type="text" class="am-form-field" placeholder="请选择日期" name="createdTimeStart" readonly style="width:120px;">
+                <span class="am-input-group-label"> - </span>
+                <input type="text" class="am-form-field" placeholder="请选择日期" name="createdTimeEnd" readonly style="width:120px;">
+                <span class="am-input-group-btn am-margin-left-sm">
+                    <button class="am-btn am-btn-default" id="btnSearch" type="button">搜索</button>
+                    <button class="am-btn am-btn-default" onclick="ClearFilter()" type="button">清除</button>
+                </span>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+<div class="grid_container">
+    <table id="dataTable" class="am-table am-table-compact am-table-hover table-main">
+        <thead>
+            <tr>
+                <th dataname="ID" type="checkbox"></th>
+                <th dataname="UserName">用户名称</th>
+                <th dataname="Amount">数值</th>
+                <th dataname="TypeStr">支付方式</th>
+                <th dataname="ThirdOrderID">第三方订单号</th>
+                <th dataname="BeforeBalance">充值前余额</th>
+                <th dataname="AfterBalance">充值后余额</th>
+                <th dataname="StateStr">状态</th>
+                <th dataname="SuccessTime" datatype="jsondate">到账日期</th>
+                <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
+                <th type="eventlist"></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+
+
+        function ClearFilter() {
+            $("#searchDomain input").val("");
+        }
+
+        var grid = $.Nuoya.grid({
+            tableId: "dataTable",
+            //表格id
+            search: {
+                domainId: "searchDomain",
+                subId: "btnSearch"
+            },
+            ajaxUrl: "/Admin/Recharge/GetPageList",
+            //数据请求地址
+            
+            events: [
+            ]
+        });
+
+    </script>
+}

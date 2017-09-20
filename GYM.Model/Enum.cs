@@ -37,6 +37,28 @@ namespace GYM.Model
         Women = 2
     }
 
+
+    public enum PayType
+    {
+        [Description("未知")]
+        Alipay = 0,
+
+        [Description("未知")]
+        WechatPay = 1
+    }
+
+    public enum PayState
+    {
+
+        [Description("等待支付")]
+        WaitPay = 0,
+
+        [Description("支付成功")]
+        Success = 1,
+        [Description("支付失败")]
+        Failed = 2,
+    }
+
     /// <summary>
     /// 字典分组
     /// </summary>

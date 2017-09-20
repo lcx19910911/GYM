@@ -41,13 +41,19 @@ namespace GYM.Web.App_Start
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IAdminService, AdminService>();
+            container.RegisterType<IAdminInviteService, AdminInviteService>();
             container.RegisterType<IRoleService, RoleService>();
             container.RegisterType<IDataDictionaryService, DataDictionaryService>();
             container.RegisterType<IStoreService, StoreService>();
             container.RegisterType<ICoachService, CoachService>();
             container.RegisterType<ICourseCategoryService, CourseCategoryService>();
             container.RegisterType<ICoursePriceService, CoursePriceService>();
-            container.RegisterType<ICourseService, CourseService>(); 
+            container.RegisterType<ICourseService, CourseService>();
+
+            container.RegisterType<IRechargeService, RechargeService>();
+            container.RegisterType<IRechargePlanService, RechargePlanService>();
+
+
         }
     }
 }

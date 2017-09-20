@@ -59,6 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminService.cs" />
+    <Compile Include="AdminInviteService.cs" />
+    <Compile Include="RechargeService.cs" />
+    <Compile Include="RechargePlanService.cs" />
     <Compile Include="RoleService.cs" />
     <Compile Include="CoachService.cs" />
     <Compile Include="CoursePriceService.cs" />

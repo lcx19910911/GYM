@@ -59,10 +59,13 @@
   <ItemGroup>
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Coach.cs" />
+    <Compile Include="AdminInvite.cs" />
     <Compile Include="CoursePrice.cs" />
     <Compile Include="DataDictionary.cs" />
     <Compile Include="CourseCategory.cs" />
     <Compile Include="Course.cs" />
+    <Compile Include="RechargePlan.cs" />
+    <Compile Include="Recharge.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="Enum.cs" />

@@ -59,6 +59,9 @@
   <ItemGroup>
     <Compile Include="IAdminService.cs" />
     <Compile Include="ICoachService.cs" />
+    <Compile Include="IAdminInviteService.cs" />
+    <Compile Include="IRechargeService.cs" />
+    <Compile Include="IRechargePlanService.cs" />
     <Compile Include="IRoleService.cs" />
     <Compile Include="ICoursePriceService.cs" />
     <Compile Include="ICourseService.cs" />
@@ -78,6 +81,10 @@
     <ProjectReference Include="..\GYM.Core\GYM.Core.csproj">
       <Project>{066eec6f-9103-4165-ae18-7db85cc51be9}</Project>
       <Name>GYM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GYM.DB\GYM.DB.csproj">
+      <Project>{134E4193-1237-487D-BBAD-2D7C573427C9}</Project>
+      <Name>GYM.DB</Name>
     </ProjectReference>
     <ProjectReference Include="..\GYM.Domain\GYM.Domain.csproj">
       <Project>{b385fb51-a79d-44dd-9b2c-f25dc589302d}</Project>
