@@ -8,7 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace GYM.Web.Recharges.Admin.Controllers
+namespace GYM.Web.Areas.Admin.Controllers
 {
     public class RechargeController : BaseAdminController
     {

@@ -68,6 +68,8 @@ namespace GYM.Core.Core
                         var oldEntity =y as  TSource;
                         x.ID = oldEntity.ID;
                         x.IsDelete = oldEntity.IsDelete;
+                        x.CreatedTime = oldEntity.CreatedTime;
+                        x.UpdatedTime = DateTime.Now;
                     });
 
                     //使用autoMapper映射                
