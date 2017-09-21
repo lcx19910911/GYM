@@ -209,6 +209,7 @@ namespace GYM.Service
                 oldModel.FAQ = model.FAQ;
                 oldModel.FitPeople = model.FitPeople;
                 oldModel.TrainResult = model.TrainResult;
+                oldModel.PeopleLimit = model.PeopleLimit;                
 
                 var code = ErrorCode.sys_success;
                 var priceIDList = db.CoursePrice.Where(x => !x.IsDelete && x.CourseID == model.ID).Select(x => x.ID).ToList();

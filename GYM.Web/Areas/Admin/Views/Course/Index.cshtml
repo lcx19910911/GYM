@@ -52,6 +52,8 @@
                 <th dataname="StoreName">门店</th>                
                 <th dataname="CoachName">教练员</th>
                 <th dataname="CourseCategoryNameS">分类</th>
+                <th dataname="PeopleLimit">人数限制</th>
+                <th dataname="JoinCount">已报名</th>
                 <th dataname="StartTime" datatype="jsondate">开始时间</th>
                 <th dataname="EndTime" datatype="jsondate">结束时间</th>
                 <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
@@ -207,6 +209,12 @@
                         required: true,
                         maxlength: 1024
                     },
+                    PeopleLimit: {
+                        digits: true,
+                        min: 0,
+                        max:1000
+                    },
+                    
                 },
                 messages: {
                     Name: {
@@ -242,6 +250,11 @@
                         required: "图片不允许为空",
                         maxlength: "最多{0}个字符"
                     },
+                    PeopleLimit: {
+                        digits: "请输入数字",
+                        max: "必须小于{0}",
+                        min: "必须大于{0}"
+                    }
                 }
             });
 

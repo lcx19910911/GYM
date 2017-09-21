@@ -1,10 +1,10 @@
 ﻿@{
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "课程分类管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "部门管理";
 }
 
 <div class="am-cf am-padding">
-    <div class="am-fl am-cf"><a href="#" onclick="BackUrl()"><strong class="am-text-primary am-text-lg">返回</strong></a>/<small>课程分类管理</small></div>
+    <div class="am-fl am-cf"><a href="/"><strong class="am-text-primary am-text-lg">首页</strong></a> /<small>部门管理</small></div>
 </div>
 <div id="searchDomain">
 
@@ -12,7 +12,7 @@
         <div class="am-u-lg-6 am-u-end">
             <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-label">名称：</span>
-                <input type="text" class="am-form-field" placeholder="按名称搜索" style="width:100px;" name="value" ;>
+                <input type="text" class="am-form-field" placeholder="按部门名称搜索" style="width:100px;" name="name" ;>
                 <span class="am-input-group-btn am-margin-left-sm">
                     <button class="am-btn am-btn-default" id="btnSearch" type="button">搜索</button>
                     <button class="am-btn am-btn-default" onclick="ClearFilter()" type="button">清除</button>
@@ -27,6 +27,7 @@
             <div class="am-btn-toolbar">
                 <div class="am-btn-group am-btn-group-xs">
                     <button onclick="add()" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+                    <button onclick="batchDelete()" type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>
                 </div>
             </div>
         </div>
@@ -39,9 +40,13 @@
         <thead>
             <tr>
                 <th dataname="ID" type="checkbox"></th>
-                <th dataname="Name">分类名称</th>
+                <th dataname="Name">部门名称</th>
+                <th dataname="ParentName">所属部门</th>
+                <th dataname="Telephone">电话</th>
+                <th dataname="No">房间号</th>
                 <th dataname="Sort">排序</th>
                 <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
+                <th dataname="UpdatedTime" datatype="jsondate">编辑日期</th>
                 <th type="eventlist"></th>
             </tr>
         </thead>
@@ -52,8 +57,6 @@
 {
     <script type="text/javascript">
 
-        var parentKey = '@Request["parentkey"]';
-
         function ClearFilter() {
             $("#searchDomain input").val("");
         }
@@ -61,7 +64,7 @@
         function batchDelete() {
             $.Nuoya.confirm("确认删除？", function () {
                 grid.del({
-                    ajaxUrl: "/Admin/CourseCategory/Delete",
+                    ajaxUrl: "/Department/Delete",
                     callback: function (json) {
                         grid.reload();
                     }
@@ -69,22 +72,30 @@
             });
         }
         function formInit(dataitem) {
+            $("[name=ParentIDSelect]").ztreeSelect($("[name=ParentID]"), "/Department/GetZTreeChildren", dataitem != null ? dataitem.ID : null);
+
             //添加表单验证
             $.Nuoya.form("form").validate({
                 rules: {
                     Name: {
                         required: true,
-                        maxlength: 32
+                        maxlength: 64
+                    },
+                    Remark: {
+                        maxlength: 128
                     },
                     Sort: {
                         digits: true,
                         max: 2147483647,
-                        min: 0
+                        min: -2147483647
                     }
                 },
                 messages: {
                     Name: {
                         required: "不允许为空",
+                        maxlength: "最多{0}个字符"
+                    },
+                    Remark: {
                         maxlength: "最多{0}个字符"
                     },
                     Sort: {
@@ -100,18 +111,18 @@
         function add() {
             $.Nuoya.ajaxDialog({
                 closeViaDimmer: false,
-                ajaxUrl: "/Areas/Admin/HtmlTemplates/CourseCategory/Update.html",
-                title: "添加分类",
+                ajaxUrl: "/HtmlTemplates/Department/Update.html",
+                title: "添加部门",
                 width: "1000px",
-                height: "340px",
+                height: "360px",
                 callback: function (e) {
-                    formInit();//表单初始化              
+                    formInit();//表单初始化
                 },
                 buttons: [{
                     label: "保存",
                     callback: function (e) {
                         $.Nuoya.form("form").ajaxSubmit({
-                            ajaxUrl: "/Admin/CourseCategory/Add",
+                            ajaxUrl: "/Department/Add",
                             callback: function (data) {
                                 if (!data.ErrorDesc) {
                                     e.hide();
@@ -125,6 +136,7 @@
                 }]
             })
         }
+
         var grid = $.Nuoya.grid({
             tableId: "dataTable",
             //表格id
@@ -132,7 +144,7 @@
                 domainId: "searchDomain",
                 subId: "btnSearch"
             },
-            ajaxUrl: "/Admin/CourseCategory/GetPageList",
+            ajaxUrl: "/Department/GetPageList",
             //数据请求地址
             
             events: [
@@ -143,12 +155,12 @@
                     click: function (item) {
                         $.Nuoya.ajaxDialog({
                             closeViaDimmer: false,
-                            ajaxUrl: "/Areas/Admin/HtmlTemplates/CourseCategory/Update.html",
-                            title: "编辑分类",
+                            ajaxUrl: "/HtmlTemplates/Department/Update.html",
+                            title: "编辑部门",
                             width: "1000px",
-                            height: "340px",
+                            height: "360px",
                             callback: function (e) {
-                                $.Nuoya.action("/Admin/CourseCategory/Find", { id: item.ID }, function (model) {
+                                $.Nuoya.action("/Department/Find", { id: item.ID }, function (model) {
                                     //载入数据
                                     $.Nuoya.form("form").dataLoad({
                                         data: model
@@ -159,8 +171,9 @@
                             buttons: [{
                                 label: "保存",
                                 callback: function (e) {
+
                                     $.Nuoya.form("form").ajaxSubmit({
-                                        ajaxUrl: "/Admin/CourseCategory/Update",
+                                        ajaxUrl: "/Department/Update",
                                         params: {
                                             ID: item.ID
                                         },
@@ -184,8 +197,8 @@
                     name: "删除",
                     click: function (item) {
                         $.Nuoya.confirm("确认删除？", function () {
-                            $.Nuoya.deleteAction("/Admin/CourseCategory/Delete", {
-                                ID: item.ID
+                            $.Nuoya.deleteAction("/Department/Delete", {
+                                ids: item.ID
                             },
                             function () {
                                 grid.reload();

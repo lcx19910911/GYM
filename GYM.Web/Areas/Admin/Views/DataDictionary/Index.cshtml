@@ -1,18 +1,36 @@
 ﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "课程分类管理";
+    string type = Request["type"];
+    if (string.IsNullOrEmpty(type))
+    {
+        type = "2";
+    }
+    string title = "";
+    switch (type)
+    {
+        case "2":
+            title = "来源";
+            break;
+        case "3":
+            title = "会员卡类型";
+            break;
+
+
+    }
+    
 }
 
 <div class="am-cf am-padding">
-    <div class="am-fl am-cf"><a href="#" onclick="BackUrl()"><strong class="am-text-primary am-text-lg">返回</strong></a>/<small>课程分类管理</small></div>
+    <div class="am-fl am-cf"><a href="#" onclick="BackUrl()"><strong class="am-text-primary am-text-lg">返回</strong></a>/<small>@(title)管理</small></div>
 </div>
 <div id="searchDomain">
 
     <div class="am-g">   
         <div class="am-u-lg-6 am-u-end">
             <div class="am-input-group am-input-group-sm">
-                <span class="am-input-group-label">名称：</span>
-                <input type="text" class="am-form-field" placeholder="按名称搜索" style="width:100px;" name="value" ;>
+                <input name="group" type="hidden" value="@Request["type"]" />
+                <span class="am-input-group-label">@(title)名称：</span>
+                <input type="text" class="am-form-field" placeholder="按@(title)名称搜索" style="width:100px;" name="value" ;>
                 <span class="am-input-group-btn am-margin-left-sm">
                     <button class="am-btn am-btn-default" id="btnSearch" type="button">搜索</button>
                     <button class="am-btn am-btn-default" onclick="ClearFilter()" type="button">清除</button>
@@ -39,9 +57,9 @@
         <thead>
             <tr>
                 <th dataname="ID" type="checkbox"></th>
-                <th dataname="Name">分类名称</th>
+                <th dataname="Value">@(title)名称</th>
                 <th dataname="Sort">排序</th>
-                <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
+                <th dataname="Remark">备注</th>
                 <th type="eventlist"></th>
             </tr>
         </thead>
@@ -52,8 +70,6 @@
 {
     <script type="text/javascript">
 
-        var parentKey = '@Request["parentkey"]';
-
         function ClearFilter() {
             $("#searchDomain input").val("");
         }
@@ -61,7 +77,7 @@
         function batchDelete() {
             $.Nuoya.confirm("确认删除？", function () {
                 grid.del({
-                    ajaxUrl: "/Admin/CourseCategory/Delete",
+                    ajaxUrl: "/Admin/DataDictionary/Delete",
                     callback: function (json) {
                         grid.reload();
                     }
@@ -72,9 +88,12 @@
             //添加表单验证
             $.Nuoya.form("form").validate({
                 rules: {
-                    Name: {
+                    Value: {
                         required: true,
                         maxlength: 32
+                    },
+                    Remark: {
+                        maxlength: 128
                     },
                     Sort: {
                         digits: true,
@@ -83,8 +102,11 @@
                     }
                 },
                 messages: {
-                    Name: {
+                    Value: {
                         required: "不允许为空",
+                        maxlength: "最多{0}个字符"
+                    },
+                    Remark: {
                         maxlength: "最多{0}个字符"
                     },
                     Sort: {
@@ -100,18 +122,19 @@
         function add() {
             $.Nuoya.ajaxDialog({
                 closeViaDimmer: false,
-                ajaxUrl: "/Areas/Admin/HtmlTemplates/CourseCategory/Update.html",
-                title: "添加分类",
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/DataDictionary/Update.html",
+                title: "添加@(title)",
                 width: "1000px",
                 height: "340px",
                 callback: function (e) {
-                    formInit();//表单初始化              
+                    formInit();//表单初始化
                 },
                 buttons: [{
                     label: "保存",
                     callback: function (e) {
+                        $("#form [name='GroupCode']").val(@(type));
                         $.Nuoya.form("form").ajaxSubmit({
-                            ajaxUrl: "/Admin/CourseCategory/Add",
+                            ajaxUrl: "/Admin/DataDictionary/Add",
                             callback: function (data) {
                                 if (!data.ErrorDesc) {
                                     e.hide();
@@ -132,9 +155,9 @@
                 domainId: "searchDomain",
                 subId: "btnSearch"
             },
-            ajaxUrl: "/Admin/CourseCategory/GetPageList",
+            ajaxUrl: "/Admin/DataDictionary/GetPageList",
             //数据请求地址
-            
+
             events: [
                 {
                     className: "am-text-secondary",
@@ -143,12 +166,12 @@
                     click: function (item) {
                         $.Nuoya.ajaxDialog({
                             closeViaDimmer: false,
-                            ajaxUrl: "/Areas/Admin/HtmlTemplates/CourseCategory/Update.html",
-                            title: "编辑分类",
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/DataDictionary/Update.html",
+                            title: "编辑@(title)",
                             width: "1000px",
                             height: "340px",
                             callback: function (e) {
-                                $.Nuoya.action("/Admin/CourseCategory/Find", { id: item.ID }, function (model) {
+                                $.Nuoya.action("/Admin/DataDictionary/Find", { id: item.ID }, function (model) {
                                     //载入数据
                                     $.Nuoya.form("form").dataLoad({
                                         data: model
@@ -159,8 +182,9 @@
                             buttons: [{
                                 label: "保存",
                                 callback: function (e) {
+                                    $("#form [name='GroupCode']").val(@(type));
                                     $.Nuoya.form("form").ajaxSubmit({
-                                        ajaxUrl: "/Admin/CourseCategory/Update",
+                                        ajaxUrl: "/Admin/DataDictionary/Update",
                                         params: {
                                             ID: item.ID
                                         },
@@ -184,7 +208,7 @@
                     name: "删除",
                     click: function (item) {
                         $.Nuoya.confirm("确认删除？", function () {
-                            $.Nuoya.deleteAction("/Admin/CourseCategory/Delete", {
+                            $.Nuoya.deleteAction("/Admin/DataDictionary/Delete", {
                                 ID: item.ID
                             },
                             function () {

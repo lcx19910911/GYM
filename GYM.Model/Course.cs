@@ -100,5 +100,14 @@ namespace GYM.Model
 
         [NotMapped]
         public List<CoursePrice> PriceList { get; set; }
+
+        /// <summary>
+        /// 报名人数限制
+        /// </summary>
+        public int PeopleLimit { get; set; }
+        /// <summary>
+        /// 已报名人数
+        /// </summary>
+        public int JoinCount { get; set; } = 0;
     }
 }

@@ -68,5 +68,27 @@ namespace GYM.Model
         /// 总充值
         /// </summary>
         public decimal TotalRecharge { get; set; } = 0;
+
+        /// <summary>
+        /// 折扣
+        /// </summary>
+        public float Discount { get; set; } = 1;
+        /// <summary>
+        /// 顾问
+        /// </summary>
+        [Display(Name = "顾问"), MaxLength(32)]
+        public string Adviser { get; set; }
+        /// <summary>
+        /// 会员卡号
+        /// </summary>
+        [Display(Name = "会员卡号"), MaxLength(32)]
+        public string CardNO { get; set; }
+
+        /// <summary>
+        /// 身份证号码
+        /// </summary>
+        [MaxLength(32)]
+        public string IDCard { get; set; }
+
     }
 }

@@ -252,6 +252,10 @@
     <Content Include="Areas\Admin\Content\zTreeStyle\zTreeStyle.css" />
     <Content Include="Areas\Admin\HtmlTemplates\Admin\ChangePassword.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Admin\Update.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Department\Update.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Operate\Update.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Relation\Update.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\DataDictionary\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\RechargePlan\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Role\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Course\Update.html" />
@@ -578,6 +582,9 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\DepartmentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RelationController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DataDictionaryController.cs" />
     <Compile Include="Areas\Admin\Controllers\RechargePlanController.cs" />
     <Compile Include="Areas\Admin\Controllers\RechargeController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
@@ -631,6 +638,10 @@
     <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Recharge\Index.cshtml" />
     <Content Include="Areas\Admin\Views\RechargePlan\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DataDictionary\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Relation\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Department\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Operate\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

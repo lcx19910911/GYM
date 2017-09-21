@@ -1,10 +1,10 @@
 ﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "课程分类管理";
+    ViewBag.Title = "关系网管理";
 }
 
 <div class="am-cf am-padding">
-    <div class="am-fl am-cf"><a href="#" onclick="BackUrl()"><strong class="am-text-primary am-text-lg">返回</strong></a>/<small>课程分类管理</small></div>
+    <div class="am-fl am-cf"><a href="#" onclick="BackUrl()"><strong class="am-text-primary am-text-lg">返回</strong></a>/<small>关系网管理</small></div>
 </div>
 <div id="searchDomain">
 
@@ -12,7 +12,7 @@
         <div class="am-u-lg-6 am-u-end">
             <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-label">名称：</span>
-                <input type="text" class="am-form-field" placeholder="按名称搜索" style="width:100px;" name="value" ;>
+                <input type="text" class="am-form-field" placeholder="按名称搜索" style="width:100px;" name="name" ;>
                 <span class="am-input-group-btn am-margin-left-sm">
                     <button class="am-btn am-btn-default" id="btnSearch" type="button">搜索</button>
                     <button class="am-btn am-btn-default" onclick="ClearFilter()" type="button">清除</button>
@@ -39,9 +39,7 @@
         <thead>
             <tr>
                 <th dataname="ID" type="checkbox"></th>
-                <th dataname="Name">分类名称</th>
-                <th dataname="Sort">排序</th>
-                <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
+                <th dataname="Name">关系名称</th>
                 <th type="eventlist"></th>
             </tr>
         </thead>
@@ -52,7 +50,6 @@
 {
     <script type="text/javascript">
 
-        var parentKey = '@Request["parentkey"]';
 
         function ClearFilter() {
             $("#searchDomain input").val("");
@@ -61,7 +58,7 @@
         function batchDelete() {
             $.Nuoya.confirm("确认删除？", function () {
                 grid.del({
-                    ajaxUrl: "/Admin/CourseCategory/Delete",
+                    ajaxUrl: "/Admin/Relation/Delete",
                     callback: function (json) {
                         grid.reload();
                     }
@@ -75,22 +72,12 @@
                     Name: {
                         required: true,
                         maxlength: 32
-                    },
-                    Sort: {
-                        digits: true,
-                        max: 2147483647,
-                        min: 0
                     }
                 },
                 messages: {
                     Name: {
                         required: "不允许为空",
                         maxlength: "最多{0}个字符"
-                    },
-                    Sort: {
-                        digits: "请输入数字",
-                        max: "必须小于{0}",
-                        min: "必须大于{0}"
                     }
                 }
             });
@@ -100,10 +87,10 @@
         function add() {
             $.Nuoya.ajaxDialog({
                 closeViaDimmer: false,
-                ajaxUrl: "/Areas/Admin/HtmlTemplates/CourseCategory/Update.html",
-                title: "添加分类",
-                width: "1000px",
-                height: "340px",
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/Relation/Update.html",
+                title: "添加关系",
+                width: "700px",
+                height: "300px",
                 callback: function (e) {
                     formInit();//表单初始化              
                 },
@@ -111,7 +98,7 @@
                     label: "保存",
                     callback: function (e) {
                         $.Nuoya.form("form").ajaxSubmit({
-                            ajaxUrl: "/Admin/CourseCategory/Add",
+                            ajaxUrl: "/Admin/Relation/Add",
                             callback: function (data) {
                                 if (!data.ErrorDesc) {
                                     e.hide();
@@ -132,7 +119,7 @@
                 domainId: "searchDomain",
                 subId: "btnSearch"
             },
-            ajaxUrl: "/Admin/CourseCategory/GetPageList",
+            ajaxUrl: "/Admin/Relation/GetPageList",
             //数据请求地址
             
             events: [
@@ -143,12 +130,12 @@
                     click: function (item) {
                         $.Nuoya.ajaxDialog({
                             closeViaDimmer: false,
-                            ajaxUrl: "/Areas/Admin/HtmlTemplates/CourseCategory/Update.html",
-                            title: "编辑分类",
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Relation/Update.html",
+                            title: "编辑关系",
                             width: "1000px",
-                            height: "340px",
+                            height: "300px",
                             callback: function (e) {
-                                $.Nuoya.action("/Admin/CourseCategory/Find", { id: item.ID }, function (model) {
+                                $.Nuoya.action("/Admin/Relation/Find", { id: item.ID }, function (model) {
                                     //载入数据
                                     $.Nuoya.form("form").dataLoad({
                                         data: model
@@ -160,7 +147,7 @@
                                 label: "保存",
                                 callback: function (e) {
                                     $.Nuoya.form("form").ajaxSubmit({
-                                        ajaxUrl: "/Admin/CourseCategory/Update",
+                                        ajaxUrl: "/Admin/Relation/Update",
                                         params: {
                                             ID: item.ID
                                         },
@@ -184,7 +171,7 @@
                     name: "删除",
                     click: function (item) {
                         $.Nuoya.confirm("确认删除？", function () {
-                            $.Nuoya.deleteAction("/Admin/CourseCategory/Delete", {
+                            $.Nuoya.deleteAction("/Admin/Relation/Delete", {
                                 ID: item.ID
                             },
                             function () {

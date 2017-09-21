@@ -40,6 +40,9 @@ namespace GYM.Web.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IUserService, UserService>();
+            container.RegisterType<IRelationService, RelationService>();
+            container.RegisterType<IUserRelationService, UserRelationService>();
+
             container.RegisterType<IAdminService, AdminService>();
             container.RegisterType<IAdminInviteService, AdminInviteService>();
             container.RegisterType<IRoleService, RoleService>();

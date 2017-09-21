@@ -52,8 +52,20 @@ namespace GYM.DB
 
         public virtual DbSet<Admin> Admin { get; set; }
         public virtual DbSet<AdminInvite> AdminInvite { get; set; }
+
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Department> Department { get; set; }
+        public virtual DbSet<Menu> Menu { get; set; }
+        public virtual DbSet<Operate> Operate { get; set; }
+        
+        public virtual DbSet<UserRelation> UserRelation { get; set; }
+        public virtual DbSet<Relation> Relation { get; set; }
+        public virtual DbSet<UserCoach> UserCoach { get; set; }
+        public virtual DbSet<UserCourse> UserCourse { get; set; }
+        public virtual DbSet<UserStore> UserStore { get; set; }
+
+
         public virtual DbSet<DataDictionary> DataDictionary { get; set; }
         public virtual DbSet<Store> Store { get; set; }
         public virtual DbSet<Coach> Coach { get; set; }

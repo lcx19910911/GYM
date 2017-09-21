@@ -78,6 +78,31 @@ namespace GYM.Model
         /// </summary>
         [NotMapped]
         public string RoleName { get; set; }
+
+        /// <summary>
+        /// 部门ID
+        /// </summary>
+        [Required(ErrorMessage = "部门ID不能为空")]
+        [MaxLength(32)]
+        public string DepartmentID { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        [NotMapped]
+        public string DepartmentName { get; set; }
+
+
+        /// <summary>
+        /// 页面权限
+        /// </summary>
+        [Column("MenuIDStr", TypeName = "text")]
+        public string MenuIDStr { get; set; }
+
+        /// <summary>
+        /// 权限集合
+        /// </summary>
+        [Column("OperateStr", TypeName = "text")]
+        public string OperateStr { get; set; }
     }
 
 }

@@ -60,6 +60,14 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Coach.cs" />
     <Compile Include="AdminInvite.cs" />
+    <Compile Include="Department.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="Operate.cs" />
+    <Compile Include="Relation.cs" />
+    <Compile Include="UserRelation.cs" />
+    <Compile Include="UserStore.cs" />
+    <Compile Include="UserCourse.cs" />
+    <Compile Include="UserCoach.cs" />
     <Compile Include="CoursePrice.cs" />
     <Compile Include="DataDictionary.cs" />
     <Compile Include="CourseCategory.cs" />

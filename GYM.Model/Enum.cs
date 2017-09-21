@@ -70,6 +70,16 @@ namespace GYM.Model
         /// </summary>
         [Description("地区")]
         Area = 1,
- 
+
+        /// <summary>
+        /// 来源
+        /// </summary>
+        [Description("来源")]
+        Source = 2,
+        /// <summary>
+        /// 会员卡类型
+        /// </summary>
+        [Description("会员卡类型")]
+        CardType = 2,
     }
 }
