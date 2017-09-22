@@ -1,0 +1,23 @@
+﻿@using GYM.Domain
+@model List<MenuItem>
+@foreach (var item in Model)
+{
+    if (item != null)
+    {
+    <li @Html.Raw(item.Children.Count > 0 ? "class=\"admin-parent\"" : "")>
+        <a data-am-collapse="{target: '#@item.Name'}" class="@(item.Children.Where(x =>x!=null&& !string.IsNullOrEmpty(x.Link) && Request.Url.ToString().Contains(x.Link)).Any() ? "am-cf" : "am-cf am-collapsed")"  @Html.Raw(string.IsNullOrEmpty(item.Link) ? "" : "href=\"" + item.Link + "\"")><span class="@item.ClassName"></span> @item.Name
+        @if (item.Children.Count > 0)
+        {
+            <span class="am-icon-angle-right am-fr am-margin-right"></span>
+        }
+        </a>
+        @if (item.Children.Count > 0)
+        {
+            <ul class="@(item.Children.Where(x =>x!=null&&  !string.IsNullOrEmpty(x.Link) && Request.Url.ToString().Contains(x.Link)).Any() ? "am-list admin-sidebar-sub am-collapse am-in" : "am-list admin-sidebar-sub am-collapse")" id="@item.Name">
+                @Html.Partial("/Areas/Admin/Views/Menu/PartialMenu.cshtml", item.Children)
+            </ul>
+        }
+    </li>
+        }
+    }
+

@@ -9,13 +9,13 @@ using System.Web.Mvc;
 
 namespace GYM.Web.Areas.Admin.Controllers
 {
-    public class DepartmentController : BaseAdminController
+    public class OperateController : BaseAdminController
     {
-        public IDepartmentService IDepartmentService;
+        public IOperateService IOperateService;
 
-        public DepartmentController(IDepartmentService _IDepartmentService)
+        public OperateController(IOperateService _IOperateService)
         {
-            this.IDepartmentService = _IDepartmentService;
+            this.IOperateService = _IOperateService;
         }
         public ViewResult Index()
         {
@@ -27,7 +27,7 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public JsonResult Add(Department entity)
+        public JsonResult Add(Operate entity)
         {
             ModelState.Remove("ID");
             ModelState.Remove("CreatedTime");
@@ -35,12 +35,12 @@ namespace GYM.Web.Areas.Admin.Controllers
             ModelState.Remove("IsDelete");
             if (ModelState.IsValid)
             {
-                if (IDepartmentService.IsExits(x => x.Name == entity.Name))
+                if (IOperateService.IsExits(x => x.ActionUrl == entity.ActionUrl))
                 {
-                    return JResult(Core.Code.ErrorCode.system_name_already_exist, "");
+                    return JResult(Core.Code.ErrorCode.system_url_already_exist, "");
                 }
                 entity.CreatedTime = entity.UpdatedTime = DateTime.Now;
-                var result = IDepartmentService.Add(entity);
+                var result = IOperateService.Add(entity);
                 return JResult(result);
             }
             else
@@ -54,35 +54,45 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public JsonResult Update(Department entity)
+        public JsonResult Update(Operate entity)
         {
             ModelState.Remove("CreatedTime");
             ModelState.Remove("UpdatedTime");
             ModelState.Remove("IsDelete");
             if (ModelState.IsValid)
             {
-                var model = IDepartmentService.Find(entity.ID);
+                var model = IOperateService.Find(entity.ID);
                 if (model == null || (model != null && model.IsDelete))
                 {
                     return DataErorrJResult();
                 }
                 
-                if (IDepartmentService.IsExits(x => x.Name == entity.Name&&x.ID!=entity.ID))
+                if (IOperateService.IsExits(x => x.Name == entity.Name&&x.ID!=entity.ID))
                 {
                     return JResult(Core.Code.ErrorCode.store_city__namealready_exist, "");
                 }
 
                 model.Name = entity.Name;
                 model.Sort = entity.Sort;
-                model.ParentID = entity.ParentID;
+                model.ActionUrl = entity.ActionUrl;
                 model.Remark = entity.Remark;
-                var result = IDepartmentService.Update(model);
+                var result = IOperateService.Update(model);
                 return JResult(result);
             }
             else
             {
                 return ParamsErrorJResult(ModelState);
             }
+        }
+
+        /// <summary>
+        /// 查找实体
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult Find(string ID)
+        {
+            return JResult(IOperateService.Find(ID));
         }
 
 
@@ -96,20 +106,10 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult GetPageList(int pageIndex, int pageSize, string name)
         {
-            return JResult(IDepartmentService.GetPageList(pageIndex, pageSize, name));
+            return JResult(IOperateService.GetPageList(pageIndex, pageSize, name));
         }
 
 
-
-        /// <summary>
-        /// 查找实体
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public ActionResult Find(string ID)
-        {
-            return JResult(IDepartmentService.Find(ID));
-        }
 
         /// <summary>
         /// 获取地区下拉框
@@ -117,7 +117,7 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult GetSelectItem()
         {
-            return JResult(IDepartmentService.GetSelectList());
+            return JResult(IOperateService.GetSelectList());
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult GetZTreeChildren()
         {
-            return JResult(IDepartmentService.GetZTreeChildren());
+            return JResult(IOperateService.GetZTreeChildren());
         }
     }
 }

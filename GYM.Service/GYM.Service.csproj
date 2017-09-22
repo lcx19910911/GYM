@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="AdminService.cs" />
     <Compile Include="AdminInviteService.cs" />
+    <Compile Include="OperateService.cs" />
+    <Compile Include="MenuService.cs" />
     <Compile Include="DepartmentService.cs" />
     <Compile Include="UserRelationService.cs" />
     <Compile Include="RelationService.cs" />

@@ -105,6 +105,7 @@ namespace GYM.Web.Areas.Admin.Controllers
                 model.Mobile = entity.Mobile;
                 model.RoleID = entity.RoleID;
                 model.Sex = entity.Sex;
+                model.DepartmentID = entity.DepartmentID;
                 var result = IAdminService.Update(model);
                 return JResult(result);
             }

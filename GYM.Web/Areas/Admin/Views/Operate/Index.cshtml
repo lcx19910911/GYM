@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "权限管理";
 }
 
@@ -63,7 +63,7 @@
         function batchDelete() {
             $.Nuoya.confirm("确认删除？", function () {
                 grid.del({
-                    ajaxUrl: "/Operate/Delete",
+                    ajaxUrl: "/Admin/Operate/Delete",
                     callback: function (json) {
                         grid.reload();
                     }
@@ -89,7 +89,7 @@
                     Sort: {
                         digits: true,
                         max: 2147483647,
-                        min: -2147483647
+                        min: 0
                     }
                 },
                 messages: {
@@ -117,7 +117,7 @@
         function add() {
             $.Nuoya.ajaxDialog({
                 closeViaDimmer: false,
-                ajaxUrl: "/HtmlTemplates/Operate/Update.html",
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/Operate/Update.html",
                 title: "添加权限",
                 width: "1000px",
                 height: "420px",
@@ -128,7 +128,7 @@
                     label: "保存",
                     callback: function (e) {
                         $.Nuoya.form("form").ajaxSubmit({
-                            ajaxUrl: "/Operate/Add",
+                            ajaxUrl: "/Admin/Operate/Add",
                             callback: function (data) {
                                 if (!data.ErrorDesc) {
                                     e.hide();
@@ -150,7 +150,7 @@
                 domainId: "searchDomain",
                 subId: "btnSearch"
             },
-            ajaxUrl: "/Operate/GetPageList",
+            ajaxUrl: "/Admin/Operate/GetPageList",
             //数据请求地址
             
             events: [
@@ -161,12 +161,12 @@
                     click: function (item) {
                         $.Nuoya.ajaxDialog({
                             closeViaDimmer: false,
-                            ajaxUrl: "/HtmlTemplates/Operate/Update.html",
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Operate/Update.html",
                             title: "编辑权限",
                             width: "1000px",
                             height: "420px",
                             callback: function (e) {
-                                $.Nuoya.action("/Operate/Find", { id: item.ID }, function (model) {
+                                $.Nuoya.action("/Admin/Operate/Find", { id: item.ID }, function (model) {
                                     //载入数据
                                     $.Nuoya.form("form").dataLoad({
                                         data: model
@@ -179,7 +179,7 @@
                                 callback: function (e) {
 
                                     $.Nuoya.form("form").ajaxSubmit({
-                                        ajaxUrl: "/Operate/Update",
+                                        ajaxUrl: "/Admin/Operate/Update",
                                         params: {
                                             ID: item.ID
                                         },
@@ -203,7 +203,7 @@
                     name: "删除",
                     click: function (item) {
                         $.Nuoya.confirm("确认删除？", function () {
-                            $.Nuoya.deleteAction("/Operate/Delete", {
+                            $.Nuoya.deleteAction("/Admin/Operate/Delete", {
                                 ids: item.ID
                             },
                             function () {

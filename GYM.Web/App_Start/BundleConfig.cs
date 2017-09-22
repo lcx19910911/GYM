@@ -21,11 +21,11 @@ namespace GYM.Web
 
             #region 脚本
             bundles.Add(new ScriptBundle("~/Scripts/Login").Include(
-    "~/Areas/Admin/Scripts/jquery-2.2.3.min.js",
+    "~/Areas/Admin/Scripts/jquery-1.10.2.js",
     "~/Areas/Admin/Scripts/amazeui.js",
     "~/Areas/Admin/Scripts/Nuoya/nuoya.core.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin").Include(
-    "~/Areas/Admin/Scripts/jquery-2.2.3.min.js",
+    "~/Areas/Admin/Scripts/jquery-1.10.2.js",
                "~/Areas/Admin/Scripts/jquery.form.js",
                "~/Areas/Admin/Scripts/amazeui.min.js",
                "~/Areas/Admin/Scripts/jquery-validation/js/jquery.validate.js",

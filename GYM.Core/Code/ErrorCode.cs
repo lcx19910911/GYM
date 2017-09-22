@@ -129,6 +129,11 @@ namespace GYM.Core.Code
         /// </summary>
         [Description("邀请码已使用.")]
         code_had_used = 208,
+
+
+        /// </summary>
+        [Description("路径已存在.")]
+        system_url_already_exist = 209,
         #endregion
 
 

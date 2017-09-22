@@ -60,7 +60,6 @@ namespace GYM.Service
                 int id=Add(model);
                 if (id > 0)
                 {
-                    LoginHelper.CreateUser(new LoginUser(model),Params.AdminCookieName);
                     return Result(true);
                 }
                 else
@@ -108,12 +107,18 @@ namespace GYM.Service
                 var list = query.OrderByDescending(x => x.CreatedTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                 var roleIDList = list.Select(x => x.RoleID).ToList();
                 var roleDic = db.Role.Where(x => roleIDList.Contains(x.ID)).ToDictionary(x => x.ID);
+                var departmentIDList = list.Select(x => x.DepartmentID).ToList();
+                var departmentDic = db.Department.Where(x => departmentIDList.Contains(x.ID)).ToDictionary(x => x.ID);
                 list.ForEach(x =>
                 {
                     x.TypeStr = x.Type.GetDescription();
                     if (x.RoleID.IsNotNullOrEmpty() && roleDic.ContainsKey(x.RoleID))
                     {
                         x.RoleName = roleDic[x.RoleID]?.Name;
+                    }
+                    if (x.DepartmentID.IsNotNullOrEmpty() && departmentDic.ContainsKey(x.DepartmentID))
+                    {
+                        x.DepartmentName = departmentDic[x.DepartmentID]?.Name;
                     }
                 });
 

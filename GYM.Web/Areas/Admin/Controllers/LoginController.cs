@@ -21,10 +21,12 @@ namespace GYM.Web.Areas.Admin.Controllers
     {
 
         public IAdminService IAdminService;
+        public IRoleService IRoleService;
 
-        public LoginController(IAdminService _IAdminService)
+        public LoginController(IAdminService _IAdminService, IRoleService _IRoleService)
         {
             this.IAdminService = _IAdminService;
+            this.IRoleService = _IRoleService;
         }
 
         
@@ -74,7 +76,15 @@ namespace GYM.Web.Areas.Admin.Controllers
                     }
                     else
                     {
-                        this.LoginAdmin = new Core.Model.LoginUser(result.Result);
+                        if (result.Result.Type == Model.AdminCode.SuperAdmin)
+                        {
+                            this.LoginAdmin = new Core.Model.LoginUser(result.Result, "","");
+                        }
+                        else
+                        {
+                            var role = IRoleService.Find(result.Result.RoleID);
+                            this.LoginAdmin = new Core.Model.LoginUser(result.Result,role.MenuIDStr,role.OperateStr);
+                        }
                     }
                 }
                 

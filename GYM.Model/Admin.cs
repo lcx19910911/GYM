@@ -92,17 +92,6 @@ namespace GYM.Model
         public string DepartmentName { get; set; }
 
 
-        /// <summary>
-        /// 页面权限
-        /// </summary>
-        [Column("MenuIDStr", TypeName = "text")]
-        public string MenuIDStr { get; set; }
-
-        /// <summary>
-        /// 权限集合
-        /// </summary>
-        [Column("OperateStr", TypeName = "text")]
-        public string OperateStr { get; set; }
     }
 
 }

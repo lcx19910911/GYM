@@ -17,16 +17,17 @@ namespace GYM.Core.Model
         {
             this.ID = user.ID;
             this.Account = user.NickName;
-            this.IsAdmin = false;
             this.HeadImgUrl = user.HeadImgUrl;
         }
 
-        public LoginUser(Admin admin)
+        public LoginUser(Admin admin,string menuIDStr,string opreateSrt)
         {
 
             this.ID = admin.ID;
             this.Account = admin.Account;
-            this.IsAdmin = true;
+            this.IsSuperAdmin = admin.Type==AdminCode.SuperAdmin;
+            this.MenuIDStr = menuIDStr;
+            this.OpreateSrt = opreateSrt;
         }
 
         public LoginUser()
@@ -48,11 +49,13 @@ namespace GYM.Core.Model
         public string HeadImgUrl { get; set; }
 
 
-        public string Token { get; set; }
+        public string MenuIDStr { get; set; }
+
+        public string OpreateSrt { get; set; }
 
         /// <summary>
         /// 权限值
         /// </summary>
-        public bool IsAdmin { get; set; }
+        public bool IsSuperAdmin { get; set; }
     }
 }

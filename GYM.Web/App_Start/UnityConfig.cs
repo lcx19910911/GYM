@@ -44,6 +44,12 @@ namespace GYM.Web.App_Start
             container.RegisterType<IUserRelationService, UserRelationService>();
 
             container.RegisterType<IAdminService, AdminService>();
+
+            container.RegisterType<IMenuService, MenuService>();
+            container.RegisterType<IOperateService, OperateService>();
+            container.RegisterType<IDepartmentService, DepartmentService>();
+
+            container.RegisterType<IAdminService, AdminService>();
             container.RegisterType<IAdminInviteService, AdminInviteService>();
             container.RegisterType<IRoleService, RoleService>();
             container.RegisterType<IDataDictionaryService, DataDictionaryService>();

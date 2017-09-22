@@ -13,20 +13,21 @@ using GYM.Core.Web;
 using GYM.DB;
 using GYM.IService;
 using GYM.Model;
+using GYM.Domain;
 
 namespace GYM.Service
 {
     /// <summary>
-    /// 部门
+    /// 菜单
     /// </summary>
-    public class DepartmentService : BaseService<Department>, IDepartmentService
+    public class OperateService : BaseService<Operate>, IOperateService
     {
-        public DepartmentService()
+        public OperateService()
         {
             base.ContextCurrent = HttpContext.Current;
         }
-        
-       
+
+
 
         /// <summary>
         /// 获取分页列表
@@ -35,56 +36,23 @@ namespace GYM.Service
         /// <param name="pageSize">分页大小</param>
         /// <param name="title">标题 - 搜索项</param>
         /// <returns></returns>
-        public PageList<Department> GetPageList(int pageIndex, int pageSize, string name)
+        public PageList<Operate> GetPageList(int pageIndex, int pageSize, string name)
         {
             using (DbRepository db = new DbRepository())
             {
-                var query = db.Department.Where(x => !x.IsDelete);
+                var query = db.Operate.Where(x => !x.IsDelete);
                 if (name.IsNotNullOrEmpty())
                 {
                     query = query.Where(x => x.Name.Contains(name));
                 }
                 var count = query.Count();
                 var list = query.OrderByDescending(x => x.CreatedTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-                var departmentIdList = list.Select(x => x.ParentID).ToList();
-                var departmentDic = db.Department.Where(x => departmentIdList.Contains(x.ID)).ToDictionary(x => x.ID);
-                list.ForEach(x=>
+                list.ForEach(x =>
                 {
-                    if (!string.IsNullOrEmpty(x.ParentID) && departmentDic.ContainsKey(x.ParentID))
-                    {
-                        x.ParentName = departmentDic[x.ParentID]?.Name;
-                    }
                 });
 
                 return CreatePageList(list, pageIndex, pageSize, count);
 
-            }
-        }
-
-
-        /// <summary>
-        /// 获取数据
-        /// </summary>
-        /// <returns></returns>
-        public List<SelectItem> GetSelectList()
-        {
-            using (DbRepository db = new DbRepository())
-            {
-                return db.Department.Where(x => !x.IsDelete).Select(x => new SelectItem()
-                {
-                    Text = x.Name,
-                    Value = x.ID,
-                }).ToList(); ;
-            }
-        }
-
-        public List<ZTreeNode> GetZTreeChildren()
-        {
-         List<ZTreeNode> ztreeNodes = new List<ZTreeNode>();
-            using (DbRepository db = new DbRepository())
-            {
-                var group = db.Department.Where(x =>!x.IsDelete).OrderByDescending(x => x.Sort).GroupBy(x => x.ParentID).ToList();
-                return GetZTreeChildren(null, group);
             }
         }
 
@@ -94,7 +62,31 @@ namespace GYM.Service
         /// <param name="parentId">父级id</param>
         /// <param name="groups">分组数据</param>
         /// <returns></returns>
-        private List<ZTreeNode> GetZTreeChildren(string parentId, List<IGrouping<string, Department>> groups)
+        public List<ZTreeNode> GetZTreeChildren()
+        {
+            List<ZTreeNode> ztreeNodes = new List<ZTreeNode>();
+            using (DbRepository db = new DbRepository())
+            {
+                db.Operate.AsQueryable().Where(x => !x.IsDelete).AsNoTracking().OrderByDescending(x => x.Sort).ToList().ForEach(x => {
+                    ztreeNodes.Add(new ZTreeNode()
+                    {
+                        name = x.Name,
+                        value = x.ID.ToString()
+                    });
+                });
+
+                return ztreeNodes;
+            }
+        }
+
+
+        /// <summary>
+        /// 获取ZTree子节点
+        /// </summary>
+        /// <param name="parentId">父级id</param>
+        /// <param name="groups">分组数据</param>
+        /// <returns></returns>
+        private List<ZTreeNode> GetZTreeChildren(string parentId, List<IGrouping<string, Operate>> groups)
         {
             List<ZTreeNode> ztreeNodes = new List<ZTreeNode>();
             var group = groups.FirstOrDefault(x => x.Key == parentId);
@@ -110,5 +102,38 @@ namespace GYM.Service
             }
             return ztreeNodes;
         }
+
+        /// <summary>
+        /// 获取数据
+        /// </summary>
+        /// <returns></returns>
+        public List<SelectItem> GetSelectList()
+        {
+            using (DbRepository db = new DbRepository())
+            {
+                return db.Operate.Where(x => !x.IsDelete).OrderByDescending(x => x.Sort).Select(x => new SelectItem()
+                {
+                    Text = x.Name,
+                    Value = x.ID,
+                }).ToList(); ;
+            }
+        }
+
+
+        /// <summary>
+        /// 根据权限Flag值判断是否有权限
+        /// </summary>
+        /// <param name="oprertorFlag">权限flag值</param>
+        /// <param name="url">相对路径</param>
+        /// <returns></returns>
+        public bool IsHaveAuthority(string url)
+        {
+            using (DbRepository db = new DbRepository())
+            {
+                return db.Operate.Where(x => !x.IsDelete).AsQueryable().Where(x => url.Contains(x.ActionUrl)).Any();
+            }
+        }
+
+
     }
 }

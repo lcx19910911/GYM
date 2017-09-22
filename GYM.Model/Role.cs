@@ -31,5 +31,18 @@ namespace GYM.Model
         [MaxLength(128)]
         [Column("Remark", TypeName = "varchar")]
         public string Remark { get; set; }
+
+
+        /// <summary>
+        /// 页面权限
+        /// </summary>
+        [Column("MenuIDStr", TypeName = "text")]
+        public string MenuIDStr { get; set; }
+
+        /// <summary>
+        /// 权限集合
+        /// </summary>
+        [Column("OperateStr", TypeName = "text")]
+        public string OperateStr { get; set; }
     }
 }

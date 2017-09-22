@@ -48,6 +48,7 @@
                 <th dataname="Mobile">手机号</th>
                 <th render="ShowSex">性别</th>
                 <th dataname="RoleName">角色</th>
+                <th dataname="DepartmentName">部门</th>
                 <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
                 <th type="eventlist"></th>
             </tr>
@@ -99,6 +100,9 @@
                     RoleID: {
                         required: true,
                     },
+                    DepartmentID: {
+                        required: true,
+                    },
                 },
                 messages: {
                     RealName: {
@@ -123,12 +127,22 @@
                     RoleID: {
                         required: "不允许为空",
                     },
+                    DepartmentID: {
+                        required: "不允许为空",
+                    },
                 }
             });
 
             $.Nuoya.action("/Admin/Role/GetSelectItem", {}, function (json) {
                 $(json).each(function () {
                     $("#form select[name='RoleID']").append("<option " + (dataitem != null && dataitem.RoleID == this.Value ? "selected" : "") + " value='" + this.Value + "'>" + this.Text + "</option>");
+                });
+            });
+
+
+            $.Nuoya.action("/Admin/Department/GetSelectItem", { }, function (json) {
+                $(json).each(function () {
+                    $("#form  select[name='DepartmentID']").append("<option " + (dataitem != null && dataitem.DepartmentID == this.Value ? "selected" : "") + " value='" + this.Value + "'>" + this.Text + "</option>");
                 });
             });
 

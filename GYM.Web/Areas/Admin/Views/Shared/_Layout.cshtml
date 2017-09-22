@@ -19,7 +19,7 @@
     <link href="/Areas/Admin/Scripts/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" />
     <link href="/Areas/Admin/Content/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
 
-    <script src="/Areas/Admin/Scripts/jquery-2.2.3.min.js"></script>
+    <script src="/Areas/Admin/Scripts/jquery-1.10.2.js"></script>
     <script src="/Areas/Admin/Scripts/jquery-validation/js/jquery.validate.js"></script>
     <script src="/Areas/Admin/Scripts/jquery.form.js"></script>
     <script src="/Areas/Admin/Scripts/amazeui.min.js"></script>
@@ -159,91 +159,8 @@
         <!-- sidebar start -->
         <div class="admin-sidebar">
             <ul class="am-list admin-sidebar-list">
-                <li class="admin-parent">
-                    <a data-am-collapse="{target: '#参数设置'}" class="am-cf">
-                        <span class="am-icon-calculator"></span> 参数设置
-                        <span class="am-icon-angle-right am-fr am-margin-right"></span>
-                    </a>
-                    <ul class="am-list admin-sidebar-sub am-collapse am-in" id="参数设置">
-                        <li>
-                            <a data-am-collapse="{target: '#地区管理'}" class="am-cf am-collapsed" href="/Admin/Area/Index">
-                                <span class="am-icon-user"></span> 地区管理
-                            </a>
-                        </li>
-                        <li>
-                            <a data-am-collapse="{target: '#充值方案管理'}" class="am-cf am-collapsed" href="/Admin/RechargePlan/Index">
-                                <span class="am-icon-user"></span> 充值方案管理
-                            </a>
-                        </li>
-                        <li>
-                            <a data-am-collapse="{target: '#充值记录'}" class="am-cf am-collapsed" href="/Admin/Recharge/Index">
-                                <span class="am-icon-user"></span> 充值记录
-                            </a>
-                        </li>
-                        <li>
-                            <a data-am-collapse="{target: '#来源管理'}" class="am-cf am-collapsed" href="/Admin/DataDictionary/Index?type=2">
-                                <span class="am-icon-user"></span> 来源管理
-                            </a>
-                        </li>
-                        <li>
-                            <a data-am-collapse="{target: '#会员卡类型'}" class="am-cf am-collapsed" href="/Admin/DataDictionary/Index?type=3">
-                                <span class="am-icon-user"></span> 会员卡类型
-                            </a>
-                        </li>
-                        <li>
-                            <a data-am-collapse="{target: '#关系网管理'}" class="am-cf am-collapsed" href="/Admin/Relation/Index">
-                                <span class="am-icon-user"></span> 关系网管理
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="admin-parent">
-                    <a data-am-collapse="{target: '#健身房管理'}" class="am-cf">
-                        <span class="am-icon-calculator"></span> 健身房管理
-                        <span class="am-icon-angle-right am-fr am-margin-right"></span>
-                    </a>
-                    <ul class="am-list admin-sidebar-sub am-collapse am-in" id="健身房管理">
-                        <li>
-                            <a data-am-collapse="{target: '#门店管理'}" class="am-cf am-collapsed" href="/Admin/Store/Index">
-                                <span class="am-icon-user"></span> 门店管理
-                            </a>
-                        </li>
-                        <li>
-                            <a data-am-collapse="{target: '#教练管理'}" class="am-cf am-collapsed" href="/Admin/Coach/Index">
-                                <span class="am-icon-user"></span> 教练管理
-                            </a>
-                        </li>
-                        <li>
-                            <a data-am-collapse="{target: '#分类管理'}" class="am-cf am-collapsed" href="/Admin/CourseCategory/Index">
-                                <span class="am-icon-user"></span> 分类管理
-                            </a>
-                        </li>
-                        <li>
-                            <a data-am-collapse="{target: '#课程管理'}" class="am-cf am-collapsed" href="/Admin/Course/Index">
-                                <span class="am-icon-user"></span> 课程管理
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="admin-parent">
-                    <a data-am-collapse="{target: '#管理员管理'}" class="am-cf">
-                        <span class="am-icon-calculator"></span> 管理员管理
-                        <span class="am-icon-angle-right am-fr am-margin-right"></span>
-                    </a>
-                    <ul class="am-list admin-sidebar-sub am-collapse am-in" id="管理员管理">
-                        <li>
-                            <a data-am-collapse="{target: '#角色管理'}" class="am-cf am-collapsed" href="/Admin/Role/Index">
-                                <span class="am-icon-user"></span> 角色管理
-                            </a>
-                        </li>
-                        <li>
-                            <a data-am-collapse="{target: '#管理员管理'}" class="am-cf am-collapsed" href="/Admin/Admin/Index">
-                                <span class="am-icon-user"></span> 管理员管理
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
+                @Html.Action("PartialMenu", "Menu")           
             </ul>
         </div>
         <!-- sidebar end -->

@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "部门管理";
 }
 
@@ -42,8 +42,6 @@
                 <th dataname="ID" type="checkbox"></th>
                 <th dataname="Name">部门名称</th>
                 <th dataname="ParentName">所属部门</th>
-                <th dataname="Telephone">电话</th>
-                <th dataname="No">房间号</th>
                 <th dataname="Sort">排序</th>
                 <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
                 <th dataname="UpdatedTime" datatype="jsondate">编辑日期</th>
@@ -64,7 +62,7 @@
         function batchDelete() {
             $.Nuoya.confirm("确认删除？", function () {
                 grid.del({
-                    ajaxUrl: "/Department/Delete",
+                    ajaxUrl: "/Admin/Department/Delete",
                     callback: function (json) {
                         grid.reload();
                     }
@@ -72,7 +70,7 @@
             });
         }
         function formInit(dataitem) {
-            $("[name=ParentIDSelect]").ztreeSelect($("[name=ParentID]"), "/Department/GetZTreeChildren", dataitem != null ? dataitem.ID : null);
+            $("[name=ParentIDSelect]").ztreeSelect($("[name=ParentID]"), "/Admin/Department/GetZTreeChildren", dataitem != null ? dataitem.ParentID : null);
 
             //添加表单验证
             $.Nuoya.form("form").validate({
@@ -87,7 +85,7 @@
                     Sort: {
                         digits: true,
                         max: 2147483647,
-                        min: -2147483647
+                        min: 0
                     }
                 },
                 messages: {
@@ -111,7 +109,7 @@
         function add() {
             $.Nuoya.ajaxDialog({
                 closeViaDimmer: false,
-                ajaxUrl: "/HtmlTemplates/Department/Update.html",
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/Department/Update.html",
                 title: "添加部门",
                 width: "1000px",
                 height: "360px",
@@ -122,7 +120,7 @@
                     label: "保存",
                     callback: function (e) {
                         $.Nuoya.form("form").ajaxSubmit({
-                            ajaxUrl: "/Department/Add",
+                            ajaxUrl: "/Admin/Department/Add",
                             callback: function (data) {
                                 if (!data.ErrorDesc) {
                                     e.hide();
@@ -144,7 +142,7 @@
                 domainId: "searchDomain",
                 subId: "btnSearch"
             },
-            ajaxUrl: "/Department/GetPageList",
+            ajaxUrl: "/Admin/Department/GetPageList",
             //数据请求地址
             
             events: [
@@ -155,12 +153,12 @@
                     click: function (item) {
                         $.Nuoya.ajaxDialog({
                             closeViaDimmer: false,
-                            ajaxUrl: "/HtmlTemplates/Department/Update.html",
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Department/Update.html",
                             title: "编辑部门",
                             width: "1000px",
                             height: "360px",
                             callback: function (e) {
-                                $.Nuoya.action("/Department/Find", { id: item.ID }, function (model) {
+                                $.Nuoya.action("/Admin/Department/Find", { id: item.ID }, function (model) {
                                     //载入数据
                                     $.Nuoya.form("form").dataLoad({
                                         data: model
@@ -173,7 +171,7 @@
                                 callback: function (e) {
 
                                     $.Nuoya.form("form").ajaxSubmit({
-                                        ajaxUrl: "/Department/Update",
+                                        ajaxUrl: "/Admin/Department/Update",
                                         params: {
                                             ID: item.ID
                                         },
@@ -197,7 +195,7 @@
                     name: "删除",
                     click: function (item) {
                         $.Nuoya.confirm("确认删除？", function () {
-                            $.Nuoya.deleteAction("/Department/Delete", {
+                            $.Nuoya.deleteAction("/Admin/Department/Delete", {
                                 ids: item.ID
                             },
                             function () {

@@ -253,10 +253,13 @@
     <Content Include="Areas\Admin\HtmlTemplates\Admin\ChangePassword.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Admin\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Department\Update.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Menu\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Operate\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Relation\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\DataDictionary\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\RechargePlan\Update.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Role\SelectMenu.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Role\SelectOperate.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Role\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Course\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\CourseCategory\Update.html" />
@@ -271,7 +274,7 @@
     <Content Include="Areas\Admin\Scripts\exporting.js" />
     <Content Include="Areas\Admin\Scripts\file_upload_plug-in.js" />
     <Content Include="Areas\Admin\Scripts\highcharts.js" />
-    <Content Include="Areas\Admin\Scripts\jquery-2.2.3.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery-1.10.2.js" />
     <Content Include="Areas\Admin\Scripts\jquery-validation\js\additional-methods.min.js" />
     <Content Include="Areas\Admin\Scripts\jquery-validation\js\jquery.validate.js" />
     <Content Include="Areas\Admin\Scripts\jquery.form.js" />
@@ -582,6 +585,8 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\OperateController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MenuController.cs" />
     <Compile Include="Areas\Admin\Controllers\DepartmentController.cs" />
     <Compile Include="Areas\Admin\Controllers\RelationController.cs" />
     <Compile Include="Areas\Admin\Controllers\DataDictionaryController.cs" />
@@ -642,6 +647,8 @@
     <Content Include="Areas\Admin\Views\Relation\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Department\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Operate\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Menu\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Menu\PartialMenu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

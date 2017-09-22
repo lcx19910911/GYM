@@ -1,4 +1,5 @@
 ﻿using GYM.Core.Helper;
+using GYM.Core.Extensions;
 using GYM.IService;
 using GYM.Model;
 using GYM.Web.Framework;
@@ -41,6 +42,10 @@ namespace GYM.Web.Areas.Admin.Controllers
                     return JResult(Core.Code.ErrorCode.system_name_already_exist, "");
                 }
                 entity.CreatedTime = entity.UpdatedTime = DateTime.Now;
+                if (entity.Key.IsNullOrEmpty())
+                {
+                    entity.ID = entity.Key = Guid.NewGuid().ToString("N");
+                }
                 var result = IDataDictionaryService.Add(entity);
                 if (result > 0)
                 {

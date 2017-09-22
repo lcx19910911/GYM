@@ -125,7 +125,6 @@
                     var zNodes = json;
                     ztreeObj = $.fn.zTree.init($(ztree), setting, zNodes);
 
-
                     var valueNodes;
                     if (isFlag) {
                         var flag = parseInt(selfValue);

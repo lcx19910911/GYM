@@ -1,10 +1,10 @@
 ﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "角色管理";
+    ViewBag.Title = "菜单管理";
 }
 
 <div class="am-cf am-padding">
-    <div class="am-fl am-cf"><a href="#" onclick="BackUrl()"><strong class="am-text-primary am-text-lg">返回</strong></a>/<small>角色管理</small></div>
+    <div class="am-fl am-cf"><a href="/"><strong class="am-text-primary am-text-lg">首页</strong></a> /<small>菜单管理</small></div>
 </div>
 <div id="searchDomain">
 
@@ -12,7 +12,7 @@
         <div class="am-u-lg-6 am-u-end">
             <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-label">名称：</span>
-                <input type="text" class="am-form-field" placeholder="按角色名称搜索" style="width:100px;" name="name" ;>
+                <input type="text" class="am-form-field" placeholder="按菜单名称搜索" style="width:100px;" name="name" ;>
                 <span class="am-input-group-btn am-margin-left-sm">
                     <button class="am-btn am-btn-default" id="btnSearch" type="button">搜索</button>
                     <button class="am-btn am-btn-default" onclick="ClearFilter()" type="button">清除</button>
@@ -27,6 +27,7 @@
             <div class="am-btn-toolbar">
                 <div class="am-btn-group am-btn-group-xs">
                     <button onclick="add()" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+                    <button onclick="batchDelete()" type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>
                 </div>
             </div>
         </div>
@@ -39,9 +40,13 @@
         <thead>
             <tr>
                 <th dataname="ID" type="checkbox"></th>
-                <th dataname="Name">角色名称</th>
-                <th dataname="Discount">折扣</th>
-                <th dataname="Remark">备注</th>
+                <th dataname="Name">菜单名称</th>
+                <th dataname="Sort">排序</th>
+                <th dataname="Link">链接</th>
+                <th dataname="ParentName">所属菜单</th>
+                <th dataname="ClassName">类名称</th>
+                <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
+                <th dataname="UpdatedTime" datatype="jsondate">编辑日期</th>
                 <th type="eventlist"></th>
             </tr>
         </thead>
@@ -52,7 +57,6 @@
 {
     <script type="text/javascript">
 
-
         function ClearFilter() {
             $("#searchDomain input").val("");
         }
@@ -60,7 +64,7 @@
         function batchDelete() {
             $.Nuoya.confirm("确认删除？", function () {
                 grid.del({
-                    ajaxUrl: "/Admin/Role/Delete",
+                    ajaxUrl: "/Admin/Menu/Delete",
                     callback: function (json) {
                         grid.reload();
                     }
@@ -68,6 +72,7 @@
             });
         }
         function formInit(dataitem) {
+            $("[name=ParentIDSelect]").ztreeSelect($("[name=ParentID]"), "/Admin/Menu/GetZTreeChildren", dataitem != null ? dataitem.ID : null);
 
             //添加表单验证
             $.Nuoya.form("form").validate({
@@ -76,18 +81,16 @@
                         required: true,
                         maxlength: 32
                     },
-                    MenuIDStr: {
-                        required: true,
-                    },
-                    OperateStr: {
-                        required: true,
-                    },
-                    Remark: {
+                    Link: {
                         maxlength: 128
                     },
-                    Discount: {
-                        max: 1,
-                        min: 0
+                    ClassName: {
+                        maxlength: 32
+                    },
+                    Sort: {
+                        digits: true,
+                        max: 2147483647,
+                        min: -2147483647
                     }
                 },
                 messages: {
@@ -95,16 +98,14 @@
                         required: "不允许为空",
                         maxlength: "最多{0}个字符"
                     },
-                    MenuIDStr: {
-                        required: "不允许为空",
-                    },
-                    OperateStr: {
-                        required: "不允许为空"
-                    },
-                    Remark: {
+                    Link: {
                         maxlength: "最多{0}个字符"
                     },
-                    Discount: {
+                    ClassName: {
+                        maxlength: "最多{0}个字符"
+                    },
+                    Sort: {
+                        digits: "请输入数字",
                         max: "必须小于{0}",
                         min: "必须大于{0}"
                     }
@@ -116,18 +117,18 @@
         function add() {
             $.Nuoya.ajaxDialog({
                 closeViaDimmer: false,
-                ajaxUrl: "/Areas/Admin/HtmlTemplates/Role/Update.html",
-                title: "添加角色",
+                ajaxUrl: "/Areas/Admin/HtmlTemplates/Menu/Update.html",
+                title: "添加菜单",
                 width: "1000px",
-                height: "540px",
+                height: "420px",
                 callback: function (e) {
-                    formInit();//表单初始化              
+                    formInit();//表单初始化
                 },
                 buttons: [{
                     label: "保存",
                     callback: function (e) {
                         $.Nuoya.form("form").ajaxSubmit({
-                            ajaxUrl: "/Admin/Role/Add",
+                            ajaxUrl: "/Admin/Menu/Add",
                             callback: function (data) {
                                 if (!data.ErrorDesc) {
                                     e.hide();
@@ -141,6 +142,7 @@
                 }]
             })
         }
+
         var grid = $.Nuoya.grid({
             tableId: "dataTable",
             //表格id
@@ -148,7 +150,7 @@
                 domainId: "searchDomain",
                 subId: "btnSearch"
             },
-            ajaxUrl: "/Admin/Role/GetPageList",
+            ajaxUrl: "/Admin/Menu/GetPageList",
             //数据请求地址
             
             events: [
@@ -159,13 +161,12 @@
                     click: function (item) {
                         $.Nuoya.ajaxDialog({
                             closeViaDimmer: false,
-                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Role/Update.html",
-                            title: "编辑角色",
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Menu/Update.html",
+                            title: "编辑菜单",
                             width: "1000px",
-                            height: "540px",
+                            height: "420px",
                             callback: function (e) {
-
-                                $.Nuoya.action("/Admin/Role/Find", { id: item.ID }, function (model) {
+                                $.Nuoya.action("/Admin/Menu/Find", { id: item.ID }, function (model) {
                                     //载入数据
                                     $.Nuoya.form("form").dataLoad({
                                         data: model
@@ -176,85 +177,9 @@
                             buttons: [{
                                 label: "保存",
                                 callback: function (e) {
-                                    $.Nuoya.form("form").ajaxSubmit({
-                                        ajaxUrl: "/Admin/Role/Update",
-                                        params: {
-                                            ID: item.ID
-                                        },
-                                        callback: function (data) {
-                                            if (!data.ErrorDesc) {
-                                                e.hide();
-                                                grid.reload();
-                                            }
-                                            else
-                                                $.Nuoya.alert(data.ErrorDesc);
-                                        }
-                                    });
-                                }
-                            }]
-                        })
-                    }
-                },
-
-                {
-                    className: "am-text-success",
-                    icon: "icon-hand-paper-o",
-                    name: "操作权限",
-                    click: function (item) {
-                        $.Nuoya.ajaxDialog({
-                            closeViaDimmer: false,
-                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Role/SelectOperate.html",
-                            title: "操作权限",
-                            width: "1000px",
-                            height: "380px",
-                            callback: function (e) {
-                                $("[name='OperateStr']").val(item.OperateStr);
-                                $("[name='OperateStrSelect']").ztreeSelect($("[name='OperateStr']"), "/Admin/Operate/GetZTreeChildren", item.OperateStr, true, false);
-                            },
-                            buttons: [{
-                                label: "保存",
-                                callback: function (e) {
 
                                     $.Nuoya.form("form").ajaxSubmit({
-                                        ajaxUrl: "/Admin/Role/UpdateOperate",
-                                        params: {
-                                            ID: item.ID
-                                        },
-                                        callback: function (data) {
-                                            if (!data.ErrorDesc) {
-                                                e.hide();
-                                                grid.reload();
-                                            }
-                                            else
-                                                $.Nuoya.alert(data.ErrorDesc);
-                                        }
-                                    });
-                                }
-                            }]
-                        })
-                    }
-                },
-                {
-                    className: "am-text-warning",
-                    icon: "icon-plug",
-                    name: "菜单权限",
-                    click: function (item) {
-                        $.Nuoya.ajaxDialog({
-                            closeViaDimmer: false,
-                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Role/SelectMenu.html",
-                            title: "操作权限",
-                            width: "1000px",
-                            height: "380px",
-                            callback: function (e) {
-                                $("[name='MenuIDStr']").val(item.MenuIDStr);
-                                $("[name='MenuIDStrSelect']").ztreeSelect($("[name='MenuIDStr']"), "/Admin/Menu/GetZTreeChildren", item.MenuIDStr, true, false);
-                            },
-                            buttons: [{
-                                label: "保存",
-                                callback: function (e) {
-
-                                    $.Nuoya.form("form").ajaxSubmit({
-                                        ajaxUrl: "/Admin/Role/UpdateMenu",
+                                        ajaxUrl: "/Admin/Menu/Update",
                                         params: {
                                             ID: item.ID
                                         },
@@ -278,8 +203,8 @@
                     name: "删除",
                     click: function (item) {
                         $.Nuoya.confirm("确认删除？", function () {
-                            $.Nuoya.deleteAction("/Admin/Role/Delete", {
-                                ID: item.ID
+                            $.Nuoya.deleteAction("/Admin/Menu/Delete", {
+                                ids: item.ID
                             },
                             function () {
                                 grid.reload();

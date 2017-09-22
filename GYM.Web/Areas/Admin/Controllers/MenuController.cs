@@ -9,13 +9,13 @@ using System.Web.Mvc;
 
 namespace GYM.Web.Areas.Admin.Controllers
 {
-    public class RoleController : BaseAdminController
+    public class MenuController : BaseAdminController
     {
-        public IRoleService IRoleService;
+        public IMenuService IMenuService;
 
-        public RoleController(IRoleService _IRoleService)
+        public MenuController(IMenuService _IMenuService)
         {
-            this.IRoleService = _IRoleService;
+            this.IMenuService = _IMenuService;
         }
         public ViewResult Index()
         {
@@ -27,7 +27,7 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public JsonResult Add(Role entity)
+        public JsonResult Add(Menu entity)
         {
             ModelState.Remove("ID");
             ModelState.Remove("CreatedTime");
@@ -35,11 +35,12 @@ namespace GYM.Web.Areas.Admin.Controllers
             ModelState.Remove("IsDelete");
             if (ModelState.IsValid)
             {
-                if (IRoleService.IsExits(x => x.Name == entity.Name))
+                if (IMenuService.IsExits(x => x.Name == entity.Name))
                 {
-                    return JResult(Core.Code.ErrorCode.store_city__namealready_exist, "");
+                    return JResult(Core.Code.ErrorCode.system_name_already_exist, "");
                 }
-                var result = IRoleService.Add(entity);
+                entity.CreatedTime = entity.UpdatedTime = DateTime.Now;
+                var result = IMenuService.Add(entity);
                 return JResult(result);
             }
             else
@@ -53,29 +54,30 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public JsonResult Update(Role entity)
+        public JsonResult Update(Menu entity)
         {
             ModelState.Remove("CreatedTime");
             ModelState.Remove("UpdatedTime");
             ModelState.Remove("IsDelete");
             if (ModelState.IsValid)
             {
-                var model = IRoleService.Find(entity.ID);
+                var model = IMenuService.Find(entity.ID);
                 if (model == null || (model != null && model.IsDelete))
                 {
                     return DataErorrJResult();
                 }
-
-                if (IRoleService.IsExits(x => x.Name == entity.Name && x.ID != entity.ID))
+                
+                if (IMenuService.IsExits(x => x.Name == entity.Name&&x.ID!=entity.ID))
                 {
                     return JResult(Core.Code.ErrorCode.store_city__namealready_exist, "");
                 }
+
                 model.Name = entity.Name;
-                model.Discount = entity.Discount;
-                model.Remark = entity.Remark;
-                model.MenuIDStr = entity.MenuIDStr;
-                model.OperateStr = entity.OperateStr;
-                var result = IRoleService.Update(model);
+                model.Sort = entity.Sort;
+                model.ParentID = entity.ParentID;
+                model.ClassName = entity.ClassName;
+                model.Link = entity.Link;
+                var result = IMenuService.Update(model);
                 return JResult(result);
             }
             else
@@ -83,38 +85,14 @@ namespace GYM.Web.Areas.Admin.Controllers
                 return ParamsErrorJResult(ModelState);
             }
         }
-
         /// <summary>
-        /// 修改
+        /// 菜单页
         /// </summary>
-        /// <param name="entity"></param>
         /// <returns></returns>
-        public JsonResult UpdateOperate(string ID, string OperateStr)
+        public PartialViewResult PartialMenu()
         {
-            var model = IRoleService.Find(ID);
-            if (model == null || (model != null && model.IsDelete))
-            {
-                return DataErorrJResult();
-            }
-            model.OperateStr = OperateStr;
-            var result = IRoleService.Update(model);
-            return JResult(result);
-        }
-        /// <summary>
-        /// 修改
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public JsonResult UpdateMenu(string ID, string MenuIDStr)
-        {
-            var model = IRoleService.Find(ID);
-            if (model == null || (model != null && model.IsDelete))
-            {
-                return DataErorrJResult();
-            }
-            model.MenuIDStr = MenuIDStr;
-            var result = IRoleService.Update(model);
-            return JResult(result);
+            var menuList = IMenuService.GetUserMenu(null);
+            return PartialView(menuList);
         }
 
         /// <summary>
@@ -127,7 +105,7 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult GetPageList(int pageIndex, int pageSize, string name)
         {
-            return JResult(IRoleService.GetPageList(pageIndex, pageSize, name));
+            return JResult(IMenuService.GetPageList(pageIndex, pageSize, name));
         }
 
 
@@ -138,19 +116,8 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Find(string ID)
         {
-            return JResult(IRoleService.Find(ID));
+            return JResult(IMenuService.Find(ID));
         }
-
-        /// <summary>
-        /// 删除
-        /// </summary>
-        /// <param name="ids"></param>
-        /// <returns></returns>
-        public ActionResult Delete(string ID)
-        {
-            return JResult(IRoleService.Delete(ID));
-        }
-
 
 
         /// <summary>
@@ -159,7 +126,16 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult GetSelectItem()
         {
-            return JResult(IRoleService.GetSelectList());
+            return JResult(IMenuService.GetSelectList());
+        }
+
+        /// <summary>
+        /// 获取下拉框 
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetZTreeChildren()
+        {
+            return JResult(IMenuService.GetZTreeChildren());
         }
     }
 }
