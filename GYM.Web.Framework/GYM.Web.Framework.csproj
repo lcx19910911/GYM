@@ -141,9 +141,17 @@
       <Project>{b385fb51-a79d-44dd-9b2c-f25dc589302d}</Project>
       <Name>GYM.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GYM.IService\GYM.IService.csproj">
+      <Project>{5bee0a3f-e06d-4db2-bfb1-37c1eb57350a}</Project>
+      <Name>GYM.IService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GYM.Model\GYM.Model.csproj">
       <Project>{1d8d9894-75bb-42fa-bc27-296fcf42ad76}</Project>
       <Name>GYM.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GYM.Service\GYM.Service.csproj">
+      <Project>{30058639-3062-414a-befe-13ce45b401b9}</Project>
+      <Name>GYM.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
