@@ -19,7 +19,7 @@ namespace GYM.IService
         /// <param name="pageSize">分页大小</param>
         /// <param name="title">标题 - 搜索项</param>
         /// <returns></returns>
-        PageList<User> GetPageList(int pageIndex, int pageSize, string name,string phone);
+        PageList<User> GetPageList(int pageIndex, int pageSize, string name,string phone, bool isMember);
 
         WebResult<bool> Manager(User model);
 

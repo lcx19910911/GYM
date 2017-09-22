@@ -84,11 +84,11 @@ namespace GYM.Service
         /// <param name="pageSize">分页大小</param>
         /// <param name="title">标题 - 搜索项</param>
         /// <returns></returns>
-        public PageList<User> GetPageList(int pageIndex, int pageSize, string name,string phone)
+        public PageList<User> GetPageList(int pageIndex, int pageSize, string name,string phone,bool isMember)
         {
             using (DbRepository db = new DbRepository())
             {
-                var query = db.User.Where(x => !x.IsDelete);
+                var query = db.User.Where(x => !x.IsDelete&&x.IsMember==isMember);
                 if (name.IsNotNullOrEmpty())
                 {
                     query = query.Where(x => x.NickName.Contains(name));

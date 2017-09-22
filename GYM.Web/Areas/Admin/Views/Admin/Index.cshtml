@@ -28,8 +28,8 @@
         <div class="am-u-lg-6">
             <div class="am-btn-toolbar">
                 <div class="am-btn-group am-btn-group-xs">
-                    <button onclick="add()" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
-                    <button onclick="batchDelete()" type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>
+                    <button onclick="add()" type="button" class="am-btn am-btn-default  add"><span class="am-icon-plus"></span> 新增</button>
+                    <button onclick="batchDelete()" type="button" class="am-btn am-btn-default  delete"><span class="am-icon-trash-o"></span> 删除</button>
                 </div>
             </div>
         </div>
@@ -190,7 +190,7 @@
             events: [
 
                 {
-                    className: "am-text-secondary",
+                    className: "am-text-secondary update",
                     icon: "icon-pencil-square-o",
                     name: "编辑",
                     click: function (item) {
@@ -236,7 +236,7 @@
                 }
                 ,
             {
-                className: "am-text-danger",
+                className: "am-text-danger changePassword",
                 icon: "icon-hand-rock-o",
                 name: "重置密码",
                 click: function (item) {
@@ -245,7 +245,7 @@
             }
                 ,
                 {
-                    className: "am-text-danger",
+                    className: "am-text-danger delete",
                     icon: "icon-trash-o",
                     name: "删除",
                     click: function (item) {
