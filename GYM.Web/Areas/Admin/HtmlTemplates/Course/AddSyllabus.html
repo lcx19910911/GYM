@@ -1,0 +1,73 @@
+﻿<div class="admin-content-body">
+    <form id="form" class="am-form  am-form-inline">
+        <input type="hidden" name="ID" />
+        <div class="am-tabs am-margin" data-am-tabs="">
+            <ul class="am-tabs-nav am-nav am-nav-tabs" id="selectTabUl">
+                <li class="am-active"><a href="#tab1">课程表信息</a></li>
+            </ul>
+            <div class="am-tabs-bd" style="touch-action: pan-y; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);overflow-x:hidden">
+                <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            课程
+                        </div>
+                        <div class="am-u-md-2 ">
+                            <select name="CourseID" data-am-selected="{btnSize: 'sm'}"></select>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            门店
+                        </div>
+                        <div class="am-u-md-2 ">
+                            <select name="StoreID" data-am-selected="{btnSize: 'sm'}"></select>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong></div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            教练员
+                        </div>
+                        <div class="am-u-md-2 ">
+                            <select name="CoachID" data-am-selected="{btnSize: 'sm'}" onchange="ShowTime()"></select>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong></div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-3 am-text-right">
+                            时间
+                        </div>
+                        <div class="am-u-md-2 ">
+                            <input type="hidden" name="TimeS" />
+                            <input type="text" name="TimeSelectS" readonly />
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-text-left"><strong class="am-text-danger am-text-sm">*</strong></div>
+                    </div>
+                    <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+                    <br />
+                    <br/>
+                    <input type="hidden" name="deleteList" />
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-md-12">
+                            <div class="am-g am-margin-top">
+                                <div class="am-u-md-2 am-text-center">日期 </div>
+                                <div class="am-u-md-3 am-text-center">开始时间</div>
+                                <div class="am-u-md-3 am-text-center">结束时间</div>
+                                <div class="am-u-md-2 am-text-center">人数限制</div>
+                                <div class="am-u-md-2 am-text-center am-u-end">操作</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="syllabusDiv" style="height:300px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -42,7 +42,8 @@ namespace GYM.Web
                         Type = Model.AdminCode.SuperAdmin,
                         Password = CryptoHelper.MD5_Encrypt("123456"),
                         RealName = "超级管理员",
-                        RoleID="-1"
+                        RoleID="-1",
+                        DepartmentID="-1"
                     });
                     dbcontext.SaveChanges();
                 }

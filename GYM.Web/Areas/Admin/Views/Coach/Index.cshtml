@@ -45,7 +45,7 @@
             <tr>
                 <th dataname="ID" type="checkbox"></th>
                 <th dataname="Name">教练名称</th>
-                <th dataname="StoreName">门店</th>                
+                @*<th dataname="StoreName">门店</th>*@                
                 <th dataname="IDCard">身份证</th>
                 <th render="ShowSex">性别</th>
                 <th dataname="Mobile">手机</th>
@@ -83,11 +83,11 @@
                 isCardID(dataitem.IDCard);
             }
 
-            $.Nuoya.action("/Admin/Store/GetSelectItem", {  }, function (json) {
-                $(json).each(function () {
-                    $("#form select[name='StoreID']").append("<option " + (dataitem != null && dataitem.StoreID == this.Value ? "selected" : "") + " value='" + this.Value + "'>" + this.Text + "</option>");
-                });
-            }); 
+            //$.Nuoya.action("/Admin/Store/GetSelectItem", {  }, function (json) {
+            //    $(json).each(function () {
+            //        $("#form select[name='StoreID']").append("<option " + (dataitem != null && dataitem.StoreID == this.Value ? "selected" : "") + " value='" + this.Value + "'>" + this.Text + "</option>");
+            //    });
+            //}); 
 
             //添加表单验证
             $.Nuoya.form("form").validate({
@@ -120,9 +120,9 @@
                     Pictures: {
                         maxlength: 1024
                     },
-                    StoreID: {
-                        required: true
-                    },
+                    //StoreID: {
+                    //    required: true
+                    //},
                     BasicSalary: {
                         required: true,
                         digits: true,
@@ -158,9 +158,9 @@
                     Pictures: {
                         maxlength: "最多{0}个字符"
                     },
-                    StoreID: {
-                        required: "请选择门店",
-                    },
+                    //StoreID: {
+                    //    required: "请选择门店",
+                    //},
                     BasicSalary: {
                         required: "不允许为空",
                         digits: "请输入数字",

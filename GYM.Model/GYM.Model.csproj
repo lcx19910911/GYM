@@ -60,6 +60,7 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Coach.cs" />
     <Compile Include="AdminInvite.cs" />
+    <Compile Include="Syllabus.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Operate.cs" />

@@ -9,15 +9,13 @@ using System.Web.Mvc;
 
 namespace GYM.Web.Areas.Admin.Controllers
 {
-    public class CourseController : BaseAdminController
+    public class SyllabusController : BaseAdminController
     {
-        public ICourseService ICourseService;
-        public ICoursePriceService ICoursePriceService;
+        public ISyllabusService ISyllabusService;
 
-        public CourseController(ICourseService _ICourseService, ICoursePriceService _ICoursePriceService)
+        public SyllabusController(ISyllabusService _ISyllabusService)
         {
-            this.ICourseService = _ICourseService;
-            this.ICoursePriceService = _ICoursePriceService;
+            this.ISyllabusService = _ISyllabusService;
         }
         public ViewResult Index()
         {
@@ -30,17 +28,16 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [ValidateInput(false)]
-        public JsonResult Add(Course entity)
+        public JsonResult Add(List<Syllabus> entity)
         {
             ModelState.Remove("ID");
             ModelState.Remove("CreatedTime");
             ModelState.Remove("UpdatedTime");
             ModelState.Remove("IsDelete");
-            ModelState.Remove("CourseID");
+            ModelState.Remove("SyllabusID");
             if (ModelState.IsValid)
             {             
-                entity.CreatedTime = entity.UpdatedTime = DateTime.Now;
-                return JResult(ICourseService.AddCourse(entity));
+                return JResult(ISyllabusService.AddSyllabusList(entity));
             }
             else
             {
@@ -54,14 +51,14 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [ValidateInput(false)]
-        public JsonResult Update(Course entity)
+        public JsonResult Update(List<Syllabus> entity,List<string> deleteList)
         {
             ModelState.Remove("CreatedTime");
             ModelState.Remove("UpdatedTime");
             ModelState.Remove("IsDelete");
             if (ModelState.IsValid)
             { 
-                var result = ICourseService.UpdateCourse(entity);
+                var result = ISyllabusService.UpdateSyllabusList(entity, deleteList);
                 return JResult(result);
             }
             else
@@ -79,9 +76,9 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <param name="key"> 搜索项</param>
         /// <param name="value">搜索项</param>
         /// <returns></returns>
-        public ActionResult GetPageList(int pageIndex, int pageSize, string name, string storeName, string coachName, DateTime? createdTimeStart, DateTime? createdTimeEnd)
+        public ActionResult GetPageList(int pageIndex, int pageSize, string storeName, string coachName, DateTime? createdTimeStart, DateTime? createdTimeEnd)
         {
-            return JResult(ICourseService.GetPageList(pageIndex, pageSize, name, storeName, coachName, createdTimeStart, createdTimeEnd));
+            return JResult(ISyllabusService.GetPageList(pageIndex, pageSize, storeName, coachName, createdTimeStart, createdTimeEnd));
         }
 
 
@@ -92,11 +89,7 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Find(string ID)
         {
-            var model = ICourseService.Find(ID);
-            //if (model != null)
-            //{
-            //    model.PriceList = ICoursePriceService.GetListByCourseID(ID);
-            //}         
+            var model = ISyllabusService.Find(ID);        
             return JResult(model);
         }
 
@@ -107,18 +100,12 @@ namespace GYM.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Delete(string ID)
         {
-            return JResult(ICourseService.Delete(ID));
+            return JResult(ISyllabusService.Delete(ID));
         }
 
-
-
-        /// <summary>
-        /// 获取地区下拉框
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult GetSelectItem()
+        public ActionResult GetTimeZTree(string courseId, string cocahId, string storeId)
         {
-            return JResult(ICourseService.GetSelectList());
+            return JResult(ISyllabusService.GetTimeZTree(courseId, cocahId, storeId));
         }
     }
 }

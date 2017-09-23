@@ -98,9 +98,9 @@ namespace GYM.Model
         /// <summary>
         /// 所属门店
         /// </summary>
-        [Required(ErrorMessage = "所属门店不能为空")]
-        [MaxLength(32)]
-        public string StoreID { get; set; }
+        //[Required(ErrorMessage = "所属门店不能为空")]
+        //[MaxLength(32)]
+        //public string StoreID { get; set; }
 
         /// <summary>
         /// 所属门店

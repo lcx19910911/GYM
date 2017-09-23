@@ -252,6 +252,7 @@
     <Content Include="Areas\Admin\Content\zTreeStyle\zTreeStyle.css" />
     <Content Include="Areas\Admin\HtmlTemplates\Admin\ChangePassword.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Admin\Update.html" />
+    <Content Include="Areas\Admin\HtmlTemplates\Course\AddSyllabus.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Department\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Menu\Update.html" />
     <Content Include="Areas\Admin\HtmlTemplates\Operate\Update.html" />
@@ -585,6 +586,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\SyllabusController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\OperateController.cs" />
     <Compile Include="Areas\Admin\Controllers\MenuController.cs" />
@@ -650,6 +652,7 @@
     <Content Include="Areas\Admin\Views\Operate\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Menu\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Menu\PartialMenu.cshtml" />
+    <Content Include="Areas\Admin\Views\Syllabus\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

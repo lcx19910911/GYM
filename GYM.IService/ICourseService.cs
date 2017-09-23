@@ -25,7 +25,7 @@ namespace GYM.IService
 
         List<Course> GetListByParam(DateTime? searchTime, string coachId="", string storeId="");
 
-        WebResult<bool> AddCourse(Course model, List<CoursePrice> priceList);
-        WebResult<bool> UpdateCourse(Course model, List<CoursePrice> priceList);
+        WebResult<bool> AddCourse(Course model);
+        WebResult<bool> UpdateCourse(Course model);
     }
 }

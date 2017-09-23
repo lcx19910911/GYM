@@ -13,14 +13,14 @@
             <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-label">名称：</span>
                 <input type="text" class="am-form-field" placeholder="按课程名称搜索" style="width:100px;" name="name" ;>
-                <span class="am-input-group-label am-margin-left-sm">门店名称：</span>
+                @*<span class="am-input-group-label am-margin-left-sm">门店名称：</span>
                 <input type="text" class="am-form-field" placeholder="按门店名称搜索" style="width:100px;" name="storeName" ;>
                 <span class="am-input-group-label am-margin-left-sm">课程名称：</span>
                 <input type="text" class="am-form-field" placeholder="按课程名称搜索" style="width:100px;" name="CourseName" ;>
                 <span class="am-input-group-label  am-margin-left-sm">课程日期</span>
                 <input type="text" class="am-form-field" placeholder="请选择日期" name="createdTimeStart" readonly style="width:120px;">
                 <span class="am-input-group-label"> - </span>
-                <input type="text" class="am-form-field" placeholder="请选择日期" name="createdTimeEnd" readonly style="width:120px;">
+                <input type="text" class="am-form-field" placeholder="请选择日期" name="createdTimeEnd" readonly style="width:120px;">*@
                 <span class="am-input-group-btn am-margin-left-sm">
                     <button class="am-btn am-btn-default" id="btnSearch" type="button">搜索</button>
                     <button class="am-btn am-btn-default" onclick="ClearFilter()" type="button">清除</button>
@@ -49,13 +49,13 @@
             <tr>
                 <th dataname="ID" type="checkbox"></th>
                 <th dataname="Name">课程名称</th>
-                <th dataname="StoreName">门店</th>                
-                <th dataname="CoachName">教练员</th>
+                @*<th dataname="StoreName">门店</th>*@                
+                @*<th dataname="CoachName">教练员</th>*@
                 <th dataname="CourseCategoryNameS">分类</th>
-                <th dataname="PeopleLimit">人数限制</th>
-                <th dataname="JoinCount">已报名</th>
-                <th dataname="StartTime" datatype="jsondate">开始时间</th>
-                <th dataname="EndTime" datatype="jsondate">结束时间</th>
+                <th dataname="Price">原价</th>
+                <th dataname="DiscountPrice">会员价</th>
+                @*<th dataname="StartTime" datatype="jsondate">开始时间</th>
+                <th dataname="EndTime" datatype="jsondate">结束时间</th>*@
                 <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
                 <th type="eventlist"></th>
             </tr>
@@ -137,42 +137,8 @@
                         fAQUE.setContent(dataitem.FAQ);
                     });
                 }
-                if (dataitem.PriceList != null) {
-                    $.each(dataitem.PriceList, function (index, item) {
-                        $("#form .coursePrice").append(
-                            '<div class="am-u-md-12 priceItem">'+
-                                '<div class="am-g am-margin-top ">' +
-                                        '<input type="hidden" name="ID" value="'+item.ID+'">'+
-                                    '<div class="am-u-md-2 am-text-center">' + (index+1) + '</div>' +
-                                   ' <div class="am-u-md-3 am-text-center">'+
-                                        '<input type="text" name="ThingName" value="' + item.ThingName + '" class="am-input-sm" maxlength="32">' +
-                                    '</div>'+
-                                    '<div class="am-u-md-3 am-text-center">'+
-                                        '<input type="number" name="Price" value="' + item.Price + '" class="am-input-sm" min="0.01">' +
-                                    '</div>'+
-                                    '<div class="am-u-md-2 am-text-center">'+
-                                        '<input type="number" name="DiscountPrice" value="' + item.DiscountPrice + '" class="am-input-sm" min="0.01">' +
-                                    '</div>'+
-                                    '<div class="am-u-md-2 am-text-center am-u-end">'+
-                                        '<button class="am-btn am-btn-danger am-btn-xs" onclick="javascript: if ($(\'.priceItem\').length==1) { return false; } $(this).parents(\'.priceItem\').remove()">删除</button>'+
-                                    '</div>'+
-                                '</div>'+
-                            '</div>');
-                   });
-                }
             }
 
-            $.Nuoya.action("/Admin/Store/GetSelectItem", {  }, function (json) {
-                $(json).each(function () {
-                    $("#form select[name='StoreID']").append("<option " + (dataitem != null && dataitem.StoreID == this.Value ? "selected" : "") + " value='" + this.Value + "'>" + this.Text + "</option>");
-                });
-            }); 
-
-            $.Nuoya.action("/Admin/Coach/GetSelectItem", {}, function (json) {
-                $(json).each(function () {
-                    $("#form select[name='CoachID']").append("<option " + (dataitem != null && dataitem.CoachID == this.Value ? "selected" : "") + " value='" + this.Value + "'>" + this.Text + "</option>");
-                });
-            });
             //添加表单验证
             $.Nuoya.form("form").validate({
                 rules: {
@@ -180,22 +146,22 @@
                         required: true,
                         maxlength: 64
                     },
-                    StoreID: {
-                        required: true,
-                    },
+                    //StoreID: {
+                    //    required: true,
+                    //},
                     CourseCategoryIDS: {
                         required: true,
                         maxlength: 256
                     },
-                    CoachID: {
-                        required: true
-                    },
-                    StartTime: {
-                        required: true
-                    },
-                    EndTime: {
-                        required: true
-                    },
+                    //CoachID: {
+                    //    required: true
+                    //},
+                    //StartTime: {
+                    //    required: true
+                    //},
+                    //EndTime: {
+                    //    required: true
+                    //},
                     TrainResult: {
                         maxlength: 10240
                     },
@@ -209,34 +175,39 @@
                         required: true,
                         maxlength: 1024
                     },
-                    PeopleLimit: {
+                    Price: {
                         digits: true,
                         min: 0,
-                        max:1000
+                        max:100000
                     },
-                    
+
+                    DiscountPrice: {
+                        digits: true,
+                        min: 0,
+                        max: 100000
+                    },
                 },
                 messages: {
                     Name: {
                         required: "名称不允许为空",
                         maxlength: "最多{0}个字符"
                     },
-                    StoreID: {
-                        required: "门店不允许为空",
-                    },
+                    //StoreID: {
+                    //    required: "门店不允许为空",
+                    //},
                     CourseCategoryIDS: {
                         required: "课程分类不能为空",
                         maxlength: "最多{0}个字符"
                     },
-                    CoachID: {
-                        required: "请选择课程"
-                    },
-                    StartTime: {
-                        required: "开始时间不允许为空",
-                    },
-                    EndTime: {
-                        required: "结束时间不允许为空",
-                    },
+                    //CoachID: {
+                    //    required: "请选择课程"
+                    //},
+                    //StartTime: {
+                    //    required: "开始时间不允许为空",
+                    //},
+                    //EndTime: {
+                    //    required: "结束时间不允许为空",
+                    //},
                     TrainResult: {
                         maxlength: "最多{0}个字符"
                     },
@@ -250,11 +221,16 @@
                         required: "图片不允许为空",
                         maxlength: "最多{0}个字符"
                     },
-                    PeopleLimit: {
+                    Price: {
                         digits: "请输入数字",
                         max: "必须小于{0}",
                         min: "必须大于{0}"
-                    }
+                    },
+                    DiscountPrice: {
+                        digits: "请输入数字",
+                        max: "必须小于{0}",
+                        min: "必须大于{0}"
+                    },
                 }
             });
 
@@ -292,6 +268,46 @@
             var uploadheadimg = headimgbtn.data("uploadFileData");
         }
 
+        function ShowTime()
+        {
+            var storeID= $("#form [name='StoreID']").val();
+            var courseID=$("#form [name='CourseID']").val();
+            var coachID=$("#form [name='CoachID']").val();
+
+            $("[name='TimeSelectS']").ztreeSelect($("[name='TimeS']"), "/Admin/Syllabus/GetTimeZTree?storeID=" + storeID + "&courseID=" + courseID + "&coachID=" + coachID,
+                0, true, false, function (item) {
+                    AddDay(item.name,item.tId);
+            });
+        }
+
+        function AddDay(day, name)
+        {
+            if ($(".dayItem").hasClass("day_" + day+"")) {
+                $(".day_" + day + "").remove();
+            }
+            else {
+                var html = '<div class="am-u-md-12 dayItem day_' + day + '">' +
+                                   '<div class="am-g am-margin-top ">' +
+                                       '<div class="am-u-md-2 am-text-center">' + day + '</div>' +
+                                       '<div class="am-u-md-3 am-text-center">' +
+                                           "<input type=\"text\" id='" + day + "_startTime' name='StartTime' style=\"width:254px;float:left;\" readonly onfocus=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:'" + day + " 00:00',maxDate:'#F{$dp.$D(\\'" + day + "_endTime\\')||\\'" + day + " 23:59\\'}'})\" datatype=\"jsondate\" />" +
+                                        '</div>' +
+                                       '<div class="am-u-md-3 am-text-center">' +
+                                            "<input type=\"text\" id='" + day + "_endTime' name='EndTime' style=\"width:254px;float:left;\" readonly onfocus=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',maxDate:'" + day + " 23:59',minDate:'#F{$dp.$D(\\'" + day + "_startTime\\')||\\'" + day + " 00:00\\'}'})\" datatype=\"jsondate\" />" +
+                                       '</div>' +
+                                       '<div class="am-u-md-2 am-text-center">' +
+                                           '<input type="number" name="PeopleLimit" class="am-input-sm" min="1">' +
+                                       '</div>' +
+                                       '<div class="am-u-md-2 am-text-center am-u-end">' +
+                                           '<button class="am-btn am-btn-danger am-btn-xs" onclick="javascript: if ($(\'.dayItem\').length == 1) { return false; } $(this).parents(\'.dayItem\').remove()">删除</button>' +
+                                       '</div>' +
+                                   '</div>' +
+                               '</div>';
+                $("#form .syllabusDiv").append(html);
+            }
+        }
+
+
         //新增
         function add() {
             $.Nuoya.ajaxDialog({
@@ -318,31 +334,31 @@
 
                         var pirceAry = new Array();
                         var msg = "";
-                        $(".coursePrice .priceItem").each(function (index, item) {
-                            var name = $(item).find("[name='ThingName']").val();
-                            var price = $(item).find("[name='Price']").val();
-                            var disPrice = $(item).find("[name='DiscountPrice']").val();
-                            if (name == "")
-                            {
-                                msg = "请输入价格名称";
-                            }
-                            if (price == "") {
-                                msg = "请输入价格";
-                            }
-                            if (disPrice == "") {
-                                msg = "请输入折扣价格";
-                            }
-                            pirceAry.push({
-                                CourseID:"1",
-                                ThingName: name,
-                                Price: price,
-                                DiscountPrice: disPrice
-                            });
-                        });
-                        if (pirceAry.length == 0) {
-                            $.Nuoya.alert("请填写课程价格");
-                            return false;
-                        }
+                        //$(".coursePrice .priceItem").each(function (index, item) {
+                        //    var name = $(item).find("[name='ThingName']").val();
+                        //    var price = $(item).find("[name='Price']").val();
+                        //    var disPrice = $(item).find("[name='DiscountPrice']").val();
+                        //    if (name == "")
+                        //    {
+                        //        msg = "请输入价格名称";
+                        //    }
+                        //    if (price == "") {
+                        //        msg = "请输入价格";
+                        //    }
+                        //    if (disPrice == "") {
+                        //        msg = "请输入折扣价格";
+                        //    }
+                        //    pirceAry.push({
+                        //        CourseID:"1",
+                        //        ThingName: name,
+                        //        Price: price,
+                        //        DiscountPrice: disPrice
+                        //    });
+                        //});
+                        //if (pirceAry.length == 0) {
+                        //    $.Nuoya.alert("请填写课程价格");
+                        //    return false;
+                        //}
                         if(msg!="")
                         {
                             $.Nuoya.alert(msg);
@@ -355,12 +371,12 @@
                         if (result) {
                             $.Nuoya.action("/Admin/Course/Add", {
                                     Name: $("#form [name='Name']:eq(0)").val(),
-                                    StoreID: $("#form [name='StoreID']").val(),
+                                    //StoreID: $("#form [name='StoreID']").val(),
                                     CourseCategoryIDS: $("#form [name='CourseCategoryIDS']").val(),
-                                    CoachID: $("#form [name='CoachID']").val(),
-                                    StartTime: $("#form [name='StartTime']").val(),
-                                    EndTime: $("#form [name='EndTime']").val(),
-                                    PriceList: pirceAry,
+                                    //CoachID: $("#form [name='CoachID']").val(),
+                                    //StartTime: $("#form [name='StartTime']").val(),
+                                    //EndTime: $("#form [name='EndTime']").val(),
+                                    //PriceList: pirceAry,
                                     FAQ: fAQUE.getContent(),
                                     TrainResult: trainResultUE.getContent(),
                                     FitPeople: fitPeopleUE.getContent(),
@@ -376,16 +392,6 @@
                                 })
                         }
                         else {
-                            $("#tab1,#tab2").removeClass("am-in").removeClass("am-active");
-                            $("#selectTabUl li").removeClass("am-active");
-                            if ($("#tab1 .tipso_content").length != 0) {
-                                $("#selectTabUl li").eq(0).addClass("am-active");
-                                $("#tab1").addClass("am-in").addClass("am-active");
-                            }
-                            else {
-                                $("#selectTabUl li").eq(1).addClass("am-active");
-                                $("#tab2").addClass("am-in").addClass("am-active");
-                            }
                         }          
                     }
                 }]
@@ -404,6 +410,104 @@
             
             events: [
                 {
+                    className: "am-text-success",
+                    icon: "icon-plus",
+                    name: "新增课程表",
+                    click: function (item) {
+                        $.Nuoya.ajaxDialog({
+                            closeViaDimmer: false,
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Course/AddSyllabus.html",
+                            title: "新增课程表",
+                            width: ($(window).width() - 100) + "px",
+                            height: ($(window).height() - 100) + "px",
+                            callback: function (e) {
+
+                                $.Nuoya.action("/Admin/Store/GetSelectItem", {  }, function (json) {
+                                    $(json).each(function () {
+                                        $("#form select[name='StoreID']").append("<option  value='" + this.Value + "'>" + this.Text + "</option>");
+                                    });
+                                });
+                                $("#form select[name='CoachID']").append("<option  value='-1' selected>请选择</option>");
+                                $.Nuoya.action("/Admin/Coach/GetSelectItem", {}, function (json) {
+                                    $(json).each(function () {
+                                        $("#form select[name='CoachID']").append("<option  value='" + this.Value + "'>" + this.Text + "</option>");
+                                    });
+                                });
+                                $.Nuoya.action("/Admin/Course/GetSelectItem", {}, function (json) {
+                                    $(json).each(function () {
+                                        $("#form select[name='CourseID']").append("<option  value='" + this.Value + "'>" + this.Text + "</option>");
+                                    });
+                                });
+                            },
+                            buttons: [{
+                                label: "保存",
+                                callback: function (e) {
+
+                                    var syllabusAry = new Array();
+                                    var msg = "";
+                                    var storeID = $("#form [name='StoreID']").val();
+                                    var courseID = $("#form [name='CourseID']").val();
+                                    var coachID = $("#form [name='CoachID']").val();
+                                    $(".syllabusDiv .dayItem").each(function (index, item) {
+                                        var startTime = $(item).find("[name='StartTime']").val();
+                                        var endTime = $(item).find("[name='EndTime']").val();
+                                        var limit = $(item).find("[name='PeopleLimit']").val();
+                                        if (startTime == "") {
+                                            msg = "请输入开始时间";
+                                        }
+                                        if (endTime == "") {
+                                            msg = "请输入结束时间";
+                                        }
+                                        if (limit == "") {
+                                            msg = "请输入限制人数";
+                                        }
+                                        if (name == "" && price == "" && disPrice == "") {
+                                            msg = "";
+                                        }
+                                        else {
+                                            syllabusAry.push({
+                                                CourseID: courseID,
+                                                CoachID: coachID,
+                                                StoreID: storeID,
+                                                StartTime: startTime,
+                                                EndTime: endTime,
+                                                PeopleLimit:limit
+                                            });
+                                        }
+                                    });
+                                    if (pirceAry.length == 0) {
+                                        $.Nuoya.alert("请填写课程信息");
+                                        return false;
+                                    }
+                                    if (msg != "") {
+                                        $.Nuoya.alert(msg);
+                                        return false;
+
+                                    }
+
+                                    var result = $.Nuoya.form("form").valid({
+                                    });
+                                    if (result) {
+                                        $.Nuoya.action("/Admin/Syllabus/Add", {
+                                            syllabusAry
+                                        }, function (data) {
+                                            if (data.Result) {
+                                                $.Nuoya.alert("保存成功");
+                                                e.hide();
+                                                grid.reload();
+                                            }
+                                            else
+                                                $.Nuoya.alert(data.ErrorDesc);
+                                        })
+                                    }
+                                    else {
+                                    }
+
+                                }
+                            }]
+                        })
+                    }
+                }, {
                     className: "am-text-secondary",
                     icon: "icon-pencil-square-o",
                     name: "编辑",
@@ -438,36 +542,36 @@
 
                                     var pirceAry = new Array();
                                     var msg = "";
-                                    $(".coursePrice .priceItem").each(function (index, item) {
-                                        var name = $(item).find("[name='ThingName']").val();
-                                        var price = $(item).find("[name='Price']").val();
-                                        var disPrice = $(item).find("[name='DiscountPrice']").val();
-                                        if (name == "") {
-                                            msg = "请输入价格名称";
-                                        }
-                                        if (price == "") {
-                                            msg = "请输入价格";
-                                        }
-                                        if (disPrice == "") {
-                                            msg = "请输入折扣价格";
-                                        }
-                                        if (name == "" && price == "" && disPrice == "") {
-                                            msg = "";
-                                        }
-                                        else {
-                                            pirceAry.push({
-                                                ID:$(item).find("[name='ID']").val(),
-                                                CourseID: "1",
-                                                ThingName: name,
-                                                Price: price,
-                                                DiscountPrice: disPrice
-                                            });
-                                        }
-                                    });
-                                    if (pirceAry.length == 0) {
-                                        $.Nuoya.alert("请填写课程价格");
-                                        return false;
-                                    }
+                                    //$(".coursePrice .priceItem").each(function (index, item) {
+                                    //    var name = $(item).find("[name='ThingName']").val();
+                                    //    var price = $(item).find("[name='Price']").val();
+                                    //    var disPrice = $(item).find("[name='DiscountPrice']").val();
+                                    //    if (name == "") {
+                                    //        msg = "请输入价格名称";
+                                    //    }
+                                    //    if (price == "") {
+                                    //        msg = "请输入价格";
+                                    //    }
+                                    //    if (disPrice == "") {
+                                    //        msg = "请输入折扣价格";
+                                    //    }
+                                    //    if (name == "" && price == "" && disPrice == "") {
+                                    //        msg = "";
+                                    //    }
+                                    //    else {
+                                    //        pirceAry.push({
+                                    //            ID:$(item).find("[name='ID']").val(),
+                                    //            CourseID: "1",
+                                    //            ThingName: name,
+                                    //            Price: price,
+                                    //            DiscountPrice: disPrice
+                                    //        });
+                                    //    }
+                                    //});
+                                    //if (pirceAry.length == 0) {
+                                    //    $.Nuoya.alert("请填写课程价格");
+                                    //    return false;
+                                    //}
                                     if (msg != "") {
                                         $.Nuoya.alert(msg);
                                         return false;
@@ -480,12 +584,12 @@
                                         $.Nuoya.action("/Admin/Course/Update", {
                                             ID:item.ID,
                                             Name: $("#form [name='Name']:eq(0)").val(),
-                                            StoreID: $("#form [name='StoreID']").val(),
+                                            //StoreID: $("#form [name='StoreID']").val(),
                                             CourseCategoryIDS: $("#form [name='CourseCategoryIDS']").val(),
-                                            CoachID: $("#form [name='CoachID']").val(),
-                                            StartTime: $("#form [name='StartTime']").val(),
-                                            EndTime: $("#form [name='EndTime']").val(),
-                                            PriceList: pirceAry,
+                                            //CoachID: $("#form [name='CoachID']").val(),
+                                            //StartTime: $("#form [name='StartTime']").val(),
+                                            //EndTime: $("#form [name='EndTime']").val(),
+                                            //PriceList: pirceAry,
                                             FAQ: fAQUE.getContent(),
                                             TrainResult: trainResultUE.getContent(),
                                             FitPeople: fitPeopleUE.getContent(),
@@ -501,16 +605,16 @@
                                         })
                                     }
                                     else {
-                                        $("#tab1,#tab2").removeClass("am-in").removeClass("am-active");
-                                        $("#selectTabUl li").removeClass("am-active");
-                                        if ($("#tab1 .tipso_content").length != 0) {
-                                            $("#selectTabUl li").eq(0).addClass("am-active");
-                                            $("#tab1").addClass("am-in").addClass("am-active");
-                                        }
-                                        else {
-                                            $("#selectTabUl li").eq(1).addClass("am-active");
-                                            $("#tab2").addClass("am-in").addClass("am-active");
-                                        }
+                                        //$("#tab1,#tab2").removeClass("am-in").removeClass("am-active");
+                                        //$("#selectTabUl li").removeClass("am-active");
+                                        //if ($("#tab1 .tipso_content").length != 0) {
+                                        //    $("#selectTabUl li").eq(0).addClass("am-active");
+                                        //    $("#tab1").addClass("am-in").addClass("am-active");
+                                        //}
+                                        //else {
+                                        //    $("#selectTabUl li").eq(1).addClass("am-active");
+                                        //    $("#tab2").addClass("am-in").addClass("am-active");
+                                        //}
                                     }
                                    
                                 }

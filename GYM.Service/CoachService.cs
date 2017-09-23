@@ -54,13 +54,13 @@ namespace GYM.Service
                 }
                 var count = query.Count();
                 var list = query.OrderByDescending(x => x.CreatedTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-                var storeDic = db.Store.ToDictionary(x => x.ID);
+                //var storeDic = db.Store.ToDictionary(x => x.ID);
                 list.ForEach(x =>
                 {
-                    if (x.StoreID.IsNotNullOrEmpty() && storeDic.ContainsKey(x.StoreID))
-                    {
-                        x.StoreName = storeDic[x.StoreID].Name;
-                    }
+                    //if (x.StoreID.IsNotNullOrEmpty() && storeDic.ContainsKey(x.StoreID))
+                    //{
+                    //    x.StoreName = storeDic[x.StoreID].Name;
+                    //}
                 });
 
                 return CreatePageList(list, pageIndex, pageSize, count);
@@ -154,7 +154,7 @@ namespace GYM.Service
                 model.QuitTime = entity.QuitTime;
                 model.IsQuit = entity.IsQuit;
                 model.TrainYears = entity.TrainYears;
-                model.StoreID = entity.StoreID;
+                //model.StoreID = entity.StoreID;
                 model.Introduce = entity.Introduce;
 
 

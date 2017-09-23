@@ -2,7 +2,7 @@
 //ztree 选择框
 (function ($) {
     $.extend($.fn, {
-        ztreeSelect: function (valueInput, jsonUrl, selfValue, isMulitSelect, isFlag) {
+        ztreeSelect: function (valueInput, jsonUrl, selfValue, isMulitSelect, isFlag,onCheckCallback) {
             //选择框所依附的文本框
             console.log(isFlag);
             var dom = this;
@@ -92,6 +92,11 @@
                         }
                         $(valueInput).val(values.join(","));
                     }
+                }
+
+                if(typeof(onCheckCallback)=="function")
+                {
+                    onCheckCallback(treeNode);
                 }
             }
             function onClick(e, treeId, treeNode) {

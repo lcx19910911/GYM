@@ -22,18 +22,6 @@ namespace GYM.Model
         [Required(ErrorMessage = "课程不能为空")]
         [MaxLength(32)]
         public string Name { get; set; }
-        /// <summary>
-        /// 所属门店
-        /// </summary>
-        [Required(ErrorMessage = "所属门店不能为空")]
-        [MaxLength(32)]
-        public string StoreID { get; set; }
-
-        /// <summary>
-        /// 所属门店
-        /// </summary>
-        [NotMapped]
-        public string StoreName { get; set; }
 
         /// <summary>
         /// 课程分类
@@ -47,31 +35,6 @@ namespace GYM.Model
         /// </summary>
         [NotMapped]
         public string CourseCategoryNameS { get; set; }
-
-        /// <summary>
-        /// 教练员
-        /// </summary>
-        [Required(ErrorMessage = "教练员不能为空")]
-        [MaxLength(32)]
-        public string CoachID { get; set; }
-
-        /// <summary>
-        /// 教练员
-        /// </summary>
-        [NotMapped]
-        public string CoachName { get; set; }
-
-        /// <summary>
-        /// 开始时间
-        /// </summary>
-        [Display(Name = "开始时间")]
-        public System.DateTime StartTime { get; set; }
-
-        /// <summary>
-        /// 结束时间
-        /// </summary>
-        [Display(Name = "结束时间")]
-        public System.DateTime EndTime { get; set; }
 
 
         /// <summary>
@@ -97,17 +60,17 @@ namespace GYM.Model
         [MaxLength(1024)]
         [Display(Name = "图片地址集合 ，隔开")]
         public string Pictures { get; set; }
-
-        [NotMapped]
-        public List<CoursePrice> PriceList { get; set; }
+        
 
         /// <summary>
-        /// 报名人数限制
+        /// 原价
         /// </summary>
-        public int PeopleLimit { get; set; }
+        public decimal Price { get; set; }
+
+
         /// <summary>
-        /// 已报名人数
+        /// 会员折扣价
         /// </summary>
-        public int JoinCount { get; set; } = 0;
+        public decimal DiscountPrice { get; set; }
     }
 }

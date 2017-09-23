@@ -1,0 +1,242 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "课程表信息";
+}
+
+<div class="am-cf am-padding">
+    <div class="am-fl am-cf"><a href="/"><strong class="am-text-primary am-text-lg">首页</strong></a> /<small>课程表信息</small></div>
+</div>
+<div id="searchDomain">
+
+    <div class="am-g">   
+        <div class="am-u-lg-12 am-u-end">
+            <div class="am-input-group am-input-group-sm">
+                <span class="am-input-group-label">名称：</span>
+                <input type="text" class="am-form-field" placeholder="按课程名称搜索" style="width:100px;" name="name" ;>
+                <span class="am-input-group-label am-margin-left-sm">门店名称：</span>
+                <input type="text" class="am-form-field" placeholder="按门店名称搜索" style="width:100px;" name="storeName" ;>
+                <span class="am-input-group-label am-margin-left-sm">课程名称：</span>
+                <input type="text" class="am-form-field" placeholder="按课程名称搜索" style="width:100px;" name="SyllabusName" ;>
+                <span class="am-input-group-label  am-margin-left-sm">课程日期</span>
+                <input type="text" class="am-form-field" placeholder="请选择日期" name="createdTimeStart" readonly style="width:120px;">
+                <span class="am-input-group-label"> - </span>
+                <input type="text" class="am-form-field" placeholder="请选择日期" name="createdTimeEnd" readonly style="width:120px;">
+                <span class="am-input-group-btn am-margin-left-sm">
+                    <button class="am-btn am-btn-default" id="btnSearch" type="button">搜索</button>
+                    <button class="am-btn am-btn-default" onclick="ClearFilter()" type="button">清除</button>
+                </span>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-lg-6">
+            <div class="am-btn-toolbar">
+                <div class="am-btn-group am-btn-group-xs">
+                    <button onclick="batchDelete()" type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="grid_container">
+    <table id="dataTable" class="am-table am-table-compact am-table-hover table-main">
+        <thead>
+            <tr>
+                <th dataname="ID" type="checkbox"></th>
+                <th dataname="Name">课程名称</th>
+                <th dataname="StoreName">门店</th>              
+                <th dataname="CoachName">教练员</th>
+                <th dataname="SyllabusCategoryNameS">分类</th>
+                <th dataname="PeopleLimit">人数限制</th>
+                <th dataname="JoinCount">已报名</th>
+                <th dataname="StartTime" datatype="jsondate">开始时间</th>
+                <th dataname="EndTime" datatype="jsondate">结束时间</th>
+                <th dataname="CreatedTime" datatype="jsondate">创建日期</th>
+                <th type="eventlist"></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+@section scripts
+{
+<script src="~/Areas/Admin/Scripts/UEditor/ueditor.config.js"></script>
+<script src="~/Areas/Admin/Scripts/UEditor/ueditor.all.js"></script>
+<script src="~/Areas/Admin/Scripts/UEditor/ueditor.parse.js"></script>
+<script src="~/Areas/Admin/Scripts/UEditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript"> 
+
+        $('[name=createdTimeStart]').datepicker({ format: 'yyyy-mm-dd' });
+        $('[name=createdTimeEnd]').datepicker({ format: 'yyyy-mm-dd' });
+        function ClearFilter() {
+            $("#searchDomain input").val("");
+        }
+
+        function ShowTime(item)
+        {
+            return item.StartTime - item.EndTime;
+        }
+
+
+        //批量删除
+        function batchDelete() {
+            $.Nuoya.confirm("确认删除？", function () {
+                grid.del({
+                    ajaxUrl: "/Admin/Syllabus/Delete",
+                    callback: function (json) {
+                        grid.reload();
+                    }
+                });
+            });
+        }
+
+        var grid = $.Nuoya.grid({
+            tableId: "dataTable",
+            //表格id
+            search: {
+                domainId: "searchDomain",
+                subId: "btnSearch"
+            },
+            ajaxUrl: "/Admin/Syllabus/GetPageList",
+            //数据请求地址
+            
+            events: [
+                {
+                    className: "am-text-secondary",
+                    icon: "icon-pencil-square-o",
+                    name: "参与人",
+                    click: function (item) {
+                        $.Nuoya.ajaxDialog({
+                            closeViaDimmer: false,
+                            ajaxUrl: "/Areas/Admin/HtmlTemplates/Syllabus/Update.html",
+                            title: "编辑课程",
+                            width: ($(window).width() - 100) + "px",
+                            height: ($(window).height() - 100) + "px",
+                            callback: function (e) {
+                                $.Nuoya.action("/Admin/Syllabus/Find", { id: item.ID }, function (model) {
+                                    //载入数据
+                                    $.Nuoya.form("form").dataLoad({
+                                        data: model
+                                    });
+                                    formInit(model);//表单初始化
+                                });
+                            },
+                            buttons: [{
+                                label: "保存",
+                                callback: function (e) {
+
+                                    var pictureAry = new Array();
+                                    $("#divImageShow img").each(function () {
+                                        pictureAry.push($(this).attr("src"));
+                                    });
+                                    if (pictureAry.length == 0) {
+                                        $.Nuoya.alert("请上传门店图片");
+                                        return false;
+                                    }
+
+                                    var pirceAry = new Array();
+                                    var msg = "";
+                                    //$(".SyllabusPrice .priceItem").each(function (index, item) {
+                                    //    var name = $(item).find("[name='ThingName']").val();
+                                    //    var price = $(item).find("[name='Price']").val();
+                                    //    var disPrice = $(item).find("[name='DiscountPrice']").val();
+                                    //    if (name == "") {
+                                    //        msg = "请输入价格名称";
+                                    //    }
+                                    //    if (price == "") {
+                                    //        msg = "请输入价格";
+                                    //    }
+                                    //    if (disPrice == "") {
+                                    //        msg = "请输入折扣价格";
+                                    //    }
+                                    //    if (name == "" && price == "" && disPrice == "") {
+                                    //        msg = "";
+                                    //    }
+                                    //    else {
+                                    //        pirceAry.push({
+                                    //            ID:$(item).find("[name='ID']").val(),
+                                    //            SyllabusID: "1",
+                                    //            ThingName: name,
+                                    //            Price: price,
+                                    //            DiscountPrice: disPrice
+                                    //        });
+                                    //    }
+                                    //});
+                                    //if (pirceAry.length == 0) {
+                                    //    $.Nuoya.alert("请填写课程价格");
+                                    //    return false;
+                                    //}
+                                    if (msg != "") {
+                                        $.Nuoya.alert(msg);
+                                        return false;
+
+                                    }
+
+                                    var result = $.Nuoya.form("form").valid({
+                                    });
+                                    if (result) {
+                                        $.Nuoya.action("/Admin/Syllabus/Update", {
+                                            ID:item.ID,
+                                            Name: $("#form [name='Name']:eq(0)").val(),
+                                            //StoreID: $("#form [name='StoreID']").val(),
+                                            SyllabusCategoryIDS: $("#form [name='SyllabusCategoryIDS']").val(),
+                                            //CoachID: $("#form [name='CoachID']").val(),
+                                            //StartTime: $("#form [name='StartTime']").val(),
+                                            //EndTime: $("#form [name='EndTime']").val(),
+                                            //PriceList: pirceAry,
+                                            FAQ: fAQUE.getContent(),
+                                            TrainResult: trainResultUE.getContent(),
+                                            FitPeople: fitPeopleUE.getContent(),
+                                            Pictures: pictureAry.join(","),
+                                        }, function (data) {
+                                            if (data.Result) {
+                                                $.Nuoya.alert("保存成功");
+                                                e.hide();
+                                                grid.reload();
+                                            }
+                                            else
+                                                $.Nuoya.alert(data.ErrorDesc);
+                                        })
+                                    }
+                                    else {
+                                        //$("#tab1,#tab2").removeClass("am-in").removeClass("am-active");
+                                        //$("#selectTabUl li").removeClass("am-active");
+                                        //if ($("#tab1 .tipso_content").length != 0) {
+                                        //    $("#selectTabUl li").eq(0).addClass("am-active");
+                                        //    $("#tab1").addClass("am-in").addClass("am-active");
+                                        //}
+                                        //else {
+                                        //    $("#selectTabUl li").eq(1).addClass("am-active");
+                                        //    $("#tab2").addClass("am-in").addClass("am-active");
+                                        //}
+                                    }
+                                   
+                                }
+                            }]
+                        })
+                    }
+                },
+                {
+                    className: "am-text-danger",
+                    icon: "icon-trash-o",
+                    name: "删除",
+                    click: function (item) {
+                        $.Nuoya.confirm("确认删除？", function () {
+                            $.Nuoya.deleteAction("/Admin/Syllabus/Delete", {
+                                ids: item.ID
+                            },
+                            function () {
+                                grid.reload();
+                            });
+                        });
+                    }
+                }
+            ]
+        });
+
+    </script>
+}

@@ -36,16 +36,5 @@ namespace GYM.Model
         public string ThingName { get; set; }
 
 
-        /// <summary>
-        /// 原价
-        /// </summary>
-        public decimal Price { get; set; }
-
-
-        /// <summary>
-        /// 会员折扣价
-        /// </summary>
-        public decimal DiscountPrice { get; set; }
-
     }
 }

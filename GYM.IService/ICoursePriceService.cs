@@ -19,9 +19,9 @@ namespace GYM.IService
         /// <param name="pageSize">分页大小</param>
         /// <param name="title">标题 - 搜索项</param>
         /// <returns></returns>
-        PageList<CoursePrice> GetPageList(int pageIndex, int pageSize, string name,string courseName);
+        //PageList<CoursePrice> GetPageList(int pageIndex, int pageSize, string name,string courseName);
 
-        List<CoursePrice> GetListByCourseID(string courseID);
+        //List<CoursePrice> GetListByCourseID(string courseID);
 
     }
 }

@@ -60,6 +60,7 @@
     <Compile Include="IAdminService.cs" />
     <Compile Include="ICoachService.cs" />
     <Compile Include="IAdminInviteService.cs" />
+    <Compile Include="ISyllabusService.cs" />
     <Compile Include="IOperateService.cs" />
     <Compile Include="IMenuService.cs" />
     <Compile Include="IDepartmentService.cs" />

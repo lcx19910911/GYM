@@ -71,8 +71,8 @@ namespace GYM.DB
         public virtual DbSet<Coach> Coach { get; set; }
         public virtual DbSet<CourseCategory> CourseCategory { get; set; }
         public virtual DbSet<Course> Course { get; set; }
-        public virtual DbSet<CoursePrice> CoursePrice { get; set; }
-
+        public virtual DbSet<Syllabus> Syllabus { get; set; }
+        
 
 
         public virtual DbSet<Recharge> Recharge { get; set; }

@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="AdminService.cs" />
     <Compile Include="AdminInviteService.cs" />
+    <Compile Include="SyllabusService.cs" />
     <Compile Include="OperateService.cs" />
     <Compile Include="MenuService.cs" />
     <Compile Include="DepartmentService.cs" />

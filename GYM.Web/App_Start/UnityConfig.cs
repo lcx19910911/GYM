@@ -44,6 +44,7 @@ namespace GYM.Web.App_Start
             container.RegisterType<IUserRelationService, UserRelationService>();
 
             container.RegisterType<IAdminService, AdminService>();
+            container.RegisterType<ISyllabusService, SyllabusService>();
 
             container.RegisterType<IMenuService, MenuService>();
             container.RegisterType<IOperateService, OperateService>();
